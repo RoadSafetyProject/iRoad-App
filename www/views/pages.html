@@ -72,15 +72,14 @@
         {{ configuration.user }}
     </div>
 
-
     <!--view for report offense home-->
-    <div >
-    </div>
+
 
     <!-- view for report accident home -->
+    <div ng-include="'views/reportForms/reportAccident.html'"></div>
+    <div ng-include="'views/reportForms/reportOffense.html'"></div>
 
-    <!-- view for verifications of payments-->
-
+    <!-- for view for verification of driver and vehicle -->
     <div ng-include="'views/verifications/driverVerification.html'"></div>
     <div ng-include="'views/verifications/vehicleVerification.html'"></div>
 

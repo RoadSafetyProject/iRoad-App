@@ -3,6 +3,8 @@ var appControllers = angular.module('appControllers', []);
 //definition of functions
 appControllers.controller('LoginController',LoginController);
 appControllers.controller('HomeController', HomeController);
+appControllers.controller('DriverVerificationController', DriverVerificationController);
+
 appControllers.controller('ReportAccidentsController', ReportAccidentsController);
 appControllers.controller('ReportOffenceHomeController', ReportOffenceHomeController);
 appControllers.controller('ReportOffenceController', ReportOffenceController);
@@ -10,7 +12,12 @@ appControllers.controller('PaymentsController',PaymentsController);
 appControllers.controller('DriverLicenceVerificationController',DriverLicenceVerificationController);
 appControllers.controller('PaymentVerification',PaymentVerification);
 
-//functions implementations 
+//functions implementations
+
+
+/*
+*for control of all login logic for form submission to redirect to home page for success login user
+ */
 function LoginController($scope,$location,$rootScope){
 	//variables for the app
 	$rootScope.configuration = {
@@ -24,7 +31,9 @@ function LoginController($scope,$location,$rootScope){
 	$rootScope.pageChanger = {
 		'reportOffense': {},
 		'reportAccident': {},
-		'payments': {}
+		'payments': {},
+		'verifyDriver' : {},
+		'verifyVehicle' : {}
 	};
 	$scope.loginUser = {};
 	$scope.loginFormAvailability = true;
@@ -78,7 +87,7 @@ function LoginController($scope,$location,$rootScope){
 							//useDefaultXhrHeader : false,
 							success : function(response){
 
-								console.log(JSON.stringify(response))
+								//console.log(JSON.stringify(response))
 								try{
 									//$rootScope.configuration.user = $scope.loginUser;
 									var loginUserData = JSON.parse(response.responseText);
@@ -134,7 +143,10 @@ function LoginController($scope,$location,$rootScope){
 }
 
 
-function HomeController($scope,$location,$rootScope){
+/*
+*for control all navigation actions to render a given page
+ */
+function HomeController($scope,$rootScope){
 
 
 	//control report offence link on navigation
@@ -147,21 +159,21 @@ function HomeController($scope,$location,$rootScope){
 
 	}
 
-	//control driver verification
+	//control driver verification view form
 	$scope.verifyDriver = function(){
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.verifyDriver = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
-	//control vehicle verification
+	//control vehicle verification view form
 	$scope.verifyVehicle = function(){
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.verifyVehicle = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
-	//control links for reporting accident
+	//control links for reporting accident form
 	$scope.reportAccidents = function(){
 
 		$rootScope.pageChanger = {};
@@ -169,7 +181,7 @@ function HomeController($scope,$location,$rootScope){
 		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
-
+	//to loguot form the system
 	$scope.logOut = function(){
 		var base = $rootScope.configuration.url;
 		Ext.Ajax.request({
@@ -192,6 +204,18 @@ function HomeController($scope,$location,$rootScope){
 	}
 }
 
+
+/*
+*for control all function for verification of driver
+ */
+function DriverVerificationController($scope,$rootScope){
+
+	$scope.data = {}
+	$scope.verify = function(){
+		console.log('inside driver verifications')
+	}
+
+}
 
 function ReportAccidentsController($scope,$rootScope){
 
