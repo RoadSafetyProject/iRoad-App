@@ -53,7 +53,7 @@ function LoginController($scope,$location,$rootScope){
 			var base = $rootScope.configuration.url;
 			if(base){
 				Ext.Ajax.request({
-					url : base + '/dhis-web-commons-security/login.action',
+					url : base + '/dhis-web-commons-security/login.action?failed=false',
 					callbackKey : 'callback',
 					method : 'POST',
 					params : {
@@ -63,8 +63,7 @@ function LoginController($scope,$location,$rootScope){
 					crossDomain: true,
 					withCredentials : true,
 					useDefaultXhrHeader : false,
-					success: function (data) {
-						//console.log('Data : ' + JSON.stringify(data));
+					success: function () {
 						//call checking if user is available
 						Ext.Ajax.request({
 							url: base + '/api/me.json',
@@ -76,7 +75,7 @@ function LoginController($scope,$location,$rootScope){
 							},
 							crossDomain: true,
 							withCredentials : true,
-							useDefaultXhrHeader : false,
+							//useDefaultXhrHeader : false,
 							success : function(response){
 
 								console.log(JSON.stringify(response))
@@ -98,6 +97,7 @@ function LoginController($scope,$location,$rootScope){
 									iroad2.Init(dhisConfigs);
 									$rootScope.configuration.useData = loginUserData;
 									$rootScope.configuration.loginPage = true;
+									$rootScope.pageChanger.successLogin = {'home' : true};
 									$rootScope.$apply();
 								}
 								catch (e){
@@ -112,7 +112,7 @@ function LoginController($scope,$location,$rootScope){
 					failure : function(response) {
 						//fail to connect to the server
 						console.log('Data : ' + JSON.stringify(response));
-						alert(JSON.stringify(response));
+						alert(JSON.stringify('fail to login, possible cross-origin issues'));
 						$scope.message  = "Checking you network services";
 					}
 				});

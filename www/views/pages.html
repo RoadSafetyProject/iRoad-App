@@ -67,16 +67,22 @@
 
 <!-- success login home page -->
 <div ng-show="configuration.loginPage">
-    {{ configuration }}
+
+    <div ng-show="pageChanger.successLogin.home == true">
+        {{ configuration.user }}
+    </div>
+
 
     <!--view for report offense home-->
-    <div ng-if="">
-
+    <div >
     </div>
 
     <!-- view for report accident home -->
 
     <!-- view for verifications of payments-->
+
+    <div ng-include="'views/verifications/driverVerification.html'"></div>
+    <div ng-include="'views/verifications/vehicleVerification.html'"></div>
 
 
 </div>
