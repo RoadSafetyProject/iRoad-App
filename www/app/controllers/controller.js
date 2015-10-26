@@ -1,4 +1,4 @@
-var appControllers = angular.module('appControllers', []);
+var appControllers = angular.module('appControllers', ['appServices']);
 
 //definition of functions
 appControllers.controller('LoginController',LoginController);
@@ -208,11 +208,12 @@ function HomeController($scope,$rootScope){
 /*
 *for control all function for verification of driver
  */
-function DriverVerificationController($scope,$rootScope){
+function DriverVerificationController($scope,$rootScope,DriverServices){
 
 	$scope.data = {}
 	$scope.verify = function(){
-		console.log('inside driver verifications')
+		DriverServices.verifyDriver();
+		console.log('inside driver verifications');
 	}
 
 }
