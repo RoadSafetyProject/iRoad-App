@@ -1,0 +1,63 @@
+<html >
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>roadsafety-mobile-app</title>
+    </head>
+
+    <body ng-app = "roadsafetyMobileApp"  >
+        <!-- view for app -->
+        <div >
+          <nav class = "blue darken-3" ng-controller = "HomeController">
+            <a class = "brand-logo center">Iroad App</a>
+
+            <ul class="right hide-on-med-and-down">
+              <li><a ng-click = "reportOffence()" class = "waves-effect waves-light" >Report Offence</a></li>
+              <li><a ng-click = "payments()" class = "waves-effect waves-light" >Payments</a></li>
+              <li><a ng-click = "reportAccidents()" class = "waves-effect waves-light">Report Accidents</a></li>    
+              <li><a ng-click = "logOut()" class = "waves-effect waves-light">Log out</a></li>
+            </ul>
+
+            <ul id="slide-out" class="side-nav">
+              <li><a ng-click = "reportOffence()" class = "waves-effect waves-light" >Report Offence</a></li>
+              <li><a ng-click = "payments()" class = "waves-effect waves-light" >Payments</a></li>
+              <li><a ng-click = "reportAccidents()" class = "waves-effect waves-light">Report Accidents</a></li>    
+              <li><a ng-click = "logOut()" class = "waves-effect waves-light">Log out</a></li>   
+            </ul>
+            <a href = "#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+            
+          </nav>
+           
+        </div> 
+
+
+        <!-- view for all pages href="#/Report-offence" -->
+
+        <div ng-view>config : {{ configuration }}</div>
+       
+       <!-- <script type="text/javascript" src="cordova.js"></script>-->
+        <script type="text/javascript" src="js/angular.min.js"></script>
+
+       <script type="text/javascript" src="app/controllers/roadsafety-mobile-app.js"></script>
+        <script type="text/javascript" src="app/controllers/controller.js"></script>
+
+
+        <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+
+        <script type="text/javascript">
+           // app.initialize();
+        </script>
+        <script type="text/javascript">
+            $('.button-collapse').sideNav({
+                  menuWidth: 300, // Default is 240
+                  edge: 'left', // Choose the horizontal origin
+                  closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+                }
+              );
+        </script>
+    </body>
+</html>

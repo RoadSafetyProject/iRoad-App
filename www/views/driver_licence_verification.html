@@ -1,0 +1,98 @@
+ <div class = "container">
+ 	<div class = "row" style="overflow-y:auto" >
+ 		<div class = "col s12">
+ 			<p align = "center" style = "font-size:17px;">Driver information</p>
+ 		</div>
+
+ 		<div class = "col s12" style = "paading-top:5%;">
+ 			<p ><span class = "light-blue-text text-darken-4">Name  </span><br />	
+ 				{{ driver.name }}
+ 			</p>
+
+ 			<p  ><span class = "light-blue-text text-darken-4">Licence Number </span><br />
+ 				{{ driver.licenceNumber }}
+ 			</p>
+
+ 			<p ><span class = "light-blue-text text-darken-4">Address  </span><br />
+ 				{{ driver.address }}
+ 			</p>	
+
+ 			<p ><span class = "light-blue-text text-darken-4">Gender  </span><br />
+ 				{{ driver.gender }}
+ 			</p>	
+
+ 			<p ><span class = "light-blue-text text-darken-4">Date of Birth  </span><br />
+ 				{{ driver.dateOfBirth }}
+ 			</p>
+
+ 			<p ><span class = "light-blue-text text-darken-4">Phone Number  </span><br />
+ 				{{ driver.phoneNumber }}
+ 			</p>	
+
+ 			<p ><span class = "light-blue-text text-darken-4">Driving Class  </span><br />
+ 				{{ driver.drivingClass }}
+ 			</p>	
+
+ 			<p ><span class = "light-blue-text text-darken-4">Licence Expiry Date  </span><br />
+ 				{{ driver.licenceExpiryDate }}
+ 			</p>		
+ 		</div> 
+
+ 		<hr>
+
+ 		<div class = "col s12">
+ 			<p align = "center" style = "font-size:17px;">Vehicle information</p>
+ 		</div> 		
+
+ 		<div class = "col s12" style = "paading-top:5%;">
+ 			<p ><span class = "light-blue-text text-darken-4">Owner Name  </span><br />
+ 				{{ vehicle.owner }}
+ 			</p>
+ 			<p ><span class = "light-blue-text text-darken-4">Vehicle Make  </span><br />
+ 				{{ vehicle.vehicleMake }}
+ 			</p>
+ 			<p ><span class = "light-blue-text text-darken-4">Vehicle Color  </span><br />
+ 				{{ vehicle.vehicleColor }}
+ 			</p>
+ 			<p ><span class = "light-blue-text text-darken-4">Vehicle Insurance  </span><br />
+ 				{{ vehicle.vehicleInsurance }}
+ 			</p>
+ 			<p ><span class = "light-blue-text text-darken-4">Insurance Expiry Date </span><br />
+ 				{{ vehicle.insuranceExpiryDate }}
+ 			</p>
+ 			<p ><span class = "light-blue-text text-darken-4">Vehicle Inspections  </span><br />
+ 				{{ vehicle.vehicleInspections }}
+ 			</p>
+ 		</div>
+ 		<hr>
+
+ 		<div class = "col s12">
+ 			<p align = "center" style = "font-size:17px;">Offence History </p>
+ 		</div>
+
+ 		<div class = "col s12" style = "paading-top:5%;">
+ 			<table>
+ 				<thead>
+ 					<tr>
+ 						<th >Offence</th>
+ 						<th >Date</th>
+ 					</tr>
+ 				</thead>
+ 				<tbody>
+ 					<tr>
+ 						<td>{{ offences_history.offence }}</td>
+ 						<td>{{ offences_history.date }}</td>
+ 					</tr>
+ 				</tbody>
+ 			</table>
+ 		</div>	
+
+ 		<div class = "col s12" style = "padding-top:10%;">
+ 			<div class = "col s6"><button ng-click = "payments()" class = "col s12 waves-effect waves-light btn-large blue ">Payments</button></div> 			
+ 			<div class = "col s6"><button ng-click = "report()" class = "col s12 waves-effect waves-light btn-large blue ">Report</button></div> 			
+ 		</div>	
+
+ 	</div>
+
+
+ </div>

@@ -1,0 +1,48 @@
+ <div class = "container">
+ 	<div class = "row">
+ 		<div class = "col s12" style = "margin-bottom:10%;">
+ 			<h5 align = "center" >PAYMENTS </h5> 			
+ 		</div>
+
+ 		<div class = "col s12">
+ 			<p align = "center" style = "font-size:17px;">MAKE PAYMENTS</p>
+ 			<p align = "center" class = "red-text">{{message}}</p>
+ 			<form>
+ 				<div class = "row">
+	 				<div class = "card-panel col s12">
+
+	 					<div class="row">
+						 	<div class="input-field col s12">
+						 		<input ng-model  = "licenceNumber" id = "licenceNumber" type="text" class="validate" placeholder = "Enter Licence No">
+						 	</div>
+						</div>
+
+						<div class="row">
+						 	<div class="input-field col s12">
+						 		<input ng-model  = "plateNumber" id = "plateNumber" type="text" class="validate" placeholder = "Enter Plate No">
+						 	</div>
+						</div>
+
+						<div class = "row">
+
+							<p class = "col s6" style = "padding-left:5%;">
+							    <input class="with-gap" name="selectionBtn" type="radio" value = "licenceNumber" id="licenceNumberRadio"   checked />
+							    <label for="licenceNumberRadio">Licence No</label>
+							</p>
+							<p class = "col s6" style = "padding-right:5%;"> 
+							    <input class="with-gap blue" name="selectionBtn" type="radio" value = "plateNumber" id="plateNumberRadio"  />
+							    <label for="plateNumberRadio">Plate No</label>
+							</p>		
+
+						</div>
+
+	 				</div>
+ 				
+					<input ng-click = "payments()" type = "submit" class = "btn-large blue col s12 waves-effect waves-light "  value = "Verify"  />
+				</div>
+ 			</form>
+ 		</div>	
+
+ 	</div>
+ 	
+ </div>
