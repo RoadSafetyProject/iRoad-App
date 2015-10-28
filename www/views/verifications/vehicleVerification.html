@@ -19,4 +19,32 @@
             </form>
         </div>
     </div>
+
+    <!-- vehicle verification results -->
+    <div class="container">
+        <div class="row">
+
+            <!-- display information for user for driver licence verification purpose -->
+            <div ng-show="!verificatioData.Vehicle.vehicleData">
+                <div class="col s12">
+                    <div ng-show="!verificatioData.Vehicle.error">
+                        <p class="flow-text">Enter Vehicle Plate Number/Registration Number to verify a vehicle</p>
+                    </div>
+                    <div ng-show="verificatioData.Vehicle.error">
+                        <p class="flow-text">{{ verificatioData.Vehicle.error }}</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- display driver information -->
+            <div ng-show = "verificatioData.Vehicle.vehicleData">
+                {{ verificatioData.vehicle.vehicle | json}}
+            </div>
+
+        </div>
+    </div>
+
+
 </div>

@@ -203,33 +203,52 @@ function HomeController($scope,$rootScope){
 /*
 *for control all function for verification of driver
  */
-function DriverVerificationController($scope,$rootScope,DriverServices){
+function DriverVerificationController($scope,$rootScope){
 
-	var driverModal =  new iroad2.data.Modal('Driver',[]);
-	$scope.data = {'driverData' : false}
+	//prepare variables
+	$rootScope.verificatioData= {
+		'Driver':{
+			'driverData' : false,
+			'driver' : {},
+			'error' : ''
+		},
+		'Vehicle':{
+			'vehicleData' : false,
+			'vehicle' : {},
+			'error' : ''
+		}
+	};
+	$scope.data = {};
 
-
-	//funcion to verify driver based on given plate number
+	//function to verify driver based on given Licence number
 	$scope.verifyDriver = function(){
+
+		/*$rootScope.verificatioData.Vehicle.vehicle = {};
+		$rootScope.verificatioData.Vehicle.vehicleData = false;
+		$rootScope.verificatioData.Vehicle.error = '';*/
+
 		if($scope.data.driverLicenceNumber){
 
 			//fetching driver from system
+			var driverModal =  new iroad2.data.Modal('Driver',[]);
 			driverModal.get({value:$scope.data.driverLicenceNumber},function(result){
-				$scope.data.Driver = result;
-				console.log(JSON.stringify(result))
+
+				console.log('driver ' + JSON.stringify(result));
+				//checking id driver found
 				if(result.length > 0){
-					$scope.data.driverData = true;
+					$rootScope.verificatioData.Driver.driverData = true;
+					$rootScope.verificatioData.Driver.driver = result[0];
 				}
 				else{
-					$scope.data.driverData = false;
+					$rootScope.verificatioData.Driver.driverData = false;
+					$rootScope.verificatioData.Driver.error = "Driver Not Found";
 				}
-
-				$scope.$apply();
+				$rootScope.$apply();
 			});
 
 		}
 		else{
-			console.log('empty');
+			$rootScope.verificatioData.Driver.error = 'Please Enter Driver Licence number to verify';
 		}
 	}
 }
@@ -239,18 +258,52 @@ function DriverVerificationController($scope,$rootScope,DriverServices){
 *Controller for verification of vehicles
 *
  */
-function VehicleVerificationController($scope){
+function VehicleVerificationController($scope,$rootScope){
 
-	$scope.data = {};
+	//prepare variables
+	$rootScope.verificatioData= {
+		'Driver':{
+			'driverData' : false,
+			'driver' : {},
+			'error' : ''
+		},
+		'Vehicle':{
+			'vehicleData' : false,
+			'vehicle' : {},
+			'error' : ''
+		}
+	};
+	$scope.data = {}
+
+
 
 	//function to verify vehicle based on given vehicle plate number
 	$scope.verifyVehicle = function () {
 
+		/*$rootScope.verificatioData.Driver.driverData = false;
+		$rootScope.verificatioData.Driver.driver = {};
+		$rootScope.verificatioData.Driver.error = '';*/
+
 		if($scope.data.vehilcePlateNumber){
-			console.log('ready to search plate number');
+			//get a vehicle using a given plate number
+			var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
+			vehicleModal.get({value:$scope.data.vehilcePlateNumber},function(result){
+				//checking if vehicle found
+				console.log('vehicle : ' + JSON.stringify(result));
+				if(result.length > 0){
+					$rootScope.verificatioData.Vehicle.vehicle = result[0];
+					$rootScope.verificatioData.Vehicle.vehicleData = true;
+				}
+				else{
+					$rootScope.verificatioData.Vehicle.error = 'Vehicle Not Found';
+					$rootScope.verificatioData.Vehicle.vehicleData = false;
+				}
+				$rootScope.$apply();
+			});
+
 		}
 		else{
-			console.log('no plate number');
+			$rootScope.verificatioData.Vehicle.error = 'Please Enter Vehicle Plate Number/Registration Number to Verify a vehicle';
 		}
 	}
 

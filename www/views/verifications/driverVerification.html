@@ -27,16 +27,22 @@
         <div class="row">
 
             <!-- display information for user for driver licence verification purpose -->
-            <div ng-show="!data.driverData">
+            <div ng-show="!verificatioData.Driver.driverData">
                 <div class="col s12">
-                    <p class="flow-text">Enter Driver Licence Number to verify a driver</p>
+                    <div ng-show="!verificatioData.Driver.error">
+                        <p class="flow-text">Enter Driver Licence Number to verify a driver</p>
+                    </div>
+                    <div ng-show="verificatioData.Driver.error">
+                        <p class="flow-text">{{ verificatioData.Driver.error }}</p>
+                    </div>
+
                 </div>
 
             </div>
 
             <!-- display driver information -->
-            <div ng-show = "data.driverData">
-                {{ data.Driver | json}}
+            <div ng-show = "verificatioData.Driver.driverData">
+                {{ verificatioData.Driver.driver | json}}
             </div>
 
         </div>
