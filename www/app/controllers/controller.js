@@ -220,12 +220,17 @@ function DriverVerificationController($scope,$rootScope){
 	};
 	$scope.data = {};
 
+	$scope.clearVehicleData = function(){
+		$rootScope.verificatioData.Vehicle.vehicle = {};
+		$rootScope.verificatioData.Vehicle.vehicleData = false;
+		$rootScope.verificatioData.Vehicle.error = '';
+	}
+	$scope.clearVehicleData();
+
 	//function to verify driver based on given Licence number
 	$scope.verifyDriver = function(){
 
-		/*$rootScope.verificatioData.Vehicle.vehicle = {};
-		$rootScope.verificatioData.Vehicle.vehicleData = false;
-		$rootScope.verificatioData.Vehicle.error = '';*/
+		$scope.clearVehicleData();
 
 		if($scope.data.driverLicenceNumber){
 
@@ -275,14 +280,17 @@ function VehicleVerificationController($scope,$rootScope){
 	};
 	$scope.data = {}
 
+	$scope.cleanDriverData = function(){
+		$rootScope.verificatioData.Driver.driverData = false;
+		$rootScope.verificatioData.Driver.driver = {};
+		$rootScope.verificatioData.Driver.error = '';
+	}
 
+	$scope.cleanDriverData();
 
 	//function to verify vehicle based on given vehicle plate number
 	$scope.verifyVehicle = function () {
-
-		/*$rootScope.verificatioData.Driver.driverData = false;
-		$rootScope.verificatioData.Driver.driver = {};
-		$rootScope.verificatioData.Driver.error = '';*/
+		$scope.cleanDriverData();
 
 		if($scope.data.vehilcePlateNumber){
 			//get a vehicle using a given plate number
