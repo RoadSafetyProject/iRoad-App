@@ -54,7 +54,6 @@ function LoginController($scope,$location,$rootScope){
 		$scope.closeSetSetting();
 	}
 
-	//function to control login process
 	$scope.login = function(){
 		//checking for username and password has been entered
 		if ($scope.loginUser.username && $scope.loginUser.password) {
@@ -62,17 +61,17 @@ function LoginController($scope,$location,$rootScope){
 			var base = $rootScope.configuration.url;
 			if(base){
 				Ext.Ajax.request({
-					url : base + '/dhis-web-commons-security/login.action?authOnly=true',
+					url : base + '/dhis-web-commons-security/login.action?failed=false',
 					callbackKey : 'callback',
 					method : 'POST',
 					params : {
 						j_username : $scope.loginUser.username,
 						j_password : $scope.loginUser.password
 					},
-					crossDomain: true,
 					withCredentials : true,
 					useDefaultXhrHeader : false,
-					success: function () {
+					success: function (data) {
+						console.log('Data : ' + JSON.stringify(data));
 						//call checking if user is available
 						Ext.Ajax.request({
 							url: base + '/api/me.json',
@@ -82,12 +81,9 @@ function LoginController($scope,$location,$rootScope){
 								j_username : $scope.loginUser.username,
 								j_password : $scope.loginUser.password
 							},
-							crossDomain: true,
 							withCredentials : true,
-							//useDefaultXhrHeader : false,
+							useDefaultXhrHeader : false,
 							success : function(response){
-
-								//console.log(JSON.stringify(response))
 								try{
 									//$rootScope.configuration.user = $scope.loginUser;
 									var loginUserData = JSON.parse(response.responseText);
@@ -95,18 +91,18 @@ function LoginController($scope,$location,$rootScope){
 
 									//loading library
 									var dhisConfigs = {
-										baseUrl: $rootScope.configuration.url + '/',
+										baseUrl: $rootScope.configuration.url,
 										refferencePrefix: "Program_"
 									};
 
 									$rootScope.configuration.config = dhisConfigs;
 									dhisConfigs.onLoad = function () {
 										console.log('success loading library');
+										alert('success loading library');
 									}
 									iroad2.Init(dhisConfigs);
 									$rootScope.configuration.useData = loginUserData;
 									$rootScope.configuration.loginPage = true;
-									$rootScope.pageChanger.successLogin = {'home' : true};
 									$rootScope.$apply();
 								}
 								catch (e){
@@ -120,8 +116,7 @@ function LoginController($scope,$location,$rootScope){
 					},
 					failure : function(response) {
 						//fail to connect to the server
-						console.log('Data : ' + JSON.stringify(response));
-						alert(JSON.stringify('fail to login, possible cross-origin issues'));
+						console.log('Data : ' + JSON.stringify(response))
 						$scope.message  = "Checking you network services";
 					}
 				});
