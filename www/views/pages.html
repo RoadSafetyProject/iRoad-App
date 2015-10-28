@@ -45,8 +45,8 @@
 
                         <div class="row">
                             <div class="input-field col s12">
-                                <input ng-model="loginUser.password" id="password" type="password" class="validate"
-                                       placeholder="Enter password">
+                                <input ng-model="loginUser.password" id="password" type="password" class="validate">
+                                <label for="password">Password</label>
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
 <div ng-show="configuration.loginPage">
 
     <div ng-show="pageChanger.successLogin.home == true">
-        {{ configuration.user }}
+        {{ configuration.useData | json}}
     </div>
 
     <!--view for report offense home-->

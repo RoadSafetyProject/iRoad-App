@@ -4,7 +4,7 @@
     <!-- form for verification of driver -->
     <div class="container">
         <div class="row">
-            <form class="col s12" ng-submit="verify()">
+            <form class="col s12" ng-submit="verifyDriver()">
 
                 <div class="row">
                     <div class="input-field col s12">
@@ -25,7 +25,20 @@
     <!-- for results form verification of drivers -->
     <div class="container">
         <div class="row">
-            {{ data.Driver }}
+
+            <!-- display information for user for driver licence verification purpose -->
+            <div ng-show="!data.driverData">
+                <div class="col s12">
+                    <p class="flow-text">Enter Driver Licence Number to verify a driver</p>
+                </div>
+
+            </div>
+
+            <!-- display driver information -->
+            <div ng-show = "data.driverData">
+                {{ data.Driver | json}}
+            </div>
+
         </div>
     </div>
 </div>

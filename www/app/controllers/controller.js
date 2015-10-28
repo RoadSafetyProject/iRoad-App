@@ -4,6 +4,7 @@ var appControllers = angular.module('appControllers', ['appServices']);
 appControllers.controller('LoginController',LoginController);
 appControllers.controller('HomeController', HomeController);
 appControllers.controller('DriverVerificationController', DriverVerificationController);
+appControllers.controller('VehicleVerificationController', VehicleVerificationController);
 
 appControllers.controller('ReportAccidentsController', ReportAccidentsController);
 appControllers.controller('ReportOffenceHomeController', ReportOffenceHomeController);
@@ -25,7 +26,8 @@ function LoginController($scope,$location,$rootScope){
 		'loginPage': false,
 		'useData': {},
 		'config': {},
-		'url':'http://roadsafety.go.tz/demo'
+		'url' : 'http://localhost:8080/demo'
+		//'url':'http://roadsafety.go.tz/demo'
 	};
 
 	$rootScope.pageChanger = {
@@ -71,7 +73,7 @@ function LoginController($scope,$location,$rootScope){
 					withCredentials : true,
 					useDefaultXhrHeader : false,
 					success: function (data) {
-						console.log('Data : ' + JSON.stringify(data));
+						console.log('Data : ' + JSON.stringify('success, ready for checking user'));
 						//call checking if user is available
 						Ext.Ajax.request({
 							url: base + '/api/me.json',
@@ -85,7 +87,7 @@ function LoginController($scope,$location,$rootScope){
 							useDefaultXhrHeader : false,
 							success : function(response){
 								try{
-									//$rootScope.configuration.user = $scope.loginUser;
+									$rootScope.configuration.user = $scope.loginUser;
 									var loginUserData = JSON.parse(response.responseText);
 									$scope.loginUser = {};
 
@@ -98,11 +100,11 @@ function LoginController($scope,$location,$rootScope){
 									$rootScope.configuration.config = dhisConfigs;
 									dhisConfigs.onLoad = function () {
 										console.log('success loading library');
-										alert('success loading library');
 									}
 									iroad2.Init(dhisConfigs);
 									$rootScope.configuration.useData = loginUserData;
 									$rootScope.configuration.loginPage = true;
+									$rootScope.pageChanger.successLogin = {'home' : true};
 									$rootScope.$apply();
 								}
 								catch (e){
@@ -143,14 +145,12 @@ function LoginController($scope,$location,$rootScope){
  */
 function HomeController($scope,$rootScope){
 
-
 	//control report offence link on navigation
 	$scope.reportOffence = function(){
 
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.reportOffense = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
-
 
 	}
 
@@ -206,14 +206,24 @@ function HomeController($scope,$rootScope){
 function DriverVerificationController($scope,$rootScope,DriverServices){
 
 	var driverModal =  new iroad2.data.Modal('Driver',[]);
-	$scope.data = {}
+	$scope.data = {'driverData' : false}
 
-	$scope.verify = function(){
+
+	//funcion to verify driver based on given plate number
+	$scope.verifyDriver = function(){
 		if($scope.data.driverLicenceNumber){
 
 			//fetching driver from system
 			driverModal.get({value:$scope.data.driverLicenceNumber},function(result){
 				$scope.data.Driver = result;
+				console.log(JSON.stringify(result))
+				if(result.length > 0){
+					$scope.data.driverData = true;
+				}
+				else{
+					$scope.data.driverData = false;
+				}
+
 				$scope.$apply();
 			});
 
@@ -222,6 +232,29 @@ function DriverVerificationController($scope,$rootScope,DriverServices){
 			console.log('empty');
 		}
 	}
+}
+
+
+/*
+*Controller for verification of vehicles
+*
+ */
+function VehicleVerificationController($scope){
+
+	$scope.data = {};
+
+	//function to verify vehicle based on given vehicle plate number
+	$scope.verifyVehicle = function () {
+
+		if($scope.data.vehilcePlateNumber){
+			console.log('ready to search plate number');
+		}
+		else{
+			console.log('no plate number');
+		}
+	}
+
+
 }
 
 
