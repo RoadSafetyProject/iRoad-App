@@ -91,7 +91,7 @@ function LoginController($scope,$location,$rootScope){
 
 									//loading library
 									var dhisConfigs = {
-										baseUrl: $rootScope.configuration.url,
+										baseUrl: $rootScope.configuration.url + '/',
 										refferencePrefix: "Program_"
 									};
 
