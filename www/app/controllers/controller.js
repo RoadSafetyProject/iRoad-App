@@ -25,7 +25,7 @@ function LoginController($scope,$location,$rootScope){
 		'loginPage': false,
 		'useData': {},
 		'config': {},
-		'url':'http://192.168.43.62:8080/demo'
+		'url':'http://roadsafety.go.tz/demo'
 	};
 
 	$rootScope.pageChanger = {
