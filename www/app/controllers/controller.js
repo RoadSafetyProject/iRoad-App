@@ -25,7 +25,7 @@ function LoginController($scope,$location,$rootScope){
 		'loginPage': false,
 		'useData': {},
 		'config': {},
-		'url':'http://41.86.177.140:8080/demo'
+		'url':'http://192.168.43.62:8080/demo'
 	};
 
 	$rootScope.pageChanger = {
@@ -62,7 +62,7 @@ function LoginController($scope,$location,$rootScope){
 			var base = $rootScope.configuration.url;
 			if(base){
 				Ext.Ajax.request({
-					url : base + '/dhis-web-commons-security/login.action?failed=false',
+					url : base + '/dhis-web-commons-security/login.action?authOnly=true',
 					callbackKey : 'callback',
 					method : 'POST',
 					params : {
@@ -210,13 +210,25 @@ function HomeController($scope,$rootScope){
  */
 function DriverVerificationController($scope,$rootScope,DriverServices){
 
+	var driverModal =  new iroad2.data.Modal('Driver',[]);
 	$scope.data = {}
-	$scope.verify = function(){
-		DriverServices.verifyDriver();
-		console.log('inside driver verifications');
-	}
 
+	$scope.verify = function(){
+		if($scope.data.driverLicenceNumber){
+
+			//fetching driver from system
+			driverModal.get({value:$scope.data.driverLicenceNumber},function(result){
+				$scope.data.Driver = result;
+				$scope.$apply();
+			});
+
+		}
+		else{
+			console.log('empty');
+		}
+	}
 }
+
 
 function ReportAccidentsController($scope,$rootScope){
 

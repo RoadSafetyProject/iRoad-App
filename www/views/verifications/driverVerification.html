@@ -1,22 +1,31 @@
 <!--view for driver verifications home-->
 <div ng-show="pageChanger.verifyDriver.home == true" ng-controller="DriverVerificationController">
+
+    <!-- form for verification of driver -->
     <div class="container">
         <div class="row">
             <form class="col s12" ng-submit="verify()">
 
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="driver_licence_number" ng-model="pageChanger.verifyDrive.driverLicenceNumber" type="text" class="validate">
+                        <input id="driver_licence_number" ng-model="data.driverLicenceNumber" type="text" class="validate">
                         <label for="driver_licence_number">Driver Licence Number</label>
                     </div>
                 </div>
 
                 <div class = "row">
-                    <button type="submit" class=" col s12 waves-effect waves-light btn-large">
+                    <button type="submit" class=" col s12 waves-effect waves-light btn-large blue">
                         Verify Driver
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- for results form verification of drivers -->
+    <div class="container">
+        <div class="row">
+            {{ data.Driver }}
         </div>
     </div>
 </div>
