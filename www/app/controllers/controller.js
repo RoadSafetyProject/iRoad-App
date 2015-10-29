@@ -188,6 +188,62 @@ function HomeController($scope,$rootScope){
 		//enable loading data variable
 		$rootScope.configuration.loadingData = true;
 
+		//load basic information for accident
+		var accidentModal = new iroad2.data.Modal('Accident',[]);
+		var modalName = accidentModal.getModalName();
+		var eventAccident = {};
+
+		angular.forEach(iroad2.data.programs, function (program) {
+			if (program.name == modalName) {
+				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
+					if(dataElement.dataElement.name.startsWith(iroad2.config.refferencePrefix)){
+						//eventAccident[dataElement.dataElement.name.replace(iroad2.config.refferencePrefix,"")] = {};
+						var data = null;
+					}else{
+						eventAccident[dataElement.dataElement.name] = "";
+					}
+				});
+			}
+		});
+		$scope.formAccident = eventAccident;
+
+		//loading accident vehicle form
+		var accidentVehilce = new iroad2.data.Modal('Accident Vehicle',[]);
+		var modalName = accidentVehilce.getModalName();
+		var eventAccidentVehicle = {};
+
+		angular.forEach(iroad2.data.programs, function (program) {
+			if (program.name == modalName) {
+				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
+					if(dataElement.dataElement.name.startsWith(iroad2.config.refferencePrefix)){
+						//eventAccidentVehicle[dataElement.dataElement.name.replace(iroad2.config.refferencePrefix,"")] = {};
+						var data = null;
+					}else{
+						eventAccidentVehicle[dataElement.dataElement.name] = "";
+					}
+				});
+			}
+		});
+		$scope.formAccidentVehicle = eventAccidentVehicle;
+
+		//loading accident passengers
+		var accidentVehiclePassenger = new iroad2.data.Modal('Accident Passenger',[]);
+		var modalName = accidentVehiclePassenger.getModalName();
+		var eventAccidentVehiclePassenger = {};
+
+		angular.forEach(iroad2.data.programs, function (program) {
+			if (program.name == modalName) {
+				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
+					if(dataElement.dataElement.name.startsWith(iroad2.config.refferencePrefix)){
+						//eventAccidentVehiclePassenger[dataElement.dataElement.name.replace(iroad2.config.refferencePrefix,"")] = {};
+						var data = null;
+					}else{
+						eventAccidentVehiclePassenger[dataElement.dataElement.name] = "";
+					}
+				});
+			}
+		});
+		$scope.formAccidentVehiclePassenger = eventAccidentVehiclePassenger;
 
 	}
 
