@@ -21,6 +21,7 @@
              background-size: cover;
          }*/
     </style>
+    <link text="text/css" rel="stylesheet" href="css/style.css">
 </head>
 <body ng-app = "roadsafetyMobileApp">
 
@@ -39,9 +40,12 @@
 
         <ul id="slide-out" class="side-nav">
             <li style = "color:#000000">
-               <p style="height:initial;padding-top: 5%;margin-bottom: 0px">
-                   <img src="img/user.png" width="40%"><br>
-                   {{ configuration.user |json}}</p>
+                <p style="height:initial;padding-top: 5%;margin-bottom: 0px">
+                    <img src="img/user.png" width="40%"><br>
+                    {{ configuration.userData.name }}<br>
+                    {{ configuration.userData.email }}<br>
+                    {{ configuration.userData.phoneNumber }}
+                </p>
             </li>
             <hr>
             <li ><a ng-click="reportOffence()" class="waves-effect waves-light">Report Offence</a></li>
