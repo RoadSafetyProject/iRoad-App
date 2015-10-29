@@ -70,7 +70,13 @@
 <div ng-show="configuration.loginPage">
 
     <div ng-show="pageChanger.successLogin.home == true">
-        {{ configuration.useData | json}}
+        <div class = "container">
+            <div class="row">
+               <div class=" col s12">
+                   {{ configuration.userData | json}}
+               </div>
+            </div>
+        </div>
     </div>
 
     <!--view for report offense home-->

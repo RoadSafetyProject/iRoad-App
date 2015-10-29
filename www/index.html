@@ -26,8 +26,8 @@
 
 <div ng-show="configuration.loginPage">
 
-    <nav class="blue darken-3" ng-controller="HomeController" style="padding-bottom: 20%;padding-left: 5%;padding-top: 10%;">
-        <a class="brand-logo center">Iroad App</a>
+    <nav class="blue darken-3" ng-controller="HomeController" style="padding-bottom: 15px;padding-left: 10px;padding-top: 5px;">
+        <a class="brand-logo center"></a>
 
         <ul class="right hide-on-med-and-down">
             <li><a ng-click="reportOffence()" class="waves-effect waves-light">Report Offence</a></li>
@@ -38,11 +38,13 @@
         </ul>
 
         <ul id="slide-out" class="side-nav">
-            <li class="waves-effect waves-light">
-               <a style="height:initial;"><img src="img/user.png" width="40%">{{ configuration.user |json}}</a>
+            <li style = "color:#000000">
+               <p style="height:initial;padding-top: 5%;margin-bottom: 0px">
+                   <img src="img/user.png" width="40%"><br>
+                   {{ configuration.user |json}}</p>
             </li>
             <hr>
-            <li class="waves-effect"><a ng-click="reportOffence()" class="waves-effect waves-light">Report Offence</a></li>
+            <li ><a ng-click="reportOffence()" class="waves-effect waves-light">Report Offence</a></li>
             <li><a ng-click="reportAccidents()" class="waves-effect waves-light">Report Accidents</a></li>
             <li><a ng-click="verifyDriver()" class="waves-effect waves-light">Verify Driver</a></li>
             <li><a ng-click="verifyVehicle()" class="waves-effect waves-light">Verify Vehicle</a></li>
