@@ -26,8 +26,8 @@ function LoginController($scope,$location,$rootScope){
 		'loginPage': false,
 		'useData': {},
 		'config': {},
-		'url' : 'http://localhost:8080/demo'
-		//'url':'http://roadsafety.go.tz/demo'
+		//'url' : 'http://localhost:8080/demo'
+		'url':'http://roadsafety.go.tz/demo'
 	};
 
 	$rootScope.pageChanger = {
@@ -102,7 +102,6 @@ function LoginController($scope,$location,$rootScope){
 										console.log('success loading library');
 									}
 									iroad2.Init(dhisConfigs);
-									console.log(JSON.stringify(loginUserData));
 									$rootScope.configuration.userData = loginUserData;
 									$rootScope.configuration.loginPage = true;
 									$rootScope.pageChanger.successLogin = {'home' : true};
