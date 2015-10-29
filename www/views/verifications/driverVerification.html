@@ -1,52 +1,61 @@
 <!--view for driver verifications home-->
 <div class="container"><div class="row"></div> </div>
-<div class="container"><div class="row"></div> </div>
 <div ng-show="pageChanger.verifyDriver.home == true" ng-controller="DriverVerificationController">
 
     <!-- form for verification of driver -->
     <div class="container">
         <div class="row">
-            <form class="col s12" ng-submit="verifyDriver()">
+            <form class="col s12 ng-valid ng-dirty" ng-submit="verifyDriver()" style=" margin-bottom: -10%;">
 
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="driver_licence_number" ng-model="data.driverLicenceNumber" type="text" class="validate">
-                        <label for="driver_licence_number">Driver Licence Number</label>
+                        <input id="driver_licence_number" ng-model="data.driverLicenceNumber" type="text" class="validate ng-valid ng-dirty valid">
+                        <label for="driver_licence_number" class="active">Driver Licence Number</label>
                     </div>
                 </div>
 
-                <div class = "row">
+                <div class="row">
                     <button type="submit" class=" col s12 waves-effect waves-light btn-large blue">
                         Verify Driver
                     </button>
                 </div>
             </form>
         </div>
-    </div>
 
-    <!-- for results form verification of drivers -->
-    <div class="container">
+        <!-- for results form verification of drivers -->
         <div class="row">
-
-            <!-- display information for user for driver licence verification purpose -->
-            <div ng-show="!verificatioData.Driver.driverData">
-                <div class="col s12">
-                    <div ng-show="!verificatioData.Driver.error">
-                        <p class="flow-text">Enter Driver Licence Number to verify a driver</p>
+            <div class = "col s12">
+                <!-- display information for user for driver licence verification purpose -->
+                <div ng-show="!verificationData.Driver.driverData">
+                    <div class="col s12">
+                        <div ng-show="!verificationData.Driver.error">
+                            <p class="flow-text">Enter Driver Licence Number to verify a driver</p>
+                        </div>
+                        <div ng-show="verificationData.Driver.error">
+                            <p class="flow-text">{{ verificationData.Driver.error }}</p>
+                        </div>
                     </div>
-                    <div ng-show="verificatioData.Driver.error">
-                        <p class="flow-text">{{ verificatioData.Driver.error }}</p>
-                    </div>
-
                 </div>
 
-            </div>
+                <!-- display driver information -->
+                <div ng-show = "verificationData.Driver.driverData">
 
-            <!-- display driver information -->
-            <div ng-show = "verificatioData.Driver.driverData">
-                {{ verificatioData.Driver.driver | json}}
-            </div>
+                    <div ng-repeat="(key,value) in verificationData.Driver.driver">
 
+                        <div ng-show = "key == 'Full Name' || key == 'Gender' || key == 'TIN Number' || key == 'Driving Class Name' || key == 'Phone Number' ">
+                            <div class = "col s12">
+                                <span class = "flow-text">
+                                    {{ key }} <br>
+                                    <span class="blue-text text-darken-2 "> {{ verificationData.Driver.driver[key] }}</span>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
         </div>
     </div>
 </div>

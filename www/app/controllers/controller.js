@@ -211,7 +211,7 @@ function HomeController($scope,$rootScope){
 function DriverVerificationController($scope,$rootScope){
 
 	//prepare variables
-	$rootScope.verificatioData= {
+	$rootScope.verificationData= {
 		'Driver':{
 			'driverData' : false,
 			'driver' : {},
@@ -226,9 +226,9 @@ function DriverVerificationController($scope,$rootScope){
 	$scope.data = {};
 
 	$scope.clearVehicleData = function(){
-		$rootScope.verificatioData.Vehicle.vehicle = {};
-		$rootScope.verificatioData.Vehicle.vehicleData = false;
-		$rootScope.verificatioData.Vehicle.error = '';
+		$rootScope.verificationData.Vehicle.vehicle = {};
+		$rootScope.verificationData.Vehicle.vehicleData = false;
+		$rootScope.verificationData.Vehicle.error = '';
 	}
 	$scope.clearVehicleData();
 
@@ -245,17 +245,15 @@ function DriverVerificationController($scope,$rootScope){
 			//fetching driver from system
 			var driverModal =  new iroad2.data.Modal('Driver',[]);
 			driverModal.get({value:$scope.data.driverLicenceNumber},function(result){
-
-				console.log('driver ' + JSON.stringify(result));
 				//checking id driver found
 				if(result.length > 0){
-					$rootScope.verificatioData.Driver.driverData = true;
-					$rootScope.verificatioData.Driver.driver = result[0];
+					$rootScope.verificationData.Driver.driverData = true;
+					$rootScope.verificationData.Driver.driver = result[0];
 					$rootScope.configuration.loadingData = false;
 				}
 				else{
-					$rootScope.verificatioData.Driver.driverData = false;
-					$rootScope.verificatioData.Driver.error = "Driver Not Found";
+					$rootScope.verificationData.Driver.driverData = false;
+					$rootScope.verificationData.Driver.error = "Driver Not Found";
 					$rootScope.configuration.loadingData = false;
 				}
 				$rootScope.$apply();
@@ -263,7 +261,7 @@ function DriverVerificationController($scope,$rootScope){
 
 		}
 		else{
-			$rootScope.verificatioData.Driver.error = 'Please Enter Driver Licence number to verify';
+			$rootScope.verificationData.Driver.error = 'Please Enter Driver Licence number to verify';
 		}
 	}
 }
@@ -276,7 +274,7 @@ function DriverVerificationController($scope,$rootScope){
 function VehicleVerificationController($scope,$rootScope){
 
 	//prepare variables
-	$rootScope.verificatioData= {
+	$rootScope.verificationData= {
 		'Driver':{
 			'driverData' : false,
 			'driver' : {},
@@ -291,9 +289,9 @@ function VehicleVerificationController($scope,$rootScope){
 	$scope.data = {}
 
 	$scope.cleanDriverData = function(){
-		$rootScope.verificatioData.Driver.driverData = false;
-		$rootScope.verificatioData.Driver.driver = {};
-		$rootScope.verificatioData.Driver.error = '';
+		$rootScope.verificationData.Driver.driverData = false;
+		$rootScope.verificationData.Driver.driver = {};
+		$rootScope.verificationData.Driver.error = '';
 	}
 
 	$scope.cleanDriverData();
@@ -312,13 +310,13 @@ function VehicleVerificationController($scope,$rootScope){
 				//checking if vehicle found
 				console.log('vehicle : ' + JSON.stringify(result));
 				if(result.length > 0){
-					$rootScope.verificatioData.Vehicle.vehicle = result[0];
-					$rootScope.verificatioData.Vehicle.vehicleData = true;
+					$rootScope.verificationData.Vehicle.vehicle = result[0];
+					$rootScope.verificationData.Vehicle.vehicleData = true;
 					$rootScope.configuration.loadingData = false;
 				}
 				else{
-					$rootScope.verificatioData.Vehicle.error = 'Vehicle Not Found';
-					$rootScope.verificatioData.Vehicle.vehicleData = false;
+					$rootScope.verificationData.Vehicle.error = 'Vehicle Not Found';
+					$rootScope.verificationData.Vehicle.vehicleData = false;
 					$rootScope.configuration.loadingData = false;
 				}
 				$rootScope.$apply();
@@ -326,7 +324,7 @@ function VehicleVerificationController($scope,$rootScope){
 
 		}
 		else{
-			$rootScope.verificatioData.Vehicle.error = 'Please Enter Vehicle Plate Number/Registration Number to Verify a vehicle';
+			$rootScope.verificationData.Vehicle.error = 'Please Enter Vehicle Plate Number/Registration Number to Verify a vehicle';
 		}
 	}
 
