@@ -23,6 +23,7 @@ function LoginController($scope,$location,$rootScope){
 	//variables for the app
 	$rootScope.configuration = {
 		'user': {},
+		'loadingData': false,
 		'loginPage': false,
 		'useData': {},
 		'config': {},
@@ -62,6 +63,9 @@ function LoginController($scope,$location,$rootScope){
 			$rootScope.configuration.user = $scope.loginUser;
 			var base = $rootScope.configuration.url;
 			if(base){
+				//enable loading notifications
+				$rootScope.configuration.loadingData = true;
+
 				Ext.Ajax.request({
 					url : base + '/dhis-web-commons-security/login.action?failed=false',
 					callbackKey : 'callback',
@@ -104,6 +108,7 @@ function LoginController($scope,$location,$rootScope){
 									iroad2.Init(dhisConfigs);
 									$rootScope.configuration.userData = loginUserData;
 									$rootScope.configuration.loginPage = true;
+									$rootScope.configuration.loadingData = false;
 									$rootScope.pageChanger.successLogin = {'home' : true};
 									$rootScope.$apply();
 								}
@@ -234,6 +239,9 @@ function DriverVerificationController($scope,$rootScope){
 
 		if($scope.data.driverLicenceNumber){
 
+			//enable loading
+			$rootScope.configuration.loadingData = true;
+
 			//fetching driver from system
 			var driverModal =  new iroad2.data.Modal('Driver',[]);
 			driverModal.get({value:$scope.data.driverLicenceNumber},function(result){
@@ -243,10 +251,12 @@ function DriverVerificationController($scope,$rootScope){
 				if(result.length > 0){
 					$rootScope.verificatioData.Driver.driverData = true;
 					$rootScope.verificatioData.Driver.driver = result[0];
+					$rootScope.configuration.loadingData = false;
 				}
 				else{
 					$rootScope.verificatioData.Driver.driverData = false;
 					$rootScope.verificatioData.Driver.error = "Driver Not Found";
+					$rootScope.configuration.loadingData = false;
 				}
 				$rootScope.$apply();
 			});
@@ -293,6 +303,9 @@ function VehicleVerificationController($scope,$rootScope){
 		$scope.cleanDriverData();
 
 		if($scope.data.vehilcePlateNumber){
+			//enable loading
+			$rootScope.configuration.loadingData = true;
+
 			//get a vehicle using a given plate number
 			var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
 			vehicleModal.get({value:$scope.data.vehilcePlateNumber},function(result){
@@ -301,10 +314,12 @@ function VehicleVerificationController($scope,$rootScope){
 				if(result.length > 0){
 					$rootScope.verificatioData.Vehicle.vehicle = result[0];
 					$rootScope.verificatioData.Vehicle.vehicleData = true;
+					$rootScope.configuration.loadingData = false;
 				}
 				else{
 					$rootScope.verificatioData.Vehicle.error = 'Vehicle Not Found';
 					$rootScope.verificatioData.Vehicle.vehicleData = false;
+					$rootScope.configuration.loadingData = false;
 				}
 				$rootScope.$apply();
 			});
