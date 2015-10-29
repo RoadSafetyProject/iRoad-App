@@ -181,6 +181,15 @@ function HomeController($scope,$rootScope){
 		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
+
+	//function for setting configurations of the app
+	$scope.settingConfigurations = function(){
+
+		$rootScope.pageChanger = {}
+		$rootScope.pageChanger.settingConfigurations = {'home': true}
+		console.log(JSON.stringify($rootScope.pageChanger));
+	}
+
 	//to loguot form the system
 	$scope.logOut = function(){
 		var base = $rootScope.configuration.url;
@@ -332,7 +341,12 @@ function VehicleVerificationController($scope,$rootScope){
 }
 
 
+/*
+*Controller for all process during accident registration
+*
+ */
 function ReportAccidentsController($scope,$rootScope){
+
 
 
 }
