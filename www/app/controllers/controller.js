@@ -142,6 +142,7 @@ function LoginController($scope,$location,$rootScope){
 		};
 	}
 
+
 }
 
 
@@ -179,6 +180,15 @@ function HomeController($scope,$rootScope){
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.reportAccidents = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
+		$scope.prepareAccidentForms();
+	}
+
+	//function to prepare accident forms for reporting
+	$scope.prepareAccidentForms = function(){
+		//enable loading data variable
+		$rootScope.configuration.loadingData = true;
+
+
 	}
 
 
