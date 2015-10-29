@@ -1,215 +1,78 @@
+
 <style>
-    /*
-           * Constants:
-           *      RADIUS      = 12.5
-           *      STROKEWIDTH = 3
-           *      ARCSIZE     = 270 degrees (amount of circle the arc takes up)
-           *      ARCTIME     = 1333ms (time it takes to expand and contract arc)
-           *      ARCSTARTROT = 216 degrees (how much the start location of the arc
-           *                                should rotate each time, 216 gives us a
-           *                                5 pointed star shape (it's 360/5 * 2).
-           *                                For a 7 pointed star, we might do
-           *                                360/7 * 3 = 154.286)
-           *
-           *      SHRINK_TIME = 400ms
-           */
-
-    .spinner {
-        margin: 10px 20px;
-        text-align: center;
-        display: inline-block;
-    }
-
-    .spinner svg {
-        background-color: rgb(255, 255, 255);
-        border-radius: 50%;
-        padding: 8px;
-        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-    }
-
-    .qp-circular-loader {
-        width: 64px;
-        /* 2*RADIUS + STROKEWIDTH */
-
-        height: 64px;
-        /* 2*RADIUS + STROKEWIDTH */
-
-        stroke-width: 3px;
-    }
-
-    .qp-circular-loader-path {
-        stroke-dasharray: 58.9;
-        /* 2*RADIUS*PI * ARCSIZE/360 */
-
-        stroke-dashoffset: 58.9;
-        /* 2*RADIUS*PI * ARCSIZE/360 */
-        /* hides things initially */
-    }
-    /* SVG elements seem to have a different default origin */
-
-    .qp-circular-loader,
-    .qp-circular-loader * {
-        -webkit-transform-origin: 50% 50%;
-        transform-origin: 50% 50%;
-    }
-    /* Rotating the whole thing */
-
-    @-webkit-keyframes rotate {
-        from {
-            -webkit-transform: rotate(0deg);
+    @keyframes blink {
+        /**
+        * At the start of the animation the dot
+        * has an opacity of .2
+        */
+        0% {
+            opacity: .2;
         }
-        to {
-            -webkit-transform: rotate(360deg);
+        /**
+        * At 20% the dot is fully visible and
+        * then fades out slowly
+        */
+        20% {
+            opacity: 1;
+        }
+        /**
+        * Until it reaches an opacity of .2 and
+        * the animation can start again
+        */
+        100% {
+            opacity: .2;
         }
     }
 
-    @keyframes rotate {
-        from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
-    .qp-circular-loader {
-        -webkit-animation-name: rotate;
-        animation-name: rotate;
-        -webkit-animation-duration: 1568.63ms;
-        animation-duration: 1568.63ms;
-        /* 360 * ARCTIME / (ARCSTARTROT + (360-ARCSIZE)) */
-
-        -webkit-animation-iteration-count: infinite;
+    .saving span {
+        /**
+        * Use the blink animation, which is defined above
+        */
+        animation-name: blink;
+        /**
+        * The animation should take 1.4 seconds
+        */
+        animation-duration: 1.7s;
+        /**
+        * It will repeat itself forever
+        */
         animation-iteration-count: infinite;
-        -webkit-animation-timing-function: linear;
-        animation-timing-function: linear;
-    }
-    /* Filling and unfilling the arc */
-
-    @-webkit-keyframes fillunfill {
-        from {
-            stroke-dashoffset: 58.8
-            /* 2*RADIUS*PI * ARCSIZE/360 - 0.1 */
-            /* 0.1 a bit of a magic constant here */
-        }
-        50% {
-            stroke-dashoffset: 0;
-        }
-        to {
-            stroke-dashoffset: -58.4
-            /* -(2*RADIUS*PI * ARCSIZE/360 - 0.5) */
-            /* 0.5 a bit of a magic constant here */
-        }
+        /**
+        * This makes sure that the starting style (opacity: .2)
+        * of the animation is applied before the animation starts.
+        * Otherwise we would see a short flash or would have
+        * to set the default styling of the dots to the same
+        * as the animation. Same applies for the ending styles.
+        */
+        animation-fill-mode: both;
     }
 
-    @keyframes fillunfill {
-        from {
-            stroke-dashoffset: 58.8
-            /* 2*RADIUS*PI * ARCSIZE/360 - 0.1 */
-            /* 0.1 a bit of a magic constant here */
-        }
-        50% {
-            stroke-dashoffset: 0;
-        }
-        to {
-            stroke-dashoffset: -58.4
-            /* -(2*RADIUS*PI * ARCSIZE/360 - 0.5) */
-            /* 0.5 a bit of a magic constant here */
-        }
+    .saving span:nth-child(2) {
+        /**
+        * Starts the animation of the third dot
+        * with a delay of .2s, otherwise all dots
+        * would animate at the same time
+        */
+        animation-delay: .2s;
     }
 
-    @-webkit-keyframes rot {
-        from {
-            -webkit-transform: rotate(0deg);
-        }
-        to {
-            -webkit-transform: rotate(-360deg);
-        }
+    .saving span:nth-child(3) {
+        /**
+        * Starts the animation of the third dot
+        * with a delay of .4s, otherwise all dots
+        * would animate at the same time
+        */
+        animation-delay: .4s;
     }
-
-    @keyframes rot {
-        from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(-360deg);
-        }
-    }
-
-    @-webkit-keyframes colors {
-        0% {
-            stroke: #754fa0;
-        }
-        20% {
-            stroke: #09b7bf;
-        }
-        40% {
-            stroke: #90d36b;
-        }
-        60% {
-            stroke: #f2d40d;
-        }
-        80% {
-            stroke: #fcb12b;
-        }
-        100% {
-            stroke: #ed1b72;
-        }
-    }
-
-    @keyframes colors {
-        0% {
-            stroke: #754fa0;
-        }
-        20% {
-            stroke: #09b7bf;
-        }
-        40% {
-            stroke: #90d36b;
-        }
-        60% {
-            stroke: #f2d40d;
-        }
-        80% {
-            stroke: #fcb12b;
-        }
-        100% {
-            stroke: #ed1b72;
-        }
-    }
-
-    .qp-circular-loader-path {
-        -webkit-animation-name: fillunfill, rot, colors;
-        animation-name: fillunfill, rot, colors;
-        -webkit-animation-duration: 1333ms, 5332ms, 5332ms;
-        animation-duration: 1333ms, 5332ms, 5332ms;
-        /* ARCTIME, 4*ARCTIME, 4*ARCTIME */
-
-        -webkit-animation-iteration-count: infinite, infinite, infinite;
-        animation-iteration-count: infinite, infinite, infinite;
-        -webkit-animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1), steps(4), linear;
-        animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1), steps(4), linear;
-        -webkit-animation-play-state: running, running, running;
-        animation-play-state: running, running, running;
-        -webkit-animation-fill-mode: forwards;
-        animation-fill-mode: forwards;
-    }
-
 </style>
+<p align="center" class="saving flow-text">
+    <b>
+        Loading
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
+    </b>
 
-<div style = "text-align: center">
-    <div class="spinner" >
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1" width="60px" height="60px" viewBox="0 0 28 28">
-            <!-- 28= RADIUS*2 + STROKEWIDTH -->
-
-            <!-- 3= STROKEWIDTH -->
-            <!-- 14= RADIUS + STROKEWIDTH/2 -->
-            <!-- 12.5= RADIUS -->
-            <!-- 1.5=  STROKEWIDTH/2 -->
-            <!-- ARCSIZE would affect the 1.5,14 part of this... 1.5,14 is specific to 270 degress -->
-            <g class="qp-circular-loader">
-                <path class="qp-circular-loader-path" fill="none" d="M 14,1.5 A 12.5,12.5 0 1 1 1.5,14" stroke-linecap="round"></path>
-            </g>
-        </svg>
-    </div>
-</div>
+</p>
