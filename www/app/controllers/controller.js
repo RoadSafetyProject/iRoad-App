@@ -122,6 +122,7 @@ function LoginController($scope,$location,$rootScope){
 							failure : function(){
 								$scope.message  = "Please Check your network";
 								$rootScope.configuration.loadingData = false;
+								$rootScope.$apply();
 							}
 						});
 
@@ -131,6 +132,7 @@ function LoginController($scope,$location,$rootScope){
 						console.log('Data : ' + JSON.stringify(response))
 						$scope.message  = "Checking you network services";
 						$rootScope.configuration.loadingData = false;
+						$rootScope.$apply();
 					}
 				});
 			}
