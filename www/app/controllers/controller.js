@@ -27,8 +27,8 @@ function LoginController($scope,$location,$rootScope){
 		'loginPage': false,
 		'useData': {},
 		'config': {},
-		'url' : 'http://localhost:8080/demo'
-		//'url':'http://roadsafety.go.tz/demo'
+		//'url' : 'http://localhost:8080/demo'
+		'url':'http://roadsafety.go.tz/demo'
 	};
 
 	$rootScope.pageChanger = {
@@ -94,6 +94,7 @@ function LoginController($scope,$location,$rootScope){
 									$rootScope.configuration.user = $scope.loginUser;
 									var loginUserData = JSON.parse(response.responseText);
 									$scope.loginUser = {};
+									$scope.$apply();
 
 									//loading library
 									var dhisConfigs = {
@@ -312,6 +313,8 @@ function HomeController($scope,$rootScope){
 
 	//to loguot form the system
 	$scope.logOut = function(){
+
+		$rootScope.configuration.loadingData = true;
 		var base = $rootScope.configuration.url;
 		Ext.Ajax.request({
 			url: base + '/dhis-web-commons-security/logout.action',
@@ -327,8 +330,15 @@ function HomeController($scope,$rootScope){
 				$scope.message = "Success log out ";
 				$scope.$apply();
 				$rootScope.configuration.loginPage = false;
+				$rootScope.configuration.loadingData = false;
 				$rootScope.$apply()
+			},
+			failure : function(){
+				$rootScope.configuration.loginPage = true;
+				$rootScope.$apply();
+				alert('fail to log out');
 			}
+
 		});
 	}
 }
