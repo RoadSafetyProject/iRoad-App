@@ -27,8 +27,8 @@ function LoginController($scope,$location,$rootScope){
 		'loginPage': false,
 		'useData': {},
 		'config': {},
-		'url' : 'http://localhost:8080/demo'
-		//'url':'http://roadsafety.go.tz/demo'
+		//'url' : 'http://localhost:8080/demo'
+		'url':'http://roadsafety.go.tz/demo'
 	};
 
 	$rootScope.pageChanger = {
@@ -161,6 +161,7 @@ function HomeController($scope,$rootScope){
 	//function to handle profile for user
 	$scope.viewProfile = function(){
 
+		console.log('data : ' + JSON.stringify($rootScope.configuration.userData));
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.userProfile = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
