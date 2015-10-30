@@ -3,12 +3,6 @@
 
     <div class="container">
 
-        <div class="row" ng-hide="!loginFormAvailability">
-
-            <div class="col s1">
-                <button class="btn waves-effect waves-light blue" ng-click="setSetting()">config</button>
-            </div>
-        </div>
         <div class="row" ng-hide="loginFormAvailability" style="margin-top:39%;">
             <h6 align="center">Set base url for iroad 2 server</h6>
 
@@ -37,8 +31,7 @@
                     <div style="background-color: #FFFFFF;padding:1%;padding-bottom: 0.2%;border-radius: 2px;margin-bottom:2%;">
                         <div class="row">
                             <div class="input-field col s12">
-                                <input ng-model="loginUser.username" id="username" type="text" class="validate"
-                                       placeholder="">
+                                <input ng-model="loginUser.username" id="username" type="text" class="validate">
                                 <label for="username">Username</label>
                             </div>
                         </div>
@@ -51,17 +44,31 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col s12">
-                            <input class="col s12 btn-large waves-effect waves-light blue " type="submit" value="login"
-                                   ng-click="login()">
+                    <div ng-hide="configuration.loadingData">
+
+                        <div class="row">
+                            <div class="col s12">
+                                <input class="col s12 btn-large waves-effect waves-light blue " type="submit" value="login"
+                                       ng-click="login()">
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row" ng-hide="!loginFormAvailability">
+                            <div class="col s12">
+                                <button class="btn col s12 btn-large waves-effect waves-light blue" ng-click="setSetting()">Setting</button>
+                            </div>
                         </div>
                     </div>
 
                 </form>
-
             </div>
         </div>
+
+        <!-- button for setting configuration -->
+
+
+
     </div>
 
 </div><!-- end of login page-->
@@ -69,9 +76,12 @@
 <!-- success login home page -->
 <div ng-show="configuration.loginPage">
 
-    <div ng-show="pageChanger.successLogin.home == true">
-        {{ configuration.useData | json}}
-    </div>
+    <!-- home page for user -->
+    <div ng-include="'views/home.html'"></div>
+    <!-- user profile page --->
+    <div ng-include="'views/userProfile.html'"></div>
+
+
 
     <!--view for report offense home-->
 
@@ -83,6 +93,10 @@
     <!-- for view for verification of driver and vehicle -->
     <div ng-include="'views/verifications/driverVerification.html'"></div>
     <div ng-include="'views/verifications/vehicleVerification.html'"></div>
+
+    <!-- view for setting configuration home -->
+    <div ng-include="'views/setting configurations/settingConfigurationHome.html'"></div>
+
 
 
 </div>

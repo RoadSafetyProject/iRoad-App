@@ -23,6 +23,7 @@ function LoginController($scope,$location,$rootScope){
 	//variables for the app
 	$rootScope.configuration = {
 		'user': {},
+		'loadingData': false,
 		'loginPage': false,
 		'useData': {},
 		'config': {},
@@ -62,6 +63,9 @@ function LoginController($scope,$location,$rootScope){
 			$rootScope.configuration.user = $scope.loginUser;
 			var base = $rootScope.configuration.url;
 			if(base){
+				//enable loading notifications
+				$rootScope.configuration.loadingData = true;
+
 				Ext.Ajax.request({
 					url : base + '/dhis-web-commons-security/login.action?failed=false',
 					callbackKey : 'callback',
@@ -102,16 +106,24 @@ function LoginController($scope,$location,$rootScope){
 										console.log('success loading library');
 									}
 									iroad2.Init(dhisConfigs);
-									$rootScope.configuration.useData = loginUserData;
+									$rootScope.configuration.userData = loginUserData;
 									$rootScope.configuration.loginPage = true;
+									$rootScope.configuration.loadingData = false;
+									$rootScope.pageChanger = {};
 									$rootScope.pageChanger.successLogin = {'home' : true};
 									$rootScope.$apply();
 								}
 								catch (e){
 									$scope.message = "wrong password or username";
 									$rootScope.configuration.loginPage = false;
+									$rootScope.configuration.loadingData = false;
 									$rootScope.$apply();
 								}
+							},
+							failure : function(){
+								$scope.message  = "Please Check your network";
+								$rootScope.configuration.loadingData = false;
+								$rootScope.$apply();
 							}
 						});
 
@@ -120,11 +132,14 @@ function LoginController($scope,$location,$rootScope){
 						//fail to connect to the server
 						console.log('Data : ' + JSON.stringify(response))
 						$scope.message  = "Checking you network services";
+						$rootScope.configuration.loadingData = false;
+						$rootScope.$apply();
 					}
 				});
 			}
 			else{
 				$scope.loginFormAvailability = !$scope.loginFormAvailability;
+				$rootScope.configuration.loadingData = false;
 			}
 
 		}
@@ -137,6 +152,7 @@ function LoginController($scope,$location,$rootScope){
 		};
 	}
 
+
 }
 
 
@@ -145,9 +161,29 @@ function LoginController($scope,$location,$rootScope){
  */
 function HomeController($scope,$rootScope){
 
+	//function to handle profile for user
+	$scope.viewProfile = function(){
+
+		console.log('data : ' + JSON.stringify($rootScope.configuration.userData));
+		$rootScope.pageChanger = {};
+		$rootScope.pageChanger.userProfile = {'home': true};
+		console.log(JSON.stringify($rootScope.pageChanger));
+	}
+
+	//function to render home page
+	$scope.home = function(){
+		$rootScope.pageChanger = {};
+		$rootScope.pageChanger.successLogin = {'home': true};
+		console.log(JSON.stringify($rootScope.pageChanger));
+	}
+
 	//control report offence link on navigation
 	$scope.reportOffence = function(){
 
+		$rootScope.reportingForms = {
+			'Accident' : {},
+			'offence' : {}
+		};
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.reportOffense = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
@@ -171,8 +207,106 @@ function HomeController($scope,$rootScope){
 	//control links for reporting accident form
 	$scope.reportAccidents = function(){
 
+		$rootScope.reportingForms = {
+			'Accident' : {},
+			'offence' : {}
+		};
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.reportAccidents = {'home': true};
+		console.log(JSON.stringify($rootScope.pageChanger));
+		$scope.prepareAccidentForms();
+	}
+
+	//function to prepare accident forms for reporting
+	$scope.prepareAccidentForms = function(){
+		//enable loading data variable
+		$rootScope.configuration.loadingData = true;
+
+		//load basic information for accident
+		var accidentModal = new iroad2.data.Modal('Accident',[]);
+		var modalName = accidentModal.getModalName();
+		var eventAccident = {};
+		angular.forEach(iroad2.data.programs, function (program) {
+			if (program.name == modalName) {
+				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
+					if(dataElement.dataElement.name.startsWith(iroad2.config.refferencePrefix)){
+						//eventAccident[dataElement.dataElement.name.replace(iroad2.config.refferencePrefix,"")] = {};
+						var data = null;
+					}else{
+						eventAccident[dataElement.dataElement.name] = "";
+					}
+				});
+			}
+		});
+		$rootScope.reportingForms.Accident.basicInfo = eventAccident;
+
+		//loading accident vehicle form
+		var accidentVehilce = new iroad2.data.Modal('Accident Vehicle',[]);
+		var modalName = accidentVehilce.getModalName();
+		var eventAccidentVehicle = {};
+		angular.forEach(iroad2.data.programs, function (program) {
+			if (program.name == modalName) {
+				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
+					if(dataElement.dataElement.name.startsWith(iroad2.config.refferencePrefix)){
+						//eventAccidentVehicle[dataElement.dataElement.name.replace(iroad2.config.refferencePrefix,"")] = {};
+						var data = null;
+					}else{
+						eventAccidentVehicle[dataElement.dataElement.name] = "";
+					}
+				});
+			}
+		});
+		$rootScope.reportingForms.Accident.accidentVehicle = eventAccidentVehicle;
+
+		//loading accident passengers
+		var accidentVehiclePassenger = new iroad2.data.Modal('Accident Passenger',[]);
+		var modalName = accidentVehiclePassenger.getModalName();
+		var eventAccidentVehiclePassenger = {};
+		angular.forEach(iroad2.data.programs, function (program) {
+			if (program.name == modalName) {
+				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
+					if(dataElement.dataElement.name.startsWith(iroad2.config.refferencePrefix)){
+						//eventAccidentVehiclePassenger[dataElement.dataElement.name.replace(iroad2.config.refferencePrefix,"")] = {};
+						var data = null;
+					}else{
+						eventAccidentVehiclePassenger[dataElement.dataElement.name] = "";
+					}
+				});
+			}
+		});
+		$rootScope.reportingForms.Accident.accidentVehiclePassenger = eventAccidentVehiclePassenger;
+
+		//load accident witness form
+		var accidentWitness = new iroad2.data.Modal('Accident Witness',[]);
+		var modalName = accidentWitness.getModalName();
+		var eventAccidentWitness = {};
+		angular.forEach(iroad2.data.programs, function (program) {
+			if (program.name == modalName) {
+				//console.log('Program ' + JSON.stringify(program));
+				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
+					if(dataElement.dataElement.name.startsWith(iroad2.config.refferencePrefix)){
+						//eventAccidentWitness[dataElement.dataElement.name.replace(iroad2.config.refferencePrefix,"")] = {};
+						var data = null;
+					}else{
+						eventAccidentWitness[dataElement.dataElement.name] = "";
+					}
+				});
+			}
+		});
+		$rootScope.reportingForms.Accident.accidentWitnes = eventAccidentWitness;
+
+		console.log('Accident forms : ' + JSON.stringify($rootScope.reportingForms.Accident));
+		//disable loading progress
+		$rootScope.configuration.loadingData = false;
+
+	}
+
+
+	//function for setting configurations of the app
+	$scope.settingConfigurations = function(){
+
+		$rootScope.pageChanger = {}
+		$rootScope.pageChanger.settingConfigurations = {'home': true}
 		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
@@ -206,7 +340,7 @@ function HomeController($scope,$rootScope){
 function DriverVerificationController($scope,$rootScope){
 
 	//prepare variables
-	$rootScope.verificatioData= {
+	$rootScope.verificationData= {
 		'Driver':{
 			'driverData' : false,
 			'driver' : {},
@@ -221,9 +355,9 @@ function DriverVerificationController($scope,$rootScope){
 	$scope.data = {};
 
 	$scope.clearVehicleData = function(){
-		$rootScope.verificatioData.Vehicle.vehicle = {};
-		$rootScope.verificatioData.Vehicle.vehicleData = false;
-		$rootScope.verificatioData.Vehicle.error = '';
+		$rootScope.verificationData.Vehicle.vehicle = {};
+		$rootScope.verificationData.Vehicle.vehicleData = false;
+		$rootScope.verificationData.Vehicle.error = '';
 	}
 	$scope.clearVehicleData();
 
@@ -234,26 +368,29 @@ function DriverVerificationController($scope,$rootScope){
 
 		if($scope.data.driverLicenceNumber){
 
+			//enable loading
+			$rootScope.configuration.loadingData = true;
+
 			//fetching driver from system
 			var driverModal =  new iroad2.data.Modal('Driver',[]);
 			driverModal.get({value:$scope.data.driverLicenceNumber},function(result){
-
-				console.log('driver ' + JSON.stringify(result));
 				//checking id driver found
 				if(result.length > 0){
-					$rootScope.verificatioData.Driver.driverData = true;
-					$rootScope.verificatioData.Driver.driver = result[0];
+					$rootScope.verificationData.Driver.driverData = true;
+					$rootScope.verificationData.Driver.driver = result[0];
+					$rootScope.configuration.loadingData = false;
 				}
 				else{
-					$rootScope.verificatioData.Driver.driverData = false;
-					$rootScope.verificatioData.Driver.error = "Driver Not Found";
+					$rootScope.verificationData.Driver.driverData = false;
+					$rootScope.verificationData.Driver.error = "Driver Not Found";
+					$rootScope.configuration.loadingData = false;
 				}
 				$rootScope.$apply();
 			});
 
 		}
 		else{
-			$rootScope.verificatioData.Driver.error = 'Please Enter Driver Licence number to verify';
+			$rootScope.verificationData.Driver.error = 'Please Enter Driver Licence number to verify';
 		}
 	}
 }
@@ -266,7 +403,7 @@ function DriverVerificationController($scope,$rootScope){
 function VehicleVerificationController($scope,$rootScope){
 
 	//prepare variables
-	$rootScope.verificatioData= {
+	$rootScope.verificationData= {
 		'Driver':{
 			'driverData' : false,
 			'driver' : {},
@@ -281,9 +418,9 @@ function VehicleVerificationController($scope,$rootScope){
 	$scope.data = {}
 
 	$scope.cleanDriverData = function(){
-		$rootScope.verificatioData.Driver.driverData = false;
-		$rootScope.verificatioData.Driver.driver = {};
-		$rootScope.verificatioData.Driver.error = '';
+		$rootScope.verificationData.Driver.driverData = false;
+		$rootScope.verificationData.Driver.driver = {};
+		$rootScope.verificationData.Driver.error = '';
 	}
 
 	$scope.cleanDriverData();
@@ -293,25 +430,30 @@ function VehicleVerificationController($scope,$rootScope){
 		$scope.cleanDriverData();
 
 		if($scope.data.vehilcePlateNumber){
+			//enable loading
+			$rootScope.configuration.loadingData = true;
+
 			//get a vehicle using a given plate number
 			var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
 			vehicleModal.get({value:$scope.data.vehilcePlateNumber},function(result){
 				//checking if vehicle found
 				console.log('vehicle : ' + JSON.stringify(result));
 				if(result.length > 0){
-					$rootScope.verificatioData.Vehicle.vehicle = result[0];
-					$rootScope.verificatioData.Vehicle.vehicleData = true;
+					$rootScope.verificationData.Vehicle.vehicle = result[0];
+					$rootScope.verificationData.Vehicle.vehicleData = true;
+					$rootScope.configuration.loadingData = false;
 				}
 				else{
-					$rootScope.verificatioData.Vehicle.error = 'Vehicle Not Found';
-					$rootScope.verificatioData.Vehicle.vehicleData = false;
+					$rootScope.verificationData.Vehicle.error = 'Vehicle Not Found';
+					$rootScope.verificationData.Vehicle.vehicleData = false;
+					$rootScope.configuration.loadingData = false;
 				}
 				$rootScope.$apply();
 			});
 
 		}
 		else{
-			$rootScope.verificatioData.Vehicle.error = 'Please Enter Vehicle Plate Number/Registration Number to Verify a vehicle';
+			$rootScope.verificationData.Vehicle.error = 'Please Enter Vehicle Plate Number/Registration Number to Verify a vehicle';
 		}
 	}
 
@@ -319,6 +461,10 @@ function VehicleVerificationController($scope,$rootScope){
 }
 
 
+/*
+*Controller for all process during accident registration
+*
+ */
 function ReportAccidentsController($scope,$rootScope){
 
 

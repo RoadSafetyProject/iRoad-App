@@ -13,7 +13,7 @@
 
     <title>roadsafety-mobile-app</title>
     <style>
-        /* #appLoginPage {
+        /*body {
              background: url("img/background.png") no-repeat center center fixed;
              -webkit-background-size: cover;
              -moz-background-size: cover;
@@ -21,37 +21,58 @@
              background-size: cover;
          }*/
     </style>
+    <link text="text/css" rel="stylesheet" href="css/style.css">
 </head>
-<body ng-app = "roadsafetyMobileApp">
+<body ng-app = "roadsafetyMobileApp" >
 
 <div ng-show="configuration.loginPage">
+    <div class = "">
 
-    <nav class="blue darken-3" ng-controller="HomeController">
-        <a class="brand-logo center">Iroad App</a>
+        <nav class="blue darken-3" ng-controller="HomeController" style="padding-bottom: 15px;padding-left: 10px;padding-top: 5px;">
+            <a class="brand-logo center"></a>
 
-        <ul class="right hide-on-med-and-down">
-            <li><a ng-click="reportOffence()" class="waves-effect waves-light">Report Offence</a></li>
-            <li><a ng-click="reportAccidents()" class="waves-effect waves-light">Report Accidents</a></li>
-            <li><a ng-click="verifyDriver()" class="waves-effect waves-light">Verify Driver</a></li>
-            <li><a ng-click="verifyVehicle()" class="waves-effect waves-light">Verify Vehicle</a></li>
-            <li><a ng-click="logOut()" class="waves-effect waves-light">Log out</a></li>
-        </ul>
+            <ul class="right hide-on-med-and-down">
+                <li><a ng-click="home()" class="waves-effect waves-light">Home</a> </li>
+                <li><a ng-click="reportOffence()" class="waves-effect waves-light">Report Offence</a></li>
+                <li><a ng-click="reportAccidents()" class="waves-effect waves-light">Report Accidents</a></li>
+                <li><a ng-click="verifyDriver()" class="waves-effect waves-light">Verify Driver</a></li>
+                <li><a ng-click="verifyVehicle()" class="waves-effect waves-light">Verify Vehicle</a></li>
+                <!--<li><a ng-click="settingConfigurations()" class="waves-effect waves-light">Setting</a></li>-->
+                <li><a ng-click="logOut()" class="waves-effect waves-light">Log out</a></li>
+            </ul>
 
-        <ul id="slide-out" class="side-nav">
-            <li><a ng-click="reportOffence()" class="waves-effect waves-light">Report Offence</a></li>
-            <li><a ng-click="reportAccidents()" class="waves-effect waves-light">Report Accidents</a></li>
-            <li><a ng-click="verifyDriver()" class="waves-effect waves-light">Verify Driver</a></li>
-            <li><a ng-click="verifyVehicle()" class="waves-effect waves-light">Verify Vehicle</a></li>
-            <li><a ng-click="logOut()" class="waves-effect waves-light">Log out</a></li>
-        </ul>
-        <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+            <ul id="slide-out" class="side-nav" style="-webkit-overflow-scrolling: touch;">
+                <li style = "color:#000000" ng-click="viewProfile()">
 
-    </nav>
+                        <p style="height:initial;padding-top: 0%;margin-bottom: 0px">
+                            <img src="img/user.png" width="30%">
+                            <span style="text-transform: capitalize;padding-left: 2px">{{ configuration.userData.name }}</span> <br>
+                            {{ configuration.userData.email }}<br>
+                            {{ configuration.userData.phoneNumber }}
+                        </p>
+
+
+                </li>
+                <hr>
+                <li><a ng-click="home()" class="waves-effect waves-light">Home</a> </li>
+                <li ><a ng-click="reportOffence()" class="waves-effect waves-light">Report Offence</a></li>
+                <li><a ng-click="reportAccidents()" class="waves-effect waves-light">Report Accidents</a></li>
+                <li><a ng-click="verifyDriver()" class="waves-effect waves-light">Verify Driver</a></li>
+                <li><a ng-click="verifyVehicle()" class="waves-effect waves-light">Verify Vehicle</a></li>
+                <!--<li><a ng-click="settingConfigurations()" class="waves-effect waves-light">Setting</a></li>-->
+                <li><a ng-click="logOut()" class="waves-effect waves-light">Log out</a></li>
+            </ul>
+            <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu" ></i></a>
+
+        </nav>
+    </div>
 </div>
 <!-- view for app -->
 <div ng-view>
 
 </div>
+    <!-- loading spinner -->
+    <div ng-include="'views/loadingSpinner.html'" ></div>
 
 <link rel="stylesheet" type="text/css" href="css/ext-plugin-gray.css"/>
 <!--<script src="https://dhis2-cdn.org/v220/ext/ext-all.js";></script>-->
@@ -72,7 +93,11 @@
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/dhis2-library.js"></script>
 <script type="text/javascript">
-    $(".button-collapse").sideNav();
+    $(".button-collapse").sideNav({
+        menuWidth: 300, // Default is 240
+        edge: 'left', // Choose the horizontal origin
+        closeOnClick: true
+    });
 </script>
 
 <script type="text/javascript">

@@ -1,3 +1,21 @@
-<div ng-show="pageChanger.reportAccidents.home == true">
-    accident form
+<div ng-show="pageChanger.reportAccidents.home == true" ng-controller="ReportAccidentsController">
+    <div class="container" >
+        <div class="row">
+
+            <div ng-repeat="(key,value) in reportingForms.Accident.basicInfo">
+                <div class="col s12">
+                    <label  >{{ key}}</label> <br />
+                    <!--<input ng-show="isString(key) && !hasDataSets(key)" />
+                    <input  ng-show="isInteger(key)"   />
+                    <select ng-show="isBoolean(key)"  >
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                    <select ng-if="hasDataSets(key)"  ng-options="item.name as item.name for item in getOptionSets(key)"  />
+                    <input ui-date-format="yy-mm-dd" ng-show="isDate(key)" ui-date="dateOptions"  />-->
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
