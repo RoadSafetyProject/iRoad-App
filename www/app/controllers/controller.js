@@ -115,8 +115,13 @@ function LoginController($scope,$location,$rootScope){
 								catch (e){
 									$scope.message = "wrong password or username";
 									$rootScope.configuration.loginPage = false;
+									$rootScope.configuration.loadingData = false;
 									$rootScope.$apply();
 								}
+							},
+							failure : function(){
+								$scope.message  = "Please Check your network";
+								$rootScope.configuration.loadingData = false;
 							}
 						});
 
@@ -125,11 +130,13 @@ function LoginController($scope,$location,$rootScope){
 						//fail to connect to the server
 						console.log('Data : ' + JSON.stringify(response))
 						$scope.message  = "Checking you network services";
+						$rootScope.configuration.loadingData = false;
 					}
 				});
 			}
 			else{
 				$scope.loginFormAvailability = !$scope.loginFormAvailability;
+				$rootScope.configuration.loadingData = false;
 			}
 
 		}
@@ -151,9 +158,28 @@ function LoginController($scope,$location,$rootScope){
  */
 function HomeController($scope,$rootScope){
 
+	//function to handle profile for user
+	$scope.viewProfile = function(){
+
+		$rootScope.pageChanger = {};
+		$rootScope.pageChanger.userProfile = {'home': true};
+		console.log(JSON.stringify($rootScope.pageChanger));
+	}
+
+	//function to render home page
+	$scope.home = function(){
+		$rootScope.pageChanger = {};
+		$rootScope.pageChanger.successLogin = {'home': true};
+		console.log(JSON.stringify($rootScope.pageChanger));
+	}
+
 	//control report offence link on navigation
 	$scope.reportOffence = function(){
 
+		$rootScope.reportingForms = {
+			'Accident' : {},
+			'offence' : {}
+		};
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.reportOffense = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
@@ -177,6 +203,10 @@ function HomeController($scope,$rootScope){
 	//control links for reporting accident form
 	$scope.reportAccidents = function(){
 
+		$rootScope.reportingForms = {
+			'Accident' : {},
+			'offence' : {}
+		};
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.reportAccidents = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
@@ -192,7 +222,6 @@ function HomeController($scope,$rootScope){
 		var accidentModal = new iroad2.data.Modal('Accident',[]);
 		var modalName = accidentModal.getModalName();
 		var eventAccident = {};
-
 		angular.forEach(iroad2.data.programs, function (program) {
 			if (program.name == modalName) {
 				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
@@ -205,13 +234,12 @@ function HomeController($scope,$rootScope){
 				});
 			}
 		});
-		$scope.formAccident = eventAccident;
+		$rootScope.reportingForms.Accident.basicInfo = eventAccident;
 
 		//loading accident vehicle form
 		var accidentVehilce = new iroad2.data.Modal('Accident Vehicle',[]);
 		var modalName = accidentVehilce.getModalName();
 		var eventAccidentVehicle = {};
-
 		angular.forEach(iroad2.data.programs, function (program) {
 			if (program.name == modalName) {
 				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
@@ -224,13 +252,12 @@ function HomeController($scope,$rootScope){
 				});
 			}
 		});
-		$scope.formAccidentVehicle = eventAccidentVehicle;
+		$rootScope.reportingForms.Accident.accidentVehicle = eventAccidentVehicle;
 
 		//loading accident passengers
 		var accidentVehiclePassenger = new iroad2.data.Modal('Accident Passenger',[]);
 		var modalName = accidentVehiclePassenger.getModalName();
 		var eventAccidentVehiclePassenger = {};
-
 		angular.forEach(iroad2.data.programs, function (program) {
 			if (program.name == modalName) {
 				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
@@ -243,7 +270,30 @@ function HomeController($scope,$rootScope){
 				});
 			}
 		});
-		$scope.formAccidentVehiclePassenger = eventAccidentVehiclePassenger;
+		$rootScope.reportingForms.Accident.accidentVehiclePassenger = eventAccidentVehiclePassenger;
+
+		//load accident witness form
+		var accidentWitness = new iroad2.data.Modal('Accident Witness',[]);
+		var modalName = accidentWitness.getModalName();
+		var eventAccidentWitness = {};
+		angular.forEach(iroad2.data.programs, function (program) {
+			if (program.name == modalName) {
+				//console.log('Program ' + JSON.stringify(program));
+				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
+					if(dataElement.dataElement.name.startsWith(iroad2.config.refferencePrefix)){
+						//eventAccidentWitness[dataElement.dataElement.name.replace(iroad2.config.refferencePrefix,"")] = {};
+						var data = null;
+					}else{
+						eventAccidentWitness[dataElement.dataElement.name] = "";
+					}
+				});
+			}
+		});
+		$rootScope.reportingForms.Accident.accidentWitnes = eventAccidentWitness;
+
+		console.log('Accident forms : ' + JSON.stringify($rootScope.reportingForms.Accident));
+		//disable loading progress
+		$rootScope.configuration.loadingData = false;
 
 	}
 

@@ -23,7 +23,7 @@
         </div>
 
         <!-- for results form verification of drivers -->
-        <div class="row" ng-hide="configuration.loadingData">
+        <div class="row" ng-hide="configuration.loadingData"> {{configuration.loadingData}}
             <div class = "col s12">
                 <!-- display information for user for driver licence verification purpose -->
                 <div ng-show="!verificationData.Driver.driverData">
