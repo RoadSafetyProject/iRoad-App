@@ -109,6 +109,7 @@ function LoginController($scope,$location,$rootScope){
 									$rootScope.configuration.userData = loginUserData;
 									$rootScope.configuration.loginPage = true;
 									$rootScope.configuration.loadingData = false;
+									$rootScope.pageChanger = {};
 									$rootScope.pageChanger.successLogin = {'home' : true};
 									$rootScope.$apply();
 								}
@@ -466,95 +467,6 @@ function VehicleVerificationController($scope,$rootScope){
  */
 function ReportAccidentsController($scope,$rootScope){
 
-	//functions facilitates easy form generations
-	$scope.isInteger = function(key){
-		return $scope.is(key,"int");
-	}
-	$scope.isDate = function(key){
-		return $scope.is(key,"date");
-	}
-	$scope.isString = function(key){
-		return $scope.is(key,"string");
-	}
-	$scope.inputModal = {};
-	$scope.multiselectBools = {};
-	$scope.isManyRelation = function(key){
-		var relationships = $scope.AccidentModal.getRelationships();
-		for(var z = 0;z < relationships.length;z++) {
-			var relationship = relationships[z];
-			if(relationship.pivot){
-				if(relationship.pivot == key){
-					var relationshipProgram = new iroad2.data.Modal(relationship.name,[]);
-					relationshipProgram.getAll(function(results){
-						//console.log("Relation Result:" + JSON.stringify(results));
-						var inputModal = [];
-						angular.forEach(results, function(result) {
-							var input = result;
-							for(var column in $scope.converts[key]){
-								input[column] = result[$scope.converts[key][column]];
-							}
-							input.selected = false;
-							angular.forEach($scope.editingEvent[key],function(element){
-								if(element[relationship.name.replace(" ","_")].id == input.id){
-									input.selected = true;
-								}
-							});
-							inputModal.push(input);
-						});
-
-						$scope.inputModal[key] = inputModal;
-
-						console.log("Input Modals:" + JSON.stringify($scope.inputModal[key]));
-						$scope.$apply();
-					});
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	$scope.is = function(key,dataType){
-		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
-			if(iroad2.data.dataElements[j].name == key){
-				if(iroad2.data.dataElements[j].type == dataType){
-					return true;
-				}
-				break;
-			}
-		};
-		return false;
-	}
-	$scope.isBoolean = function(key){
-		return $scope.is(key,"bool");
-	}
-	$scope.hasDataSets = function(key){
-		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
-			if(iroad2.data.dataElements[j].name == key){
-				return (iroad2.data.dataElements[j].optionSet != undefined);
-			}
-		};
-		return false;
-	}
-	$scope.getOptionSets = function(key){
-		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
-			if(iroad2.data.dataElements[j].name == key){
-				return iroad2.data.dataElements[j].optionSet.options;
-			}
-		};
-		return false;
-	}
-	$scope.filterObject = function(object,fields){
-		con:
-			for(var key in object){
-				for(var j = 0 ;j < fields.length;j++){
-					if(fields[j] == key){
-						delete object[key];
-						continue con;
-					}
-				}
-			};
-		return object;
-	}
 
 }
 
