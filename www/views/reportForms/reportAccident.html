@@ -1,18 +1,25 @@
 <div ng-show="pageChanger.reportAccidents.home == true" ng-controller="ReportAccidentsController">
     <div class="container" >
+
+        <!-- basic infor for accident -->
         <div class="row">
 
             <div ng-repeat="(key,value) in reportingForms.Accident.basicInfo">
-                <div class="col s12">
-                    <label  >{{ key}}</label> <br />
-                    <!--<input ng-show="isString(key) && !hasDataSets(key)" />
-                    <input  ng-show="isInteger(key)"   />
-                    <select ng-show="isBoolean(key)"  >
+                <label class="col s12 input-field" ng-show ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
+                <div class="col s12 input-field" >
+
+                    <input ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
+                    <input  ng-show="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                    <select ng-show="isBoolean(key)"  class="browser-default" id = "{{key}}" >
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                     </select>
-                    <select ng-if="hasDataSets(key)"  ng-options="item.name as item.name for item in getOptionSets(key)"  />
-                    <input ui-date-format="yy-mm-dd" ng-show="isDate(key)" ui-date="dateOptions"  />-->
+                    <select ng-show="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                        <option ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
+                    </select>
+                    <input ui-date-format="yy-mm-dd" ng-show="isDate(key)" ui-date="dateOptions"  type="date" class="datepicker" id = "{{key}}"  class="validate" />
+                    <label ng-hide ="hasDataSets(key) || isDate(key) || isBoolean(key)" for = "{{ key }}">{{ key }}</label>
+
                 </div>
             </div>
 

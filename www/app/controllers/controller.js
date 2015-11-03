@@ -27,8 +27,8 @@ function LoginController($scope,$location,$rootScope){
 		'loginPage': false,
 		'useData': {},
 		'config': {},
-		//'url' : 'http://localhost:8080/demo'
-		'url':'http://roadsafety.go.tz/demo'
+		'url' : 'http://localhost:8080/demo'
+		//'url':'http://roadsafety.go.tz/demo'
 	};
 
 	$rootScope.pageChanger = {
@@ -478,6 +478,50 @@ function VehicleVerificationController($scope,$rootScope){
 function ReportAccidentsController($scope,$rootScope){
 
 
+	/*
+	*functions for frexiable forms
+	 */
+	$scope.isInteger = function(key){
+		return $scope.is(key,"int");
+	}
+	$scope.isDate = function(key){
+		return $scope.is(key,"date");
+	}
+	$scope.isString = function(key){
+		return $scope.is(key,"string");
+	}
+
+	$scope.is = function(key,dataType){
+		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
+			if(iroad2.data.dataElements[j].name == key){
+				if(iroad2.data.dataElements[j].type == dataType){
+					return true;
+				}
+				break;
+			}
+		};
+		return false;
+	}
+	$scope.isBoolean = function(key){
+		return $scope.is(key,"bool");
+		console.log('ok')
+	}
+	$scope.hasDataSets = function(key){
+		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
+			if(iroad2.data.dataElements[j].name == key){
+				return (iroad2.data.dataElements[j].optionSet != undefined);
+			}
+		};
+		return false;
+	}
+	$scope.getOptionSets = function(key){
+		for(j = 0 ;j < iroad2.data.dataElements.length;j++){
+			if(iroad2.data.dataElements[j].name == key){
+				return iroad2.data.dataElements[j].optionSet.options;
+			}
+		};
+		return false;
+	}
 }
 
 
