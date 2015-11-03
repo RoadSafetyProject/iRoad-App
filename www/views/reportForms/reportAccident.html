@@ -1,9 +1,9 @@
 <div ng-show="pageChanger.reportAccidents.home == true" ng-controller="ReportAccidentsController">
+
     <div class="container" >
-
-        <!-- basic infor for accident -->
-        <div class="row">
-
+        <!-- basic for accident -->
+        <div class="row" ng-show="pageChanger.reportAccidents.basicInfo == true" >
+            <h5>Basic information </h5>
             <div ng-repeat="(key,value) in reportingForms.Accident.basicInfo">
                 <label class="col s12 input-field" ng-show ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
                 <div class="col s12 input-field" >
@@ -11,18 +11,47 @@
                     <input ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
                     <input  ng-show="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
                     <select ng-show="isBoolean(key)"  class="browser-default" id = "{{key}}" >
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
+                        <option style="padding: 5px;" value="true">Yes</option>
+                        <option style="padding: 5px;" value="false">No</option>
                     </select>
                     <select ng-show="hasDataSets(key)" class="browser-default" id = "{{key}}">
-                        <option ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
+                        <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                     </select>
-                    <input ui-date-format="yy-mm-dd" ng-show="isDate(key)" ui-date="dateOptions"  type="date" class="datepicker" id = "{{key}}"  class="validate" />
+                    <input  ng-show="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
                     <label ng-hide ="hasDataSets(key) || isDate(key) || isBoolean(key)" for = "{{ key }}">{{ key }}</label>
-
                 </div>
             </div>
 
         </div>
+
+        <!-- area and location -->
+        <div class="row" ng-show = "pageChanger.reportAccidents.areaLocation ==true">
+            <h5>Area and Location</h5>
+        </div>
+        <!-- other necessary information -->
+        <div class="row" ng-show="pageChanger.reportAccidents.otherBasicInfo == true">
+            <h5>Other Information</h5>
+        </div>
+
+        <!-- vehicles, witness and attendants -->
+        <div class="row" ng-show="pageChanger.reportAccidents.setNumberOfVehicleWitness == true">
+            <h5>Vehicle, Witness and Attendants</h5>
+        </div>
+
+
+
+
+
+
     </div>
+
+    <div class="container">
+        <div class="row">
+            <button style="margin: 7px;" class="btn waves-effect waves-light blue" ng-click="areaLocation()">areaOfAccident</button>
+            <button style="margin: 7px;" class="btn waves-effect waves-light blue" ng-click="otherBasicInfo()">otherBasicInfo</button>
+            <button style="margin: 7px;" class="btn waves-effect waves-light blue " ng-click="setNumberOfVehicleWitness()">setNumberOfVehicleWitness</button>
+            <button style="margin: 7px;" class="btn waves-effect waves-light blue " ng-click="verifyBasicInfo()">verifyBasicInfo</button>
+        </div>
+    </div>
+
 </div>

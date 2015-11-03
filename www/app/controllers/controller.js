@@ -162,8 +162,15 @@ function LoginController($scope,$location,$rootScope){
  */
 function HomeController($scope,$rootScope){
 
+	//function to empty data
+	$scope.clearFormsFields = function(){
+		$rootScope.reportingForms.Accident = {};
+		$rootScope.reportingForms.Offence = {};
+	}
+
 	//function to handle profile for user
 	$scope.viewProfile = function(){
+		$scope.clearFormsFields();
 
 		console.log('data : ' + JSON.stringify($rootScope.configuration.userData));
 		$rootScope.pageChanger = {};
@@ -173,6 +180,8 @@ function HomeController($scope,$rootScope){
 
 	//function to render home page
 	$scope.home = function(){
+		$scope.clearFormsFields();
+
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.successLogin = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
@@ -183,7 +192,7 @@ function HomeController($scope,$rootScope){
 
 		$rootScope.reportingForms = {
 			'Accident' : {},
-			'offence' : {}
+			'Offence' : {}
 		};
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.reportOffense = {'home': true};
@@ -193,6 +202,8 @@ function HomeController($scope,$rootScope){
 
 	//control driver verification view form
 	$scope.verifyDriver = function(){
+		$scope.clearFormsFields();
+
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.verifyDriver = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
@@ -200,6 +211,8 @@ function HomeController($scope,$rootScope){
 
 	//control vehicle verification view form
 	$scope.verifyVehicle = function(){
+		$scope.clearFormsFields();
+
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.verifyVehicle = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
@@ -213,7 +226,7 @@ function HomeController($scope,$rootScope){
 			'offence' : {}
 		};
 		$rootScope.pageChanger = {};
-		$rootScope.pageChanger.reportAccidents = {'home': true};
+		$rootScope.pageChanger.reportAccidents = {'home': true,'basicInfo' : true};
 		console.log(JSON.stringify($rootScope.pageChanger));
 		$scope.prepareAccidentForms();
 	}
@@ -313,6 +326,7 @@ function HomeController($scope,$rootScope){
 
 	//to loguot form the system
 	$scope.logOut = function(){
+		$scope.clearFormsFields();
 
 		$rootScope.configuration.loadingData = true;
 		var base = $rootScope.configuration.url;
@@ -477,9 +491,43 @@ function VehicleVerificationController($scope,$rootScope){
  */
 function ReportAccidentsController($scope,$rootScope){
 
+	$scope.newAccident = {};
+
+	//function to set visibility for area of accident sub-form and time
+	$scope.areaLocation = function(){
+		$rootScope.pageChanger.reportAccidents.basicInfo = false;
+		$rootScope.pageChanger.reportAccidents.areaLocation = true;
+		console.log('area of accident')
+	}
+
+	//function to set visibility of other parts for basic info for an accident
+	$scope.otherBasicInfo = function(){
+
+		$rootScope.pageChanger.reportAccidents.basicInfo = false;
+		$rootScope.pageChanger.reportAccidents.areaLocation = false;
+		$rootScope.pageChanger.reportAccidents.otherBasicInfo = true;
+	}
+
+	//function to set number of vehicles and witness as well attendant
+	$scope.setNumberOfVehicleWitness = function(){
+
+		$rootScope.pageChanger.reportAccidents.basicInfo = false;
+		$rootScope.pageChanger.reportAccidents.areaLocation = false;
+		$rootScope.pageChanger.reportAccidents.otherBasicInfo = false;
+		$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = true;
+	}
+
+	//function to show form for verification of basic information during accident registration
+	$scope.verifyBasicInfo = function(){
+		$rootScope.pageChanger.reportAccidents.basicInfo = true;
+		$rootScope.pageChanger.reportAccidents.areaLocation = true;
+		$rootScope.pageChanger.reportAccidents.otherBasicInfo = true;
+		$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = true;
+	}
+
 
 	/*
-	*functions for frexiable forms
+	*functions for flexible forms
 	 */
 	$scope.isInteger = function(key){
 		return $scope.is(key,"int");
