@@ -495,6 +495,7 @@ function ReportAccidentsController($scope,$rootScope){
 	$scope.newAccidentBasicInfoOtherData = {}
 
 	$scope.newAccidentVehicle = [];
+	$scope.newAccidentWitness = [];
 
 	//function to set visibility for area of accident sub-form and time
 	$scope.areaLocation = function(){
@@ -579,7 +580,7 @@ function ReportAccidentsController($scope,$rootScope){
 			$rootScope.pageChanger.reportAccidents.accidentVehicles = true;
 		}else{
 			$scope.verifyBasicInfo();
-			$scope.setNumberOfVehicleWitnessMessage = 'Please Number Of Vehicle(s)';
+			$scope.setNumberOfVehicleWitnessMessage = 'Please Enter Number Of Vehicle(s)';
 		}
 	}
 
@@ -588,19 +589,49 @@ function ReportAccidentsController($scope,$rootScope){
 	 */
 	$scope.nextVehicle = function(vehicle){
 
-		if(vehicle == $scope.newAccidentBasicInfoOtherData.numberOfVehicle -1){
-			console.log('Ready for witness form')
-		}else{
-			//set visibility for next vehicle
-			if($scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'] && $scope.newAccidentVehicle[vehicle].data['Licence Number']){
+		$scope.newAccidentVehicleMessage ='';
+
+		//set visibility for next vehicle
+		if($scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'] && $scope.newAccidentVehicle[vehicle].data['Licence Number']){
+
+			if(vehicle == $scope.newAccidentBasicInfoOtherData.numberOfVehicle -1){
+				//checking for witness form
+				if($scope.newAccidentBasicInfoOtherData.numberOfWitness > 0){
+					var witnessObjet = [];
+					for(var i = 0; i < $scope.newAccidentBasicInfoOtherData.numberOfWitness; i ++){
+						witnessObjet.push(i);
+						if(i == 0){
+							$scope.newAccidentWitness.push({
+								'witness' : i,
+								'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
+								'data' : {},
+								'visibility' : true
+							});
+						}else{
+							$scope.newAccidentWitness.push({
+								'witness' : i,
+								'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
+								'data' : {},
+								'visibility' : false
+							});
+						}
+					}
+
+					$scope.witnesses = witnessObjet;
+
+					//hide accident vehicles forms
+					$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
+					$rootScope.pageChanger.reportAccidents.accidentWitness = true;
+				}else{
+					console.log('No witness');
+				}
+			}else {
 				$scope.newAccidentVehicle[vehicle].visibility = false;
 				$scope.newAccidentVehicle[vehicle + 1].visibility = true;
-			}else{
-				$scope.newAccidentVehicleMessage ='Please Enter Vehicle Plate Number/Registration Number or Licence Number for Vehicle ' + (vehicle + 1);
 			}
-
+		}else{
+			$scope.newAccidentVehicleMessage ='Please Enter Vehicle Plate Number/Registration Number or Licence Number for Vehicle ' + (vehicle + 1);
 		}
-
 
 	}
 
