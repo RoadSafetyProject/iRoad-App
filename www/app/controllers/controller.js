@@ -588,7 +588,19 @@ function ReportAccidentsController($scope,$rootScope){
 	 */
 	$scope.nextVehicle = function(vehicle){
 
-		console.log('Vehicle : ' + vehicle);
+		if(vehicle == $scope.newAccidentBasicInfoOtherData.numberOfVehicle -1){
+			console.log('Ready for witness form')
+		}else{
+			//set visibility for next vehicle
+			if($scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'] && $scope.newAccidentVehicle[vehicle].data['Licence Number']){
+				$scope.newAccidentVehicle[vehicle].visibility = false;
+				$scope.newAccidentVehicle[vehicle + 1].visibility = true;
+			}else{
+				$scope.newAccidentVehicleMessage ='Please Enter Vehicle Plate Number/Registration Number or Licence Number for Vehicle ' + (vehicle + 1);
+			}
+
+		}
+
 
 	}
 
