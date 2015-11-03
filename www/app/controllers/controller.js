@@ -624,6 +624,15 @@ function ReportAccidentsController($scope,$rootScope){
 					$rootScope.pageChanger.reportAccidents.accidentWitness = true;
 				}else{
 					console.log('No witness');
+					/*
+					*
+					* *
+					* 8888*
+					* 8
+					* 88
+					* 8
+					*
+					 */
 				}
 			}else {
 				$scope.newAccidentVehicle[vehicle].visibility = false;
@@ -634,6 +643,33 @@ function ReportAccidentsController($scope,$rootScope){
 		}
 
 	}
+
+
+	/*
+	functions to handle all actions for witness forms
+
+	 */
+	$scope.nextWitness = function(witness){
+
+		$scope.newAccidentWitnessMessage = '';
+
+		//checking for first name, last name and phone number
+		if($scope.newAccidentWitness[witness].data['First Name'] && $scope.newAccidentWitness[witness].data['Last Name'] && $scope.newAccidentWitness[witness].data['Phone Number']){
+
+			if(witness == $scope.newAccidentBasicInfoOtherData.numberOfWitness - 1){
+				console.log('ready to save');
+			}else{
+				$scope.newAccidentWitness[witness].visibility = false;
+				$scope.newAccidentWitness[witness + 1].visibility = true;
+			}
+		}else{
+
+			$scope.newAccidentWitnessMessage = 'You must enter first name, last name and phone number of accident witness ' + (witness + 1);
+		}
+
+	}
+
+
 
 
 

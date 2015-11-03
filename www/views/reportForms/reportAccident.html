@@ -159,9 +159,38 @@
         <div class="row">
             <h5>Accident Witness Information</h5>
 
+            <div ng-repeat="witness in witnesses">
+                <div ng-show="newAccidentWitness[witness].visibility">
+                    <div class="col s12">
+                        <p class="flow-text">Accident Witness {{ witness + 1 }}</p>
 
-            {{ witnesses}}
-            {{  newAccidentWitness }}
+                        <div ng-repeat="(key,value) in newAccidentWitness[witness].dataElements">
+                            <label class="col s12 input-field" ng-show ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
+                            <div class="col s12 input-field" >
+                                <input ng-model="newAccidentWitness[witness].data[key]" ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
+                                <input ng-model="newAccidentWitness[witness].data[key]" ng-show="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                                <select ng-model="newAccidentWitness[witness].data[key]" ng-show="isBoolean(key)"  class="browser-default" id = "{{key}}" >
+                                    <option style="padding: 5px;" value="true">Yes</option>
+                                    <option style="padding: 5px;" value="false">No</option>
+                                </select>
+                                <select ng-model="newAccidentWitness[witness].data[key]" ng-show="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                                    <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
+                                </select>
+                                <input ng-model="newAccidentWitness[witness].data[key]" ng-show="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
+                                <label ng-hide ="hasDataSets(key) || isDate(key) || isBoolean(key)" for = "{{ key }}">{{ key }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <p class="red-text flow-text">{{ newAccidentWitnessMessage }}</p>
+                    </div>
+                    <div class="col s12">
+                        <button class="btn waves-effect waves-light blue" ng-click="nextWitness(witness)">Next</button>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
 
