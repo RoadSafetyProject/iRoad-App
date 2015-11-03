@@ -494,6 +494,8 @@ function ReportAccidentsController($scope,$rootScope){
 	$scope.newAccidentBasicInfo = {};
 	$scope.newAccidentBasicInfoOtherData = {}
 
+	$scope.newAccidentVehicle = [];
+
 	//function to set visibility for area of accident sub-form and time
 	$scope.areaLocation = function(){
 		$rootScope.pageChanger.reportAccidents.basicInfo = false;
@@ -526,10 +528,70 @@ function ReportAccidentsController($scope,$rootScope){
 		$rootScope.pageChanger.reportAccidents.areaLocation = true;
 		$rootScope.pageChanger.reportAccidents.otherBasicInfo = true;
 		$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = true;
-
-		console.log('Basic info : ' + JSON.stringify($scope.newAccidentBasicInfo));
-		console.log('Basic info other data : ' + JSON.stringify($scope.newAccidentBasicInfoOtherData));
+		$rootScope.pageChanger.reportAccidents.button = true;
+		$scope.setNumberOfVehicleWitnessMessage = '';
 	}
+
+
+	/*
+	*functions for accident vehicles
+	 */
+
+	$scope.accidentVehicleForm = function(){
+
+		//close all forms for basic information
+		$rootScope.pageChanger.reportAccidents.basicInfo = false;
+		$rootScope.pageChanger.reportAccidents.areaLocation = false;
+		$rootScope.pageChanger.reportAccidents.otherBasicInfo = false;
+
+		if($scope.newAccidentBasicInfoOtherData.numberOfVehicle > 0){
+
+			$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = false;
+			//set array object of vehicles
+			var vehicleObject = [];
+			for(var i = 0; i < $scope.newAccidentBasicInfoOtherData.numberOfVehicle; i ++){
+				vehicleObject.push(i);
+
+				//add vehicle form
+				if(i == 0){
+					$scope.newAccidentVehicle.push({
+							'vehicle': i,
+							'dataElements' : $rootScope.reportingForms.Accident.accidentVehicle,
+							'data' : {},
+							'visibility' : true
+						}
+					);
+				}
+				else{
+					$scope.newAccidentVehicle.push({
+							'vehicle': i,
+							'dataElements' : $rootScope.reportingForms.Accident.accidentVehicle,
+							'data' : {},
+							'visibility' : false
+						}
+					);
+				}
+			}
+
+			$scope.vehicles = vehicleObject;
+
+			//open form for accident vehicle
+			$rootScope.pageChanger.reportAccidents.accidentVehicles = true;
+		}else{
+			$scope.verifyBasicInfo();
+			$scope.setNumberOfVehicleWitnessMessage = 'Please Number Of Vehicle(s)';
+		}
+	}
+
+	/*
+	*function to change to next vehicle
+	 */
+	$scope.nextVehicle = function(vehicle){
+
+		console.log('Vehicle : ' + vehicle);
+
+	}
+
 
 
 	/*
@@ -558,12 +620,12 @@ function ReportAccidentsController($scope,$rootScope){
 	}
 	$scope.isBoolean = function(key){
 		return $scope.is(key,"bool");
-		console.log('ok')
 	}
 	$scope.hasDataSets = function(key){
 		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
 			if(iroad2.data.dataElements[j].name == key){
 				return (iroad2.data.dataElements[j].optionSet != undefined);
+
 			}
 		};
 		return false;
@@ -571,7 +633,9 @@ function ReportAccidentsController($scope,$rootScope){
 	$scope.getOptionSets = function(key){
 		for(j = 0 ;j < iroad2.data.dataElements.length;j++){
 			if(iroad2.data.dataElements[j].name == key){
-				return iroad2.data.dataElements[j].optionSet.options;
+				if(iroad2.data.dataElements[j].optionSet){
+					return iroad2.data.dataElements[j].optionSet.options;
+				}
 			}
 		};
 		return false;
