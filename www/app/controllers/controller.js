@@ -491,13 +491,15 @@ function VehicleVerificationController($scope,$rootScope){
  */
 function ReportAccidentsController($scope,$rootScope){
 
-	$scope.newAccident = {};
+	$scope.newAccidentBasicInfo = {};
+	$scope.newAccidentBasicInfoOtherData = {}
 
 	//function to set visibility for area of accident sub-form and time
 	$scope.areaLocation = function(){
 		$rootScope.pageChanger.reportAccidents.basicInfo = false;
 		$rootScope.pageChanger.reportAccidents.areaLocation = true;
-		console.log('area of accident')
+		$rootScope.pageChanger.reportAccidents.otherBasicInfo = false;
+		$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = false;
 	}
 
 	//function to set visibility of other parts for basic info for an accident
@@ -506,6 +508,7 @@ function ReportAccidentsController($scope,$rootScope){
 		$rootScope.pageChanger.reportAccidents.basicInfo = false;
 		$rootScope.pageChanger.reportAccidents.areaLocation = false;
 		$rootScope.pageChanger.reportAccidents.otherBasicInfo = true;
+		$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = false;
 	}
 
 	//function to set number of vehicles and witness as well attendant
@@ -523,6 +526,9 @@ function ReportAccidentsController($scope,$rootScope){
 		$rootScope.pageChanger.reportAccidents.areaLocation = true;
 		$rootScope.pageChanger.reportAccidents.otherBasicInfo = true;
 		$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = true;
+
+		console.log('Basic info : ' + JSON.stringify($scope.newAccidentBasicInfo));
+		console.log('Basic info other data : ' + JSON.stringify($scope.newAccidentBasicInfoOtherData));
 	}
 
 

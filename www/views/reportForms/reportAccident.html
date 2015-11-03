@@ -5,43 +5,88 @@
         <div class="row" ng-show="pageChanger.reportAccidents.basicInfo == true" >
             <h5>Basic information </h5>
             <div ng-repeat="(key,value) in reportingForms.Accident.basicInfo">
-                <label class="col s12 input-field" ng-show ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
-                <div class="col s12 input-field" >
-
-                    <input ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
-                    <input  ng-show="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
-                    <select ng-show="isBoolean(key)"  class="browser-default" id = "{{key}}" >
-                        <option style="padding: 5px;" value="true">Yes</option>
-                        <option style="padding: 5px;" value="false">No</option>
-                    </select>
-                    <select ng-show="hasDataSets(key)" class="browser-default" id = "{{key}}">
-                        <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
-                    </select>
-                    <input  ng-show="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
-                    <label ng-hide ="hasDataSets(key) || isDate(key) || isBoolean(key)" for = "{{ key }}">{{ key }}</label>
+                <div ng-show="key == 'Cause of Accident' || key == 'Accident Class' ||key == 'Accident Registration Number' ||key == 'Accident Type' || key == 'Accident Type Detail'">
+                    <label class="col s12 input-field" ng-show ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
+                    <div class="col s12 input-field" >
+                        <input ng-model="newAccidentBasicInfo[key]" ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
+                        <input ng-model="newAccidentBasicInfo[key]" ng-show="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                        <select ng-model="newAccidentBasicInfo[key]" ng-show="isBoolean(key)"  class="browser-default" id = "{{key}}" >
+                            <option style="padding: 5px;" value="true">Yes</option>
+                            <option style="padding: 5px;" value="false">No</option>
+                        </select>
+                        <select ng-model="newAccidentBasicInfo[key]" ng-show="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                            <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
+                        </select>
+                        <input ng-model="newAccidentBasicInfo[key]" ng-show="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
+                        <label ng-hide ="hasDataSets(key) || isDate(key) || isBoolean(key)" for = "{{ key }}">{{ key }}</label>
+                    </div>
                 </div>
             </div>
-
         </div>
 
         <!-- area and location -->
         <div class="row" ng-show = "pageChanger.reportAccidents.areaLocation ==true">
-            <h5>Area and Location</h5>
+            <h5>Time and Location</h5>
+            <div ng-repeat="(key,value) in reportingForms.Accident.basicInfo">
+                <div ng-show = "key == 'Time of Accident' ||key == 'Road Number' ||key == 'Road Name' ||key == 'Road Mark' ||key == 'Area of Accident' ||key == 'Intersection Mark' ||key == 'Intersection Name' || key == 'Intersection Number'">
+
+                    <label class="col s12 input-field" ng-show ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
+                    <div class="col s12 input-field" >
+                        <input ng-model="newAccidentBasicInfo[key]" ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
+                        <input ng-model="newAccidentBasicInfo[key]" ng-show="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                        <select ng-model="newAccidentBasicInfo[key]" ng-show="isBoolean(key)"  class="browser-default" id = "{{key}}" >
+                            <option style="padding: 5px;" value="true">Yes</option>
+                            <option style="padding: 5px;" value="false">No</option>
+                        </select>
+                        <select ng-model="newAccidentBasicInfo[key]" ng-show="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                            <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
+                        </select>
+                        <input ng-model="newAccidentBasicInfo[key]" ng-show="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
+                        <label ng-hide ="hasDataSets(key) || isDate(key) || isBoolean(key)" for = "{{ key }}">{{ key }}</label>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <!-- other necessary information -->
         <div class="row" ng-show="pageChanger.reportAccidents.otherBasicInfo == true">
             <h5>Other Information</h5>
+            <div ng-repeat="(key,value) in reportingForms.Accident.basicInfo">
+                <div ng-hide="key == 'Cause of Accident' || key == 'Accident Class' ||key == 'Accident Registration Number' ||key == 'Accident Type' || key == 'Accident Type Detail'||key == 'Time of Accident' ||key == 'Road Number' ||key == 'Road Name' ||key == 'Road Mark' ||key == 'Area of Accident' ||key == 'Intersection Mark' ||key == 'Intersection Name' || key == 'Intersection Number'">
+                    <label class="col s12 input-field" ng-show ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
+                    <div class="col s12 input-field" >
+                        <input ng-model="newAccidentBasicInfo[key]" ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
+                        <input ng-model="newAccidentBasicInfo[key]" ng-show="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                        <select ng-model="newAccidentBasicInfo[key]" ng-show="isBoolean(key)"  class="browser-default" id = "{{key}}" >
+                            <option style="padding: 5px;" value="true">Yes</option>
+                            <option style="padding: 5px;" value="false">No</option>
+                        </select>
+                        <select ng-model="newAccidentBasicInfo[key]" ng-show="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                            <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
+                        </select>
+                        <input ng-model="newAccidentBasicInfo[key]" ng-show="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
+                        <label ng-hide ="hasDataSets(key) || isDate(key) || isBoolean(key)" for = "{{ key }}">{{ key }}</label>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- vehicles, witness and attendants -->
         <div class="row" ng-show="pageChanger.reportAccidents.setNumberOfVehicleWitness == true">
             <h5>Vehicle, Witness and Attendants</h5>
+            <div class="col s12 input-field">
+                <input id="numberOfVehicle" ng-model = "newAccidentBasicInfoOtherData.numberOfVehicle" type="text" class="validate">
+                <label for="numberOfVehicle">Number Of Vehicle</label>
+            </div>
+            <div class="col s12 input-field">
+                <input id="numberOfWitness" ng-model = "newAccidentBasicInfoOtherData.numberOfWitness" type="text" class="validate">
+                <label for="numberOfWitness">Number Of Witness</label>
+            </div>
+            <div class="col s12 input-field">
+                <input id="attendant" ng-model = "newAccidentBasicInfoOtherData.attendant" type="text" class="validate">
+                <label for="attendant">Accident Attendant </label>
+            </div>
         </div>
-
-
-
-
-
 
     </div>
 
@@ -53,5 +98,8 @@
             <button style="margin: 7px;" class="btn waves-effect waves-light blue " ng-click="verifyBasicInfo()">verifyBasicInfo</button>
         </div>
     </div>
+
+    <hr>
+    {{ newAccidentBasicInfo }}
 
 </div>
