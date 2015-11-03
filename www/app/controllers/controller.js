@@ -551,10 +551,12 @@ function ReportAccidentsController($scope,$rootScope){
 			//set array object of vehicles
 			var vehicleObject = [];
 			for(var i = 0; i < $scope.newAccidentBasicInfoOtherData.numberOfVehicle; i ++){
+
 				vehicleObject.push(i);
 
 				//add vehicle form
 				if(i == 0){
+
 					$scope.newAccidentVehicle.push({
 							'vehicle': i,
 							'dataElements' : $rootScope.reportingForms.Accident.accidentVehicle,
@@ -564,6 +566,7 @@ function ReportAccidentsController($scope,$rootScope){
 					);
 				}
 				else{
+
 					$scope.newAccidentVehicle.push({
 							'vehicle': i,
 							'dataElements' : $rootScope.reportingForms.Accident.accidentVehicle,
@@ -579,6 +582,7 @@ function ReportAccidentsController($scope,$rootScope){
 			//open form for accident vehicle
 			$rootScope.pageChanger.reportAccidents.accidentVehicles = true;
 		}else{
+
 			$scope.verifyBasicInfo();
 			$scope.setNumberOfVehicleWitnessMessage = 'Please Enter Number Of Vehicle(s)';
 		}
@@ -597,10 +601,13 @@ function ReportAccidentsController($scope,$rootScope){
 			if(vehicle == $scope.newAccidentBasicInfoOtherData.numberOfVehicle -1){
 				//checking for witness form
 				if($scope.newAccidentBasicInfoOtherData.numberOfWitness > 0){
+
 					var witnessObjet = [];
 					for(var i = 0; i < $scope.newAccidentBasicInfoOtherData.numberOfWitness; i ++){
+
 						witnessObjet.push(i);
 						if(i == 0){
+
 							$scope.newAccidentWitness.push({
 								'witness' : i,
 								'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
@@ -608,6 +615,7 @@ function ReportAccidentsController($scope,$rootScope){
 								'visibility' : true
 							});
 						}else{
+
 							$scope.newAccidentWitness.push({
 								'witness' : i,
 								'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
@@ -623,22 +631,17 @@ function ReportAccidentsController($scope,$rootScope){
 					$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
 					$rootScope.pageChanger.reportAccidents.accidentWitness = true;
 				}else{
-					console.log('No witness');
-					/*
-					*
-					* *
-					* 8888*
-					* 8
-					* 88
-					* 8
-					*
-					 */
+
+					//saving reported information
+					$scope.saveAccident();
 				}
 			}else {
+
 				$scope.newAccidentVehicle[vehicle].visibility = false;
 				$scope.newAccidentVehicle[vehicle + 1].visibility = true;
 			}
 		}else{
+
 			$scope.newAccidentVehicleMessage ='Please Enter Vehicle Plate Number/Registration Number or Licence Number for Vehicle ' + (vehicle + 1);
 		}
 
@@ -657,8 +660,11 @@ function ReportAccidentsController($scope,$rootScope){
 		if($scope.newAccidentWitness[witness].data['First Name'] && $scope.newAccidentWitness[witness].data['Last Name'] && $scope.newAccidentWitness[witness].data['Phone Number']){
 
 			if(witness == $scope.newAccidentBasicInfoOtherData.numberOfWitness - 1){
-				console.log('ready to save');
+
+				//saving accident information
+				$scope.saveAccident();
 			}else{
+
 				$scope.newAccidentWitness[witness].visibility = false;
 				$scope.newAccidentWitness[witness + 1].visibility = true;
 			}
@@ -667,6 +673,19 @@ function ReportAccidentsController($scope,$rootScope){
 			$scope.newAccidentWitnessMessage = 'You must enter first name, last name and phone number of accident witness ' + (witness + 1);
 		}
 
+	}
+
+
+	/*
+	 function to save accident
+	 */
+	$scope.saveAccident = function(){
+
+		$rootScope.pageChanger.reportAccidents.accidentWitness = false;
+		$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
+
+		$rootScope.pageChanger.reportAccidents.save = true;
+		$rootScope.configuration.loadingData = true;
 	}
 
 
