@@ -1,4 +1,4 @@
-var appControllers = angular.module('appControllers', ['appServices']);
+var appControllers = angular.module('appControllers', ['appServices','multi-select']);
 
 //definition of functions
 appControllers.controller('LoginController',LoginController);
@@ -7,7 +7,6 @@ appControllers.controller('DriverVerificationController', DriverVerificationCont
 appControllers.controller('VehicleVerificationController', VehicleVerificationController);
 
 appControllers.controller('ReportAccidentsController', ReportAccidentsController);
-appControllers.controller('ReportOffenceHomeController', ReportOffenceHomeController);
 appControllers.controller('ReportOffenceController', ReportOffenceController);
 appControllers.controller('PaymentsController',PaymentsController);
 appControllers.controller('DriverLicenceVerificationController',DriverLicenceVerificationController);
@@ -102,9 +101,31 @@ function LoginController($scope,$location,$rootScope){
 										refferencePrefix: "Program_"
 									};
 
+									/*
+
+
+									 */
+
+									$scope.data = {};
+									$scope.onInitialize = function(){
+										var registries = new iroad2.data.Modal("Offence Registry",[]);
+										registries.getAll(function(result){
+											$scope.data.registries = result;
+											$scope.$apply();
+											console.log('offence registry : ' +JSON.stringify(result))
+										});
+
+									}
+									/*dhisConfigs.onLoad = function(){
+										$scope.onInitialize();
+									}
+
+
+*/
 									$rootScope.configuration.config = dhisConfigs;
 									dhisConfigs.onLoad = function () {
 										console.log('success loading library');
+										$scope.onInitialize();
 									}
 									iroad2.Init(dhisConfigs);
 									$rootScope.configuration.userData = loginUserData;
@@ -225,6 +246,10 @@ function HomeController($scope,$rootScope){
 			}
 		});
 
+		$rootScope.reportingForms.offence = {
+			'dataElements' : event
+
+		}
 		console.log('Form : ' + JSON.stringify(event))
 	}
 
@@ -766,15 +791,62 @@ function ReportAccidentsController($scope,$rootScope){
 }
 
 
-function ReportOffenceHomeController($scope,$location,$rootScope){
 
-
-}
-
-
+/*
+*controller for reporting offense
+ */
 function ReportOffenceController($scope,$rootScope){
 
 
+
+
+
+	/*
+	 *functions for flexible forms
+	 */
+	$scope.isInteger = function(key){
+		return $scope.is(key,"int");
+	}
+	$scope.isDate = function(key){
+		return $scope.is(key,"date");
+	}
+	$scope.isString = function(key){
+		return $scope.is(key,"string");
+	}
+
+	$scope.is = function(key,dataType){
+		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
+			if(iroad2.data.dataElements[j].name == key){
+				if(iroad2.data.dataElements[j].type == dataType){
+					return true;
+				}
+				break;
+			}
+		};
+		return false;
+	}
+	$scope.isBoolean = function(key){
+		return $scope.is(key,"bool");
+	}
+	$scope.hasDataSets = function(key){
+		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
+			if(iroad2.data.dataElements[j].name == key){
+				return (iroad2.data.dataElements[j].optionSet != undefined);
+
+			}
+		};
+		return false;
+	}
+	$scope.getOptionSets = function(key){
+		for(j = 0 ;j < iroad2.data.dataElements.length;j++){
+			if(iroad2.data.dataElements[j].name == key){
+				if(iroad2.data.dataElements[j].optionSet){
+					return iroad2.data.dataElements[j].optionSet.options;
+				}
+			}
+		};
+		return false;
+	}
 }
 
 
