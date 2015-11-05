@@ -9,16 +9,16 @@
                 <div ng-show="key == 'Driver License Number' || key == 'Vehicle Plate Number/Registration Number'">
                     <label class="col s12 input-field" ng-show ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
                     <div class="col s12 input-field" >
-                        <input ng-model="data" ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
-                        <input ng-model="data" ng-show="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
-                        <select ng-model="data" ng-show="isBoolean(key)"  class="browser-default" id = "{{key}}" >
+                        <input ng-model="offenseForm" ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
+                        <input ng-model="offenseForm" ng-show="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                        <select ng-model="offenseForm" ng-show="isBoolean(key)"  class="browser-default" id = "{{key}}" >
                             <option style="padding: 5px;" value="true">Yes</option>
                             <option style="padding: 5px;" value="false">No</option>
                         </select>
-                        <select ng-model="data" ng-show="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                        <select ng-model="offenseForm" ng-show="hasDataSets(key)" class="browser-default" id = "{{key}}">
                             <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                         </select>
-                        <input ng-model="data" ng-show="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
+                        <input ng-model="offenseForm" ng-show="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
                         <label ng-hide ="hasDataSets(key) || isDate(key) || isBoolean(key)" for = "{{ key }}">{{ key }}</label>
                     </div>
                 </div>
@@ -35,23 +35,34 @@
                 <div ng-show="key == 'Offence Facts' || key == 'Offence Place' || key == 'Offence Facts' || key == 'Offence Date'">
                     <label class="col s12 input-field" ng-show ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
                     <div class="col s12 input-field" >
-                        <input ng-model="data" ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
-                        <input ng-model="data" ng-show="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
-                        <select ng-model="data" ng-show="isBoolean(key)"  class="browser-default" id = "{{key}}" >
+                        <input ng-model="offenseForm" ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
+                        <input ng-model="offenseForm" ng-show="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                        <select ng-model="offenseForm" ng-show="isBoolean(key)"  class="browser-default" id = "{{key}}" >
                             <option style="padding: 5px;" value="true">Yes</option>
                             <option style="padding: 5px;" value="false">No</option>
                         </select>
-                        <select ng-model="data" ng-show="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                        <select ng-model="offenseForm" ng-show="hasDataSets(key)" class="browser-default" id = "{{key}}">
                             <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                         </select>
-                        <input ng-model="data" ng-show="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
+                        <input ng-model="offenseForm" ng-show="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
                         <label ng-hide ="hasDataSets(key) || isDate(key) || isBoolean(key)" for = "{{ key }}">{{ key }}</label>
                     </div>
                 </div>
             </div>
 
-            {{ editInputModal }}
+            <div class="col s12">
+                <label>Offenses</label>
+                Search: <input type = "text" ng-model = "search">
+                <p ng-repeat="offenseRegistry in reportingForms.offence.editInput |filter: search">
+                    <input type="checkbox" id="{{ offenseRegistry.id }}" />
+                    <label for="{{ offenseRegistry.id }}">{{ offenseRegistry.Nature }}</label>
+                </p>
 
+            </div>
+
+            <div class="col s12">
+                <button class="btn waves-light waves-effect blue">Report Offense</button>
+            </div>
 
         </div>
     </div>

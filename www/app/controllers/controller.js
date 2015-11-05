@@ -101,30 +101,17 @@ function LoginController($scope,$location,$rootScope){
 										refferencePrefix: "Program_"
 									};
 
-									/*
-
-
-									 */
-
-									$scope.data = {};
+									$rootScope.dataOffense = {};
 									$scope.onInitialize = function(){
 										var registries = new iroad2.data.Modal("Offence Registry",[]);
 										registries.getAll(function(result){
-											$scope.data.registries = result;
-											$scope.$apply();
-											console.log('offence registry : ' +JSON.stringify(result))
+											$rootScope.dataOffense.registries = result;
+											$rootScope.$apply();
 										});
-
-									}
-									/*dhisConfigs.onLoad = function(){
-										$scope.onInitialize();
 									}
 
-
-*/
 									$rootScope.configuration.config = dhisConfigs;
 									dhisConfigs.onLoad = function () {
-										console.log('success loading library');
 										$scope.onInitialize();
 									}
 									iroad2.Init(dhisConfigs);
@@ -250,7 +237,23 @@ function HomeController($scope,$rootScope){
 			'dataElements' : event
 
 		}
-		console.log('Form : ' + JSON.stringify(event))
+
+		$scope.editInputModal = [];
+		angular.forEach($rootScope.dataOffense.registries, function (registry) {
+			registry.selected = false;
+			angular.forEach($rootScope.reportingForms.offence.Offence, function (off) {
+				if(off.Offence_Registry.id == registry.id){
+					registry.selected = true;
+				}
+			});
+			$scope.editInputModal.push(registry);
+		});
+
+		$rootScope.reportingForms.offence = {
+			'dataElements' : event,
+			'editInput' : $scope.editInputModal
+
+		}
 	}
 
 	//control driver verification view form
@@ -259,7 +262,6 @@ function HomeController($scope,$rootScope){
 
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.verifyDriver = {'home': true};
-		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
 	//control vehicle verification view form
@@ -268,7 +270,6 @@ function HomeController($scope,$rootScope){
 
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.verifyVehicle = {'home': true};
-		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
 	//control links for reporting accident form
@@ -280,7 +281,6 @@ function HomeController($scope,$rootScope){
 		};
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.reportAccidents = {'home': true,'basicInfo' : true};
-		console.log(JSON.stringify($rootScope.pageChanger));
 		$scope.prepareAccidentForms();
 	}
 
@@ -374,7 +374,6 @@ function HomeController($scope,$rootScope){
 
 		$rootScope.pageChanger = {}
 		$rootScope.pageChanger.settingConfigurations = {'home': true}
-		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
 	//to loguot form the system
