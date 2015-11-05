@@ -197,7 +197,35 @@ function HomeController($scope,$rootScope){
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.reportOffense = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
+		$scope.prepareOffenseForms();
 
+	}
+
+	//function to prepare form for reporting offense
+	$scope.prepareOffenseForms = function(){
+
+		var offenseModal = new iroad2.data.Modal("Offence Event",[new iroad2.data.Relation("Offence Registry","Offence")]);
+		var modalName = offenseModal.getModalName();
+		var event = {};
+		angular.forEach(iroad2.data.programs, function (program) {
+			if (program.name == modalName) {
+				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
+					if(dataElement.dataElement.name.startsWith(iroad2.config.refferencePrefix)){
+						event[dataElement.dataElement.name.replace(iroad2.config.refferencePrefix,"")] = {};
+					}else{
+						event[dataElement.dataElement.name] = "";
+					}
+
+				});
+			}
+		});
+		angular.forEach(offenseModal.getRelationships(), function (relationship) {
+			if(relationship.pivot){
+				event[relationship.pivot] = [];
+			}
+		});
+
+		console.log('Form : ' + JSON.stringify(event))
 	}
 
 	//control driver verification view form
@@ -687,9 +715,6 @@ function ReportAccidentsController($scope,$rootScope){
 		$rootScope.pageChanger.reportAccidents.save = true;
 		$rootScope.configuration.loadingData = true;
 	}
-
-
-
 
 
 	/*
