@@ -809,15 +809,12 @@ function ReportOffenceController($scope,$rootScope){
 	$scope.selected = null;
 
 	$scope.selectOffense = function(dataList){
-
 		var selectedOffenses = []
-
 		angular.forEach(dataList,function(data){
 
 			if(data.selected){
 				selectedOffenses.push(data);
 			}
-
 		});
 		$scope.selected = selectedOffenses
 
@@ -829,8 +826,14 @@ function ReportOffenceController($scope,$rootScope){
 	}
 
 	$scope.offenseList = false;
+	$scope.offenseCount = 0;
 	$scope.addOffense = function(){
 		$scope.offenseList = ! $scope.offenseList;
+		$scope.selectOffense($rootScope.reportingForms.offence.editInput);
+		if($scope.selected){
+			$scope.offenseCount = $scope.selected.length;
+		}
+
 	}
 
 
