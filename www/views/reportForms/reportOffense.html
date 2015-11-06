@@ -34,7 +34,7 @@
 
                 <!-- offense details -->
                 <div ng-repeat="(key,value) in reportingForms.offence.dataElements">
-                    <div ng-show="key == 'Offence Facts' || key == 'Offence Place' || key == 'Offence Facts' || key == 'Offence Date'">
+                    <div ng-show="key == 'Offence Admission Status' || key == 'Offence Facts' || key == 'Offence Place' || key == 'Offence Facts' || key == 'Offence Date'">
                         <label class="col s12 input-field" ng-show ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
                         <div class="col s12 input-field" >
                             <input ng-model="offenseForm" ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />

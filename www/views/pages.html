@@ -1,14 +1,20 @@
 <!-- login page -->
 <div ng-show="!configuration.loginPage" class=appLoginPage>
+    <div class="container">
+        <div class="row" style="margin-top:10%;text-align: center;margin-bottom:5%;">
+            <h5>iRoad 2.0 Mobile app</h5>
+            <img src="img/logo.png" widh = "100%">
+        </div>
+    </div>
 
     <div class="container">
 
-        <div class="row" ng-hide="loginFormAvailability" style="margin-top:39%;">
-            <h6 align="center">Set base url for iroad 2 server</h6>
+        <div class="row" ng-hide="loginFormAvailability" style="margin-top:20%;">
+            <h6 align="center" class="flow-text">Set base url for iroad 2 server</h6>
 
             <div class="col s12">
                 <input ng-model="configuration.url" type="text"
-                       placeholder="Enter url eg http://41.86.176.205:8080/demo/">
+                       placeholder="Enter url eg http://41.86.176.205:8080/demo">
             </div>
 
             <div class="col s6">
@@ -24,7 +30,7 @@
     <div class="container" ng-hide="!loginFormAvailability">
         <div class="row">
 
-            <div style="margin-top:40%;">
+            <div style="margin-top:20%;">
                 <p align="center" class="red-text">{{message}}</p>
 
                 <form>

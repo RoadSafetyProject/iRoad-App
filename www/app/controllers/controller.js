@@ -57,6 +57,7 @@ function LoginController($scope,$location,$rootScope){
 	}
 
 	$scope.login = function(){
+		$scope.message = null;
 		//checking for username and password has been entered
 		if ($scope.loginUser.username && $scope.loginUser.password) {
 			$rootScope.configuration.user = $scope.loginUser;
@@ -140,7 +141,7 @@ function LoginController($scope,$location,$rootScope){
 					failure : function(response) {
 						//fail to connect to the server
 						console.log('Data : ' + JSON.stringify(response))
-						$scope.message  = "Checking you network services";
+						$scope.message  = "Fail to load server : " + $rootScope.configuration.url;
 						$rootScope.configuration.loadingData = false;
 						$rootScope.$apply();
 					}
@@ -169,11 +170,18 @@ function LoginController($scope,$location,$rootScope){
 *for control all navigation actions to render a given page
  */
 function HomeController($scope,$rootScope){
+	$rootScope.reportingForms = {
+		'Accident' : {},
+		'Offence' : {}
+	};
 
 	//function to empty data
 	$scope.clearFormsFields = function(){
-		$rootScope.reportingForms.Accident = {};
-		$rootScope.reportingForms.Offence = {};
+		if($rootScope.reportingForms.Accident || $rootScope.reportingForms.Offence){
+			$rootScope.reportingForms.Accident = {};
+			$rootScope.reportingForms.Offence = {};
+		}
+
 	}
 
 	//function to handle profile for user
@@ -255,6 +263,8 @@ function HomeController($scope,$rootScope){
 
 		}
 	}
+
+
 
 	//control driver verification view form
 	$scope.verifyDriver = function(){
@@ -810,12 +820,12 @@ function ReportOffenceController($scope,$rootScope){
 
 		});
 		$scope.selected = selectedOffenses
-		console.log('selected offense is : ' + JSON.stringify($scope.selected) )
+
 	};
 
 	$scope.report = function(){
 		$scope.selectOffense($rootScope.reportingForms.offence.editInput);
-		console.log('Selected : ' + JSON.stringify($rootScope.reportingForms.offence.editInput));
+		console.log('selected offense is : ' + JSON.stringify($scope.selected))
 	}
 
 	$scope.offenseList = false;
