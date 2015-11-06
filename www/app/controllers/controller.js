@@ -796,7 +796,7 @@ function ReportAccidentsController($scope,$rootScope){
  */
 function ReportOffenceController($scope,$rootScope){
 
-
+	$scope.registry = [];
 
 
 

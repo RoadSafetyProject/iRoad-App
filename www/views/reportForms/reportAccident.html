@@ -10,11 +10,11 @@
                     <div class="col s12 input-field" >
                         <input ng-model="newAccidentBasicInfo[key]" ng-show="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
                         <input ng-model="newAccidentBasicInfo[key]" ng-show="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
-                        <select ng-model="newAccidentBasicInfo[key]" ng-show="isBoolean(key)"  class="browser-default" id = "{{key}}" >
+                        <select ng-model="newAccidentBasicInfo[key]" ng-show="isBoolean(key)"   id = "{{key}}" >
                             <option style="padding: 5px;" value="true">Yes</option>
                             <option style="padding: 5px;" value="false">No</option>
                         </select>
-                        <select ng-model="newAccidentBasicInfo[key]" ng-show="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                        <select ng-model="newAccidentBasicInfo[key]" ng-show="hasDataSets(key)"  id = "{{key}}">
                             <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                         </select>
                         <input ng-model="newAccidentBasicInfo[key]" ng-show="isDate(key)"  type="date" id = "{{key}}"  class="validate" />

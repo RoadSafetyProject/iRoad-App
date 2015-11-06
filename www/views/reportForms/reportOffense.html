@@ -51,12 +51,14 @@
             </div>
 
             <div class="col s12">
-                <label>Offenses</label>
+                <label>Offenses</label><br>
                 Search: <input type = "text" ng-model = "search">
                 <p ng-repeat="offenseRegistry in reportingForms.offence.editInput |filter: search">
-                    <input type="checkbox" id="{{ offenseRegistry.id }}" />
+                    <input ng-model = 'registry' type="checkbox" id="{{ offenseRegistry.id }}" />
                     <label for="{{ offenseRegistry.id }}">{{ offenseRegistry.Nature }}</label>
-                </p>
+                </p><br>
+                <p>{{ registry }}</p>
+
 
             </div>
 
