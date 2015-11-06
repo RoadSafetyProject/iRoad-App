@@ -796,7 +796,14 @@ function ReportAccidentsController($scope,$rootScope){
  */
 function ReportOffenceController($scope,$rootScope){
 
-	$scope.registry = [];
+	$scope.report = function(){
+		console.log('Selected : ' + JSON.stringify($rootScope.reportingForms.offence.editInput));
+	}
+
+	$scope.offenseList = false;
+	$scope.addOffense = function(){
+		$scope.offenseList = ! $scope.offenseList;
+	}
 
 
 
