@@ -1,4 +1,4 @@
-var appControllers = angular.module('appControllers', ['appServices']);
+var appControllers = angular.module('appControllers', ['appServices','multi-select']);
 
 //definition of functions
 appControllers.controller('LoginController',LoginController);
@@ -7,7 +7,6 @@ appControllers.controller('DriverVerificationController', DriverVerificationCont
 appControllers.controller('VehicleVerificationController', VehicleVerificationController);
 
 appControllers.controller('ReportAccidentsController', ReportAccidentsController);
-appControllers.controller('ReportOffenceHomeController', ReportOffenceHomeController);
 appControllers.controller('ReportOffenceController', ReportOffenceController);
 appControllers.controller('PaymentsController',PaymentsController);
 appControllers.controller('DriverLicenceVerificationController',DriverLicenceVerificationController);
@@ -94,6 +93,7 @@ function LoginController($scope,$location,$rootScope){
 									$rootScope.configuration.user = $scope.loginUser;
 									var loginUserData = JSON.parse(response.responseText);
 									$scope.loginUser = {};
+									$scope.$apply();
 
 									//loading library
 									var dhisConfigs = {
@@ -101,9 +101,18 @@ function LoginController($scope,$location,$rootScope){
 										refferencePrefix: "Program_"
 									};
 
+									$rootScope.dataOffense = {};
+									$scope.onInitialize = function(){
+										var registries = new iroad2.data.Modal("Offence Registry",[]);
+										registries.getAll(function(result){
+											$rootScope.dataOffense.registries = result;
+											$rootScope.$apply();
+										});
+									}
+
 									$rootScope.configuration.config = dhisConfigs;
 									dhisConfigs.onLoad = function () {
-										console.log('success loading library');
+										$scope.onInitialize();
 									}
 									iroad2.Init(dhisConfigs);
 									$rootScope.configuration.userData = loginUserData;
@@ -161,8 +170,15 @@ function LoginController($scope,$location,$rootScope){
  */
 function HomeController($scope,$rootScope){
 
+	//function to empty data
+	$scope.clearFormsFields = function(){
+		$rootScope.reportingForms.Accident = {};
+		$rootScope.reportingForms.Offence = {};
+	}
+
 	//function to handle profile for user
 	$scope.viewProfile = function(){
+		$scope.clearFormsFields();
 
 		console.log('data : ' + JSON.stringify($rootScope.configuration.userData));
 		$rootScope.pageChanger = {};
@@ -172,6 +188,8 @@ function HomeController($scope,$rootScope){
 
 	//function to render home page
 	$scope.home = function(){
+		$scope.clearFormsFields();
+
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.successLogin = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
@@ -182,26 +200,76 @@ function HomeController($scope,$rootScope){
 
 		$rootScope.reportingForms = {
 			'Accident' : {},
-			'offence' : {}
+			'Offence' : {}
 		};
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.reportOffense = {'home': true};
 		console.log(JSON.stringify($rootScope.pageChanger));
+		$scope.prepareOffenseForms();
 
+	}
+
+	//function to prepare form for reporting offense
+	$scope.prepareOffenseForms = function(){
+
+		var offenseModal = new iroad2.data.Modal("Offence Event",[new iroad2.data.Relation("Offence Registry","Offence")]);
+		var modalName = offenseModal.getModalName();
+		var event = {};
+		angular.forEach(iroad2.data.programs, function (program) {
+			if (program.name == modalName) {
+				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
+					if(dataElement.dataElement.name.startsWith(iroad2.config.refferencePrefix)){
+						event[dataElement.dataElement.name.replace(iroad2.config.refferencePrefix,"")] = {};
+					}else{
+						event[dataElement.dataElement.name] = "";
+					}
+
+				});
+			}
+		});
+		angular.forEach(offenseModal.getRelationships(), function (relationship) {
+			if(relationship.pivot){
+				event[relationship.pivot] = [];
+			}
+		});
+
+		$rootScope.reportingForms.offence = {
+			'dataElements' : event
+
+		}
+
+		$scope.editInputModal = [];
+		angular.forEach($rootScope.dataOffense.registries, function (registry) {
+			registry.selected = false;
+			angular.forEach($rootScope.reportingForms.offence.Offence, function (off) {
+				if(off.Offence_Registry.id == registry.id){
+					registry.selected = true;
+				}
+			});
+			$scope.editInputModal.push(registry);
+		});
+
+		$rootScope.reportingForms.offence = {
+			'dataElements' : event,
+			'editInput' : $scope.editInputModal
+
+		}
 	}
 
 	//control driver verification view form
 	$scope.verifyDriver = function(){
+		$scope.clearFormsFields();
+
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.verifyDriver = {'home': true};
-		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
 	//control vehicle verification view form
 	$scope.verifyVehicle = function(){
+		$scope.clearFormsFields();
+
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.verifyVehicle = {'home': true};
-		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
 	//control links for reporting accident form
@@ -212,8 +280,7 @@ function HomeController($scope,$rootScope){
 			'offence' : {}
 		};
 		$rootScope.pageChanger = {};
-		$rootScope.pageChanger.reportAccidents = {'home': true};
-		console.log(JSON.stringify($rootScope.pageChanger));
+		$rootScope.pageChanger.reportAccidents = {'home': true,'basicInfo' : true};
 		$scope.prepareAccidentForms();
 	}
 
@@ -307,11 +374,13 @@ function HomeController($scope,$rootScope){
 
 		$rootScope.pageChanger = {}
 		$rootScope.pageChanger.settingConfigurations = {'home': true}
-		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
 	//to loguot form the system
 	$scope.logOut = function(){
+		$scope.clearFormsFields();
+
+		$rootScope.configuration.loadingData = true;
 		var base = $rootScope.configuration.url;
 		Ext.Ajax.request({
 			url: base + '/dhis-web-commons-security/logout.action',
@@ -327,8 +396,15 @@ function HomeController($scope,$rootScope){
 				$scope.message = "Success log out ";
 				$scope.$apply();
 				$rootScope.configuration.loginPage = false;
+				$rootScope.configuration.loadingData = false;
 				$rootScope.$apply()
+			},
+			failure : function(){
+				$rootScope.configuration.loginPage = true;
+				$rootScope.$apply();
+				alert('fail to log out');
 			}
+
 		});
 	}
 }
@@ -467,19 +543,316 @@ function VehicleVerificationController($scope,$rootScope){
  */
 function ReportAccidentsController($scope,$rootScope){
 
+	$scope.newAccidentBasicInfo = {};
+	$scope.newAccidentBasicInfoOtherData = {}
 
+	$scope.newAccidentVehicle = [];
+	$scope.newAccidentWitness = [];
+
+	//function to set visibility for area of accident sub-form and time
+	$scope.areaLocation = function(){
+		$rootScope.pageChanger.reportAccidents.basicInfo = false;
+		$rootScope.pageChanger.reportAccidents.areaLocation = true;
+		$rootScope.pageChanger.reportAccidents.otherBasicInfo = false;
+		$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = false;
+	}
+
+	//function to set visibility of other parts for basic info for an accident
+	$scope.otherBasicInfo = function(){
+
+		$rootScope.pageChanger.reportAccidents.basicInfo = false;
+		$rootScope.pageChanger.reportAccidents.areaLocation = false;
+		$rootScope.pageChanger.reportAccidents.otherBasicInfo = true;
+		$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = false;
+	}
+
+	//function to set number of vehicles and witness as well attendant
+	$scope.setNumberOfVehicleWitness = function(){
+
+		$rootScope.pageChanger.reportAccidents.basicInfo = false;
+		$rootScope.pageChanger.reportAccidents.areaLocation = false;
+		$rootScope.pageChanger.reportAccidents.otherBasicInfo = false;
+		$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = true;
+	}
+
+	//function to show form for verification of basic information during accident registration
+	$scope.verifyBasicInfo = function(){
+		$rootScope.pageChanger.reportAccidents.basicInfo = true;
+		$rootScope.pageChanger.reportAccidents.areaLocation = true;
+		$rootScope.pageChanger.reportAccidents.otherBasicInfo = true;
+		$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = true;
+		$rootScope.pageChanger.reportAccidents.button = true;
+		$scope.setNumberOfVehicleWitnessMessage = '';
+	}
+
+
+	/*
+	*functions for accident vehicles
+	 */
+
+	$scope.accidentVehicleForm = function(){
+
+		//close all forms for basic information
+		$rootScope.pageChanger.reportAccidents.basicInfo = false;
+		$rootScope.pageChanger.reportAccidents.areaLocation = false;
+		$rootScope.pageChanger.reportAccidents.otherBasicInfo = false;
+
+		if($scope.newAccidentBasicInfoOtherData.numberOfVehicle > 0){
+
+			$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = false;
+			//set array object of vehicles
+			var vehicleObject = [];
+			for(var i = 0; i < $scope.newAccidentBasicInfoOtherData.numberOfVehicle; i ++){
+
+				vehicleObject.push(i);
+
+				//add vehicle form
+				if(i == 0){
+
+					$scope.newAccidentVehicle.push({
+							'vehicle': i,
+							'dataElements' : $rootScope.reportingForms.Accident.accidentVehicle,
+							'data' : {},
+							'visibility' : true
+						}
+					);
+				}
+				else{
+
+					$scope.newAccidentVehicle.push({
+							'vehicle': i,
+							'dataElements' : $rootScope.reportingForms.Accident.accidentVehicle,
+							'data' : {},
+							'visibility' : false
+						}
+					);
+				}
+			}
+
+			$scope.vehicles = vehicleObject;
+
+			//open form for accident vehicle
+			$rootScope.pageChanger.reportAccidents.accidentVehicles = true;
+		}else{
+
+			$scope.verifyBasicInfo();
+			$scope.setNumberOfVehicleWitnessMessage = 'Please Enter Number Of Vehicle(s)';
+		}
+	}
+
+	/*
+	*function to change to next vehicle
+	 */
+	$scope.nextVehicle = function(vehicle){
+
+		$scope.newAccidentVehicleMessage ='';
+
+		//set visibility for next vehicle
+		if($scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'] && $scope.newAccidentVehicle[vehicle].data['Licence Number']){
+
+			if(vehicle == $scope.newAccidentBasicInfoOtherData.numberOfVehicle -1){
+				//checking for witness form
+				if($scope.newAccidentBasicInfoOtherData.numberOfWitness > 0){
+
+					var witnessObjet = [];
+					for(var i = 0; i < $scope.newAccidentBasicInfoOtherData.numberOfWitness; i ++){
+
+						witnessObjet.push(i);
+						if(i == 0){
+
+							$scope.newAccidentWitness.push({
+								'witness' : i,
+								'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
+								'data' : {},
+								'visibility' : true
+							});
+						}else{
+
+							$scope.newAccidentWitness.push({
+								'witness' : i,
+								'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
+								'data' : {},
+								'visibility' : false
+							});
+						}
+					}
+
+					$scope.witnesses = witnessObjet;
+
+					//hide accident vehicles forms
+					$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
+					$rootScope.pageChanger.reportAccidents.accidentWitness = true;
+				}else{
+
+					//saving reported information
+					$scope.saveAccident();
+				}
+			}else {
+
+				$scope.newAccidentVehicle[vehicle].visibility = false;
+				$scope.newAccidentVehicle[vehicle + 1].visibility = true;
+			}
+		}else{
+
+			$scope.newAccidentVehicleMessage ='Please Enter Vehicle Plate Number/Registration Number or Licence Number for Vehicle ' + (vehicle + 1);
+		}
+
+	}
+
+
+	/*
+	functions to handle all actions for witness forms
+
+	 */
+	$scope.nextWitness = function(witness){
+
+		$scope.newAccidentWitnessMessage = '';
+
+		//checking for first name, last name and phone number
+		if($scope.newAccidentWitness[witness].data['First Name'] && $scope.newAccidentWitness[witness].data['Last Name'] && $scope.newAccidentWitness[witness].data['Phone Number']){
+
+			if(witness == $scope.newAccidentBasicInfoOtherData.numberOfWitness - 1){
+
+				//saving accident information
+				$scope.saveAccident();
+			}else{
+
+				$scope.newAccidentWitness[witness].visibility = false;
+				$scope.newAccidentWitness[witness + 1].visibility = true;
+			}
+		}else{
+
+			$scope.newAccidentWitnessMessage = 'You must enter first name, last name and phone number of accident witness ' + (witness + 1);
+		}
+
+	}
+
+
+	/*
+	 function to save accident
+	 */
+	$scope.saveAccident = function(){
+
+		$rootScope.pageChanger.reportAccidents.accidentWitness = false;
+		$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
+
+		$rootScope.pageChanger.reportAccidents.save = true;
+		$rootScope.configuration.loadingData = true;
+	}
+
+
+	/*
+	*functions for flexible forms
+	 */
+	$scope.isInteger = function(key){
+		return $scope.is(key,"int");
+	}
+	$scope.isDate = function(key){
+		return $scope.is(key,"date");
+	}
+	$scope.isString = function(key){
+		return $scope.is(key,"string");
+	}
+
+	$scope.is = function(key,dataType){
+		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
+			if(iroad2.data.dataElements[j].name == key){
+				if(iroad2.data.dataElements[j].type == dataType){
+					return true;
+				}
+				break;
+			}
+		};
+		return false;
+	}
+	$scope.isBoolean = function(key){
+		return $scope.is(key,"bool");
+	}
+	$scope.hasDataSets = function(key){
+		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
+			if(iroad2.data.dataElements[j].name == key){
+				return (iroad2.data.dataElements[j].optionSet != undefined);
+
+			}
+		};
+		return false;
+	}
+	$scope.getOptionSets = function(key){
+		for(j = 0 ;j < iroad2.data.dataElements.length;j++){
+			if(iroad2.data.dataElements[j].name == key){
+				if(iroad2.data.dataElements[j].optionSet){
+					return iroad2.data.dataElements[j].optionSet.options;
+				}
+			}
+		};
+		return false;
+	}
 }
 
 
-function ReportOffenceHomeController($scope,$location,$rootScope){
 
-
-}
-
-
+/*
+*controller for reporting offense
+ */
 function ReportOffenceController($scope,$rootScope){
 
+	$scope.report = function(){
+		console.log('Selected : ' + JSON.stringify($rootScope.reportingForms.offence.editInput));
+	}
 
+	$scope.offenseList = false;
+	$scope.addOffense = function(){
+		$scope.offenseList = ! $scope.offenseList;
+	}
+
+
+
+	/*
+	 *functions for flexible forms
+	 */
+	$scope.isInteger = function(key){
+		return $scope.is(key,"int");
+	}
+	$scope.isDate = function(key){
+		return $scope.is(key,"date");
+	}
+	$scope.isString = function(key){
+		return $scope.is(key,"string");
+	}
+
+	$scope.is = function(key,dataType){
+		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
+			if(iroad2.data.dataElements[j].name == key){
+				if(iroad2.data.dataElements[j].type == dataType){
+					return true;
+				}
+				break;
+			}
+		};
+		return false;
+	}
+	$scope.isBoolean = function(key){
+		return $scope.is(key,"bool");
+	}
+	$scope.hasDataSets = function(key){
+		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
+			if(iroad2.data.dataElements[j].name == key){
+				return (iroad2.data.dataElements[j].optionSet != undefined);
+
+			}
+		};
+		return false;
+	}
+	$scope.getOptionSets = function(key){
+		for(j = 0 ;j < iroad2.data.dataElements.length;j++){
+			if(iroad2.data.dataElements[j].name == key){
+				if(iroad2.data.dataElements[j].optionSet){
+					return iroad2.data.dataElements[j].optionSet.options;
+				}
+			}
+		};
+		return false;
+	}
 }
 
 

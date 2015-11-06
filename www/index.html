@@ -7,7 +7,7 @@
     <!-- <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />-->
 
     <!--   <link rel="stylesheet" type="text/css" href="css/index.css" />-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
 
@@ -45,7 +45,7 @@
                 <li style = "color:#000000" ng-click="viewProfile()">
 
                         <p style="height:initial;padding-top: 0%;margin-bottom: 0px">
-                            <img src="img/user.png" width="30%">
+                            <img src="img/user.png" width="30%" class="circle responsive-img">
                             <span style="text-transform: capitalize;padding-left: 2px">{{ configuration.userData.name }}</span> <br>
                             {{ configuration.userData.email }}<br>
                             {{ configuration.userData.phoneNumber }}
@@ -75,6 +75,7 @@
     <div ng-include="'views/loadingSpinner.html'" ></div>
 
 <link rel="stylesheet" type="text/css" href="css/ext-plugin-gray.css"/>
+<link rel="stylesheet" type="text/css" href="css/angular-multi-select.css" >
 <!--<script src="https://dhis2-cdn.org/v220/ext/ext-all.js";></script>-->
 <script src="js/ext-all.js"></script>
 <script src="js/table.js"></script>
@@ -82,6 +83,8 @@
 <script type="text/javascript" src="js/angular.min.js"></script>
 <!--<script type="text/javascript" src="js/bower_components/angular/angular.js"></script>-->
 <script type="text/javascript" src="js/bower_components/angular-animate/angular-animate.js"></script>
+<script type="text/javascript" src="js/bower_components/ui-date/date.js"></script>
+<script type="text/javascript" src="js/angular-multi-select.js"></script>
 
 <script type="text/javascript" src="app/app.js"></script>
 <script type="text/javascript" src="app/services/appServices.js"></script>
