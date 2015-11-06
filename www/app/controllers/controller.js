@@ -796,7 +796,25 @@ function ReportAccidentsController($scope,$rootScope){
  */
 function ReportOffenceController($scope,$rootScope){
 
+	$scope.selected = null;
+
+	$scope.selectOffense = function(dataList){
+
+		var selectedOffenses = []
+
+		angular.forEach(dataList,function(data){
+
+			if(data.selected){
+				selectedOffenses.push(data);
+			}
+
+		});
+		$scope.selected = selectedOffenses
+		console.log('selected offense is : ' + JSON.stringify($scope.selected) )
+	};
+
 	$scope.report = function(){
+		$scope.selectOffense($rootScope.reportingForms.offence.editInput);
 		console.log('Selected : ' + JSON.stringify($rootScope.reportingForms.offence.editInput));
 	}
 
