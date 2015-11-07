@@ -1,5 +1,5 @@
 <!-- login page -->
-<div ng-show="!configuration.loginPage" class=appLoginPage>
+<div ng-if="!configuration.loginPage" class=appLoginPage>
     <div class="container">
         <div class="row" style="margin-top:10%;text-align: center;margin-bottom:5%;">
             <h5>iRoad 2.0 Mobile app</h5>
@@ -9,7 +9,7 @@
 
     <div class="container">
 
-        <div class="row" ng-hide="loginFormAvailability" style="margin-top:20%;">
+        <div class="row" ng-if="!loginFormAvailability" style="margin-top:20%;">
             <h6 align="center" class="flow-text">Set base url for iroad 2 server</h6>
 
             <div class="col s12">
@@ -27,7 +27,7 @@
 
     </div>
 
-    <div class="container" ng-hide="!loginFormAvailability">
+    <div class="container" ng-if="loginFormAvailability">
         <div class="row">
 
             <div style="margin-top:20%;">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
 
-                    <div ng-hide="configuration.loadingData">
+                    <div ng-if="!configuration.loadingData">
 
                         <div class="row">
                             <div class="col s12">
@@ -60,7 +60,7 @@
                         </div>
                         <hr>
 
-                        <div class="row" ng-hide="!loginFormAvailability">
+                        <div class="row" ng-if="loginFormAvailability">
                             <div class="col s12">
                                 <button class="btn col s12 btn-large waves-effect waves-light blue" ng-click="setSetting()">Setting</button>
                             </div>

@@ -26,6 +26,7 @@
 <body ng-app = "roadsafetyMobileApp" >
 
 <div ng-if="configuration.loginPage">
+
     <div class = "">
 
         <nav class="blue darken-3" ng-controller="HomeController" style="padding-bottom: 15px;padding-left: 10px;padding-top: 5px;">
@@ -42,7 +43,7 @@
             </ul>
 
 
-            <ul id="slide-out" class="side-nav" style="-webkit-overflow-scrolling: touch;">
+            <ul id="slide-out" class="side-nav" ">
 
                 <li style = "color:#000000" ng-click="viewProfile()">
                     <a style="height:initial;padding-top: 0%;margin-bottom: 0px">
@@ -61,12 +62,12 @@
                 <!--<li><a ng-click="settingConfigurations()" class="waves-effect waves-light">Setting</a></li>-->
                 <li><a ng-click="logOut()" class="waves-effect waves-light">Log out</a></li>
             </ul>
-            <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu" ></i></a>
+            <a href="#/" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu" ></i></a>
 
         </nav>
     </div>
 </div>
-<!-- view for app -->
+<!-- view for app -->{{ configuration.loginPage}}
 <div ng-view>
 
 </div>
