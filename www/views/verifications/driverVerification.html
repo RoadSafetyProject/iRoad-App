@@ -1,6 +1,6 @@
 <!--view for driver verifications home-->
 <div class="container"><div class="row"></div> </div>
-<div ng-show="pageChanger.verifyDriver.home == true" ng-controller="DriverVerificationController">
+<div ng-if="pageChanger.verifyDriver.home == true" ng-controller="DriverVerificationController">
 
     <!-- form for verification of driver -->
     <div class="container">
@@ -23,26 +23,26 @@
         </div>
 
         <!-- for results form verification of drivers -->
-        <div class="row" ng-hide="configuration.loadingData">
+        <div class="row" ng-if="!configuration.loadingData">
             <div class = "col s12">
                 <!-- display information for user for driver licence verification purpose -->
-                <div ng-show="!verificationData.Driver.driverData">
+                <div ng-if="!verificationData.Driver.driverData">
                     <div class="col s12">
-                        <div ng-show="!verificationData.Driver.error">
+                        <div ng-if="!verificationData.Driver.error">
                             <p class="flow-text">Enter Driver Licence Number to verify a driver</p>
                         </div>
-                        <div ng-show="verificationData.Driver.error">
+                        <div ng-if="verificationData.Driver.error">
                             <p class="flow-text">{{ verificationData.Driver.error }}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- display driver information -->
-                <div ng-show = "verificationData.Driver.driverData">
+                <div ng-if = "verificationData.Driver.driverData">
 
                     <div ng-repeat="(key,value) in verificationData.Driver.driver">
 
-                        <div ng-show = "key == 'Full Name' || key == 'Gender' || key == 'TIN Number' || key == 'Driving Class Name' || key == 'Phone Number' ">
+                        <div ng-if = "key == 'Full Name' || key == 'Gender' || key == 'TIN Number' || key == 'Driving Class Name' || key == 'Phone Number' ">
                             <div class = "col s12">
                                 <span class = "flow-text">
                                     {{ key }} <br>

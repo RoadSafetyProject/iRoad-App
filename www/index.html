@@ -24,9 +24,7 @@
     <link text="text/css" rel="stylesheet" href="css/style.css">
 </head>
 <body ng-app = "roadsafetyMobileApp" >
-
-<div ng-if="configuration.loginPage">
-
+<div ng-show="configuration.loginPage">
     <div class = "">
 
         <nav class="blue darken-3" ng-controller="HomeController" style="padding-bottom: 15px;padding-left: 10px;padding-top: 5px;">
@@ -43,7 +41,7 @@
             </ul>
 
 
-            <ul id="slide-out" class="side-nav" ">
+            <ul id="slide-out" class="side-nav" style="-webkit-overflow-scrolling: touch;">
 
                 <li style = "color:#000000" ng-click="viewProfile()">
                     <a style="height:initial;padding-top: 0%;margin-bottom: 0px">
@@ -62,12 +60,12 @@
                 <!--<li><a ng-click="settingConfigurations()" class="waves-effect waves-light">Setting</a></li>-->
                 <li><a ng-click="logOut()" class="waves-effect waves-light">Log out</a></li>
             </ul>
-            <a href="#/" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu" ></i></a>
+            <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu" ></i></a>
 
         </nav>
     </div>
 </div>
-<!-- view for app -->{{ configuration.loginPage}}
+<!-- view for app -->
 <div ng-view>
 
 </div>
@@ -76,13 +74,11 @@
 
 <link rel="stylesheet" type="text/css" href="css/ext-plugin-gray.css"/>
 <link rel="stylesheet" type="text/css" href="css/angular-multi-select.css" >
-<!--<script src="https://dhis2-cdn.org/v220/ext/ext-all.js";></script>-->
+
 <script src="js/ext-all.js"></script>
 <script src="js/table.js"></script>
+
 <script type="text/javascript" src="js/cordova.js"></script>
-<!--<script type="text/javascript" src="js/angular.min.js"></script>
-&lt;!&ndash;<script type="text/javascript" src="js/bower_components/angular/angular.js"></script>&ndash;&gt;
-<script type="text/javascript" src="js/bower_components/angular-animate/angular-animate.js"></script>-->
 
 <script type="text/javascript" src="js/bower_components/angular/angular.js"></script>
 <script type="text/javascript" src="js/bower_components/angular/angular-route.js"></script>
@@ -93,15 +89,13 @@
 <script type="text/javascript" src="app/services/appServices.js"></script>
 <script type="text/javascript" src="app/controllers/controller.js"></script>
 
-
-
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/dhis2-library.js"></script>
 <script type="text/javascript">
     $(".button-collapse").sideNav({
-//        menuWidth: 300, // Default is 240
-        edge: 'left', // Choose the horizontal origin
+        menuWidth: 300, // Default is 240
+        edge: 'left', 
         closeOnClick: true
     });
 </script>

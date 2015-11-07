@@ -80,19 +80,16 @@
 </div><!-- end of login page-->
 
 <!-- success login home page -->
-<div ng-show="configuration.loginPage">
+<div ng-if="configuration.loginPage">
 
     <!-- home page for user -->
     <div ng-include="'views/home.html'"></div>
+
     <!-- user profile page --->
     <div ng-include="'views/userProfile.html'"></div>
 
 
-
-    <!--view for report offense home-->
-
-
-    <!-- view for report accident home -->
+    <!-- view for report accident and offense home -->
     <div ng-include="'views/reportForms/reportAccident.html'"></div>
     <div ng-include="'views/reportForms/reportOffense.html'"></div>
 
@@ -102,7 +99,5 @@
 
     <!-- view for setting configuration home -->
     <div ng-include="'views/setting configurations/settingConfigurationHome.html'"></div>
-
-
 
 </div>

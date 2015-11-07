@@ -1,4 +1,4 @@
-<div ng-show="pageChanger.userProfile.home == true">
+<div ng-if="pageChanger.userProfile.home == true">
     <div class="container">
         <div class="row">
             <p class="flow-text blue-text" style="font-size: 17pt;" align="center">User Profile</p>
@@ -14,7 +14,7 @@
                 <span  class="blue-text text-darken-2">{{ configuration.userData['phoneNumber'] }}</span><br>
 
                 <div ng-repeat="(key,value) in configuration.userData">
-                    <div ng-show = "key == 'education' || key == 'email' || key == 'employer' || key =='nationality' || key =='birthday' " >
+                    <div ng-if = "key == 'education' || key == 'email' || key == 'employer' || key =='nationality' || key =='birthday' " >
                         <span style="text-transform: capitalize">{{ key }}</span><br>
                         <span  class="blue-text text-darken-2">{{ configuration.userData[key] }}</span><br>
                     </div>

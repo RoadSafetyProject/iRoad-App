@@ -1,6 +1,6 @@
 <!--view for driver verifications home-->
 <div class="container"><div class="row"></div> </div>
-<div ng-show="pageChanger.verifyVehicle.home == true" ng-controller="VehicleVerificationController">
+<div ng-if="pageChanger.verifyVehicle.home == true" ng-controller="VehicleVerificationController">
     <div class="container">
         <div class="row">
             <form class="col s12" ng-submit="verifyVehicle()" style = "">
@@ -22,16 +22,16 @@
     </div>
 
     <!-- vehicle verification results -->
-    <div class="container" ng-hide="configuration.loadingData">
+    <div class="container" ng-if="!configuration.loadingData">
         <div class="row">
 
             <!-- display information for user for driver licence verification purpose -->
-            <div ng-show="!verificationData.Vehicle.vehicleData">
+            <div ng-if="!verificationData.Vehicle.vehicleData">
                 <div class="col s12">
-                    <div ng-show="!verificationData.Vehicle.error">
+                    <div ng-if="!verificationData.Vehicle.error">
                         <p class="flow-text">Enter Vehicle Plate Number/Registration Number to verify a vehicle</p>
                     </div>
-                    <div ng-show="verificationData.Vehicle.error">
+                    <div ng-if="verificationData.Vehicle.error">
                         <p class="flow-text">{{ verificationData.Vehicle.error }}</p>
                     </div>
 
@@ -40,10 +40,10 @@
             </div>
 
             <!-- display driver information -->
-            <div ng-show = "verificationData.Vehicle.vehicleData">
+            <div ng-if = "verificationData.Vehicle.vehicleData">
                 <div ng-repeat="(key,value) in verificationData.Vehicle.vehicle">
 
-                    <div ng-show = "key == 'Model' || key == 'Make' || key == 'Color' || key == 'Vehicle Class' || key == 'Body Type' || key == 'Vehicle Plate Number/Registration Number'">
+                    <div ng-if = "key == 'Model' || key == 'Make' || key == 'Color' || key == 'Vehicle Class' || key == 'Body Type' || key == 'Vehicle Plate Number/Registration Number'">
                         <div class = "col s12">
                             <span class = "flow-text">
                                 {{ key }} <br>

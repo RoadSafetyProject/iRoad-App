@@ -9,7 +9,7 @@ app.config(function($routeProvider) {
     $routeProvider.when('/', {
         templateUrl: 'views/pages.html',
         controller: 'LoginController'
-    })
-        .otherwise({redirectTo : '/' })});
+    })});
+        //.otherwise({redirectTo : '/' })});
 
 
