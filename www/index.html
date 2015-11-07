@@ -25,7 +25,7 @@
 </head>
 <body ng-app = "roadsafetyMobileApp" >
 
-<div ng-show="configuration.loginPage">
+<div ng-if="configuration.loginPage">
     <div class = "">
 
         <nav class="blue darken-3" ng-controller="HomeController" style="padding-bottom: 15px;padding-left: 10px;padding-top: 5px;">
@@ -80,9 +80,12 @@
 <script src="js/ext-all.js"></script>
 <script src="js/table.js"></script>
 <script type="text/javascript" src="js/cordova.js"></script>
-<script type="text/javascript" src="js/angular.min.js"></script>
-<!--<script type="text/javascript" src="js/bower_components/angular/angular.js"></script>-->
-<script type="text/javascript" src="js/bower_components/angular-animate/angular-animate.js"></script>
+<!--<script type="text/javascript" src="js/angular.min.js"></script>
+&lt;!&ndash;<script type="text/javascript" src="js/bower_components/angular/angular.js"></script>&ndash;&gt;
+<script type="text/javascript" src="js/bower_components/angular-animate/angular-animate.js"></script>-->
+
+<script type="text/javascript" src="js/bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="js/bower_components/angular/angular-route.js"></script>
 <script type="text/javascript" src="js/bower_components/ui-date/date.js"></script>
 <script type="text/javascript" src="js/angular-multi-select.js"></script>
 
