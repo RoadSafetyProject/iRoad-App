@@ -10,6 +10,5 @@ app.config(function($routeProvider) {
         templateUrl: 'views/pages.html',
         controller: 'LoginController'
     })});
-        //.otherwise({redirectTo : '/' })});
 
 

@@ -76,8 +76,7 @@ function LoginController($scope,$location,$rootScope){
 					},
 					withCredentials : true,
 					useDefaultXhrHeader : false,
-					success: function (data) {
-						console.log('Data : ' + JSON.stringify('success, ready for checking user'));
+					success: function () {
 						//call checking if user is available
 						Ext.Ajax.request({
 							url: base + '/api/me.json',
@@ -188,10 +187,8 @@ function HomeController($scope,$rootScope){
 	$scope.viewProfile = function(){
 		$scope.clearFormsFields();
 
-		console.log('data : ' + JSON.stringify($rootScope.configuration.userData));
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.userProfile = {'home': true};
-		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
 	//function to render home page
@@ -200,19 +197,14 @@ function HomeController($scope,$rootScope){
 
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.successLogin = {'home': true};
-		console.log(JSON.stringify($rootScope.pageChanger));
 	}
 
 	//control report offence link on navigation
 	$scope.reportOffence = function(){
+		$scope.clearFormsFields();
 
-		$rootScope.reportingForms = {
-			'Accident' : {},
-			'Offence' : {}
-		};
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.reportOffense = {'home': true};
-		console.log(JSON.stringify($rootScope.pageChanger));
 		$scope.prepareOffenseForms();
 
 	}
@@ -284,11 +276,8 @@ function HomeController($scope,$rootScope){
 
 	//control links for reporting accident form
 	$scope.reportAccidents = function(){
+		$scope.clearFormsFields();
 
-		$rootScope.reportingForms = {
-			'Accident' : {},
-			'offence' : {}
-		};
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.reportAccidents = {'home': true,'basicInfo' : true};
 		$scope.prepareAccidentForms();
@@ -373,7 +362,6 @@ function HomeController($scope,$rootScope){
 		$rootScope.reportingForms.Accident.accidentWitnes = eventAccidentWitness;
 
 		console.log('Accident forms : ' + JSON.stringify($rootScope.reportingForms.Accident));
-		//disable loading progress
 		$rootScope.configuration.loadingData = false;
 
 	}
@@ -514,6 +502,7 @@ function VehicleVerificationController($scope,$rootScope){
 	//function to verify vehicle based on given vehicle plate number
 	$scope.verifyVehicle = function () {
 		$scope.cleanDriverData();
+		$scope.moreInformationStatus = false;
 
 		if($scope.data.vehilcePlateNumber){
 			//enable loading
@@ -523,7 +512,6 @@ function VehicleVerificationController($scope,$rootScope){
 			var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
 			vehicleModal.get({value:$scope.data.vehilcePlateNumber},function(result){
 				//checking if vehicle found
-				console.log('vehicle : ' + JSON.stringify(result));
 				if(result.length > 0){
 					$rootScope.verificationData.Vehicle.vehicle = result[0];
 					$rootScope.verificationData.Vehicle.vehicleData = true;
@@ -542,6 +530,10 @@ function VehicleVerificationController($scope,$rootScope){
 			$rootScope.verificationData.Vehicle.error = 'Please Enter Vehicle Plate Number/Registration Number to Verify a vehicle';
 		}
 	}
+
+	//variable to show or hide more information or results
+	$scope.moreInformationStatus = false;
+
 
 
 }

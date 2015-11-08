@@ -41,17 +41,34 @@
 
             <!-- display driver information -->
             <div ng-if = "verificationData.Vehicle.vehicleData">
-                <div ng-repeat="(key,value) in verificationData.Vehicle.vehicle">
+                <div class="col s12" ng-repeat="(key,value) in verificationData.Vehicle.vehicle">
 
                     <div ng-if = "key == 'Model' || key == 'Make' || key == 'Color' || key == 'Vehicle Class' || key == 'Body Type' || key == 'Vehicle Plate Number/Registration Number'">
-                        <div class = "col s12">
+
+                        <span class = "flow-text">
+                            {{ key }} <br>
+                            <span style="padding-top: 2px" class="blue-text text-darken-2"> {{ verificationData.Vehicle.vehicle[key] }}</span>
+                        </span>
+
+                    </div>
+                </div>
+
+                <div class="col s12" ng-if = "moreInformationStatus">
+                    <div ng-repeat="(key,value) in verificationData.Vehicle.vehicle">
+                        <div ng-if="key =='Seating Capacity' || key =='Tare Weight' || key =='Vehicle Class' || key =='Year of Make' || key == 'Engine Capacity' || key == 'Engine Number' || key == 'Fuel' || key == 'Number of Axial' || key == 'Axial Distance' || key == 'Chasis Number' ">
                             <span class = "flow-text">
                                 {{ key }} <br>
-                                <span style="padding-top: " class="blue-text text-darken-2"> {{ verificationData.Vehicle.vehicle[key] }}</span>
+                                <span style="padding-top: 2px" class="blue-text text-darken-2"> {{ verificationData.Vehicle.vehicle[key] }}</span>
                             </span>
                         </div>
                     </div>
+                </div>
 
+                <div class="col s12" style="margin-top: 15px;">
+                    <button class="btn waves-effect waves-light blue" ng-click="moreInformationStatus = !moreInformationStatus">
+                        <span ng-if = "!moreInformationStatus">View More</span>
+                        <span ng-if = "moreInformationStatus">Hide More</span>
+                    </button>
                 </div>
             </div>
 
