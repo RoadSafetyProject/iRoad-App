@@ -41,6 +41,7 @@
 
             <!-- display driver information -->
             <div ng-if = "verificationData.Vehicle.vehicleData">
+                <h5 align="center">Vehicle Information</h5>
                 <div class="col s12" ng-repeat="(key,value) in verificationData.Vehicle.vehicle">
 
                     <div ng-if = "key == 'Model' || key == 'Make' || key == 'Color' || key == 'Vehicle Class' || key == 'Body Type' || key == 'Vehicle Plate Number/Registration Number'">
