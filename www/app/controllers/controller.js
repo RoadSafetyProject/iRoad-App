@@ -168,7 +168,7 @@ function LoginController($scope,$location,$rootScope){
 /*
 *for control all navigation actions to render a given page
  */
-function HomeController($scope,$rootScope){
+function HomeController($scope,$rootScope,$http){
 	$rootScope.reportingForms = {
 		'Accident' : {},
 		'Offence' : {}
@@ -264,6 +264,18 @@ function HomeController($scope,$rootScope){
 
 		$rootScope.pageChanger = {};
 		$rootScope.pageChanger.verifyDriver = {'home': true};
+
+		$rootScope.defaultPhotoID = null;
+		var defaultPhotoUrl = $rootScope.configuration.url +'/api/documents.json?filter=name:eq:Default Driver Photo'
+		$http({
+			method : 'GET',
+			url : defaultPhotoUrl
+		}).success(function(response){
+
+			if(response.documents.length != 0){
+				$rootScope.defaultPhotoID = response.documents[0].id;
+			}
+		});
 	}
 
 	//control vehicle verification view form
@@ -427,6 +439,9 @@ function DriverVerificationController($scope,$rootScope){
 		}
 	};
 	$scope.data = {};
+	//variable for control hide and show more information r results
+	$scope.moreInformationStatus = false;
+	$scope.driverPhotoUrl = null;
 
 	$scope.clearVehicleData = function(){
 		$rootScope.verificationData.Vehicle.vehicle = {};
@@ -439,6 +454,7 @@ function DriverVerificationController($scope,$rootScope){
 	$scope.verifyDriver = function(){
 
 		$scope.clearVehicleData();
+		$scope.moreInformationStatus = false;
 
 		if($scope.data.driverLicenceNumber){
 
@@ -452,6 +468,12 @@ function DriverVerificationController($scope,$rootScope){
 				if(result.length > 0){
 					$rootScope.verificationData.Driver.driverData = true;
 					$rootScope.verificationData.Driver.driver = result[0];
+
+					//driver photo
+					$scope.driverPhotoUrl = $rootScope.configuration.url + '/api/documents/' + $rootScope.verificationData.Driver.driver['Driver Photo'] + '/data';
+					if(!$scope.driverPhotoUrl){
+						$scope.driverPhotoUrl = $rootScope.defaultPhotoID;
+					}
 					$rootScope.configuration.loadingData = false;
 				}
 				else{

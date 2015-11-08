@@ -9,7 +9,7 @@
 
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="driver_licence_number" ng-model="data.driverLicenceNumber" type="text" class="validate ng-valid ng-dirty valid">
+                        <input id="driver_licence_number" ng-model="data.driverLicenceNumber" type="text" class="validate">
                         <label for="driver_licence_number" class="active">Driver Licence Number</label>
                     </div>
                 </div>
@@ -24,22 +24,26 @@
 
         <!-- for results form verification of drivers -->
         <div class="row" ng-if="!configuration.loadingData">
-            <div class = "col s12">
-                <!-- display information for user for driver licence verification purpose -->
-                <div ng-if="!verificationData.Driver.driverData">
-                    <div class="col s12">
-                        <div ng-if="!verificationData.Driver.error">
-                            <p class="flow-text">Enter Driver Licence Number to verify a driver</p>
-                        </div>
-                        <div ng-if="verificationData.Driver.error">
-                            <p class="flow-text">{{ verificationData.Driver.error }}</p>
-                        </div>
+
+            <!-- display information for user for driver licence verification purpose -->
+            <div ng-if="!verificationData.Driver.driverData">
+                <div class="col s12">
+                    <div ng-if="!verificationData.Driver.error">
+                        <p class="flow-text">Enter Driver Licence Number to verify a driver</p>
+                    </div>
+                    <div ng-if="verificationData.Driver.error">
+                        <p class="flow-text">{{ verificationData.Driver.error }}</p>
                     </div>
                 </div>
+            </div>
 
-                <!-- display driver information -->
-                <div ng-if = "verificationData.Driver.driverData">
+            <!-- display driver information -->
+            <div ng-if = "verificationData.Driver.driverData">
+                <div class="col s12" ng-if = "driverPhotoUrl" style="text-align: center;margin-bottom: 15px">
+                    <img ng-src="{{driverPhotoUrl}}" width="60%">
+                </div>
 
+                <div ng-if="!moreInformationStatus ">
                     <div ng-repeat="(key,value) in verificationData.Driver.driver">
 
                         <div ng-if = "key == 'Full Name' || key == 'Gender' || key == 'TIN Number' || key == 'Driving Class Name' || key == 'Phone Number' ">
@@ -52,6 +56,29 @@
                         </div>
 
                     </div>
+                </div>
+
+                <div ng-if="moreInformationStatus">
+                    <div ng-repeat="(key,value) in verificationData.Driver.driver">
+
+                        <div ng-if = "!(key == 'id' || key == 'Driver Photo' || key == 'Current License Expiry Date')">
+                            <div class = "col s12">
+                                <span class = "flow-text">
+                                    {{ key }} <br>
+                                    <span class="blue-text text-darken-2 "> {{ verificationData.Driver.driver[key] }}</span>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col s12" style="margin-top: 15px;">
+                    <button class="btn waves-effect waves-light blue" ng-click="moreInformationStatus = !moreInformationStatus">
+                        <span ng-if = "!moreInformationStatus">View More</span>
+                        <span ng-if = "moreInformationStatus">Hide More</span>
+                    </button>
                 </div>
 
 
