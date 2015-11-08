@@ -470,9 +470,13 @@ function DriverVerificationController($scope,$rootScope){
 					$rootScope.verificationData.Driver.driver = result[0];
 
 					//driver photo
-					$scope.driverPhotoUrl = $rootScope.configuration.url + '/api/documents/' + $rootScope.verificationData.Driver.driver['Driver Photo'] + '/data';
-					if(!$scope.driverPhotoUrl){
-						$scope.driverPhotoUrl = $rootScope.defaultPhotoID;
+					if($rootScope.verificationData.Driver.driver['Driver Photo']){
+
+						$scope.driverPhotoUrl = $rootScope.configuration.url + '/api/documents/' + $rootScope.verificationData.Driver.driver['Driver Photo'] + '/data';
+					}
+					else{
+
+						$scope.driverPhotoUrl = $rootScope.configuration.url + '/api/documents/' + $rootScope.defaultPhotoID + '/data';
 					}
 					$rootScope.configuration.loadingData = false;
 				}
