@@ -848,6 +848,7 @@ function ReportOffenceController($scope,$rootScope){
 		var message = [];
 		$scope.errorMessagesForOffenseForm = null;
 
+		//taking driver license number and vehicle plate number
 		driverlicence = $rootScope.reportingForms.offence.newOffenseData['Driver License Number'];
 		vehiclePlateNumber = $rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number'];
 
@@ -859,9 +860,86 @@ function ReportOffenceController($scope,$rootScope){
 		}
 		$scope.errorMessagesForOffenseForm = message;
 
+		/*
+		*starting saving process
+		* fetching driver
+		* fetching vehicle
+		* saving offense details
+		* saving offense list
+		 */
+		$scope.savingErrorMessages = null;
+		var savingError = [];
+		if(!($scope.errorMessagesForOffenseForm.length > 0)){
 
-		console.log('selected offense is : ' + JSON.stringify($scope.selected));
-		console.log('Offense form ' + JSON.stringify($rootScope.reportingForms.offence.newOffenseData));
+			$rootScope.configuration.loadingData = true;
+
+			var driverModal =  new iroad2.data.Modal('Driver',[]);
+			driverModal.get({value:driverlicence},function(driver){
+
+				//checking if driver found
+				if(driver.length <= 0){
+
+					savingError.push('Driver Not found');
+				}
+
+				var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
+				vehicleModal.get({value:vehiclePlateNumber},function(vehicle){
+
+					//checking if vehicle not found
+					if(vehicle.length <= 0){
+
+						savingError.push('Vehicle Not found');
+					}
+					$scope.savingErrorMessages = savingError;
+					savingError = [];
+
+					//fetching police officer
+					var policeModal = new iroad2.data.Modal('Police',[]);
+					policeModal.get(new iroad2.data.SearchCriteria('Rank Number',"=",$rootScope.reportingForms.offence.attendant),function(police){
+
+						//checking if driver and vehicle found
+						if(!($scope.savingErrorMessages.length > 0)){
+
+							//add additional data to the offense reporting form
+							$rootScope.reportingForms.offence.newOffenseData.Driver = driver[0];
+							$rootScope.reportingForms.offence.newOffenseData.Vehicle = vehicle[0];
+							$rootScope.reportingForms.offence.newOffenseData.Police = police[0];
+
+							var savingData = $rootScope.reportingForms.offence.newOffenseData;
+							savingData['Full Name'] = savingData.Driver['Full Name'];
+							savingData['Gender'] = savingData.Driver['Gender'];
+							savingData['Date of Birth'] = savingData.Driver['Date of Birth'];
+							savingData['Model'] = savingData.Vehicle['Model'];
+							savingData['Make'] = savingData.Vehicle['Make'];
+							savingData['Vehicle Class'] = savingData.Vehicle['Vehicle Class'];
+							savingData['Vehicle Ownership Category'] =savingData.Vehicle['Vehicle Ownership Category'];
+
+							//other data
+							var otherData = {orgUnit:$rootScope.configuration.userData.organisationUnits[0].id,status: "COMPLETED",storedBy: "admin",eventDate:new Date()};
+							otherData.coordinate = {"latitude": "","longitude": ""};
+
+							console.log('otherData : ' + JSON.stringify(otherData));
+
+							console.log('selected offense is : ' + JSON.stringify($scope.selected));
+							console.log('Offense form ' + JSON.stringify($rootScope.reportingForms.offence.newOffenseData));
+						}
+						else{
+
+							console.log('Error saving list : ' + JSON.stringify($scope.savingErrorMessages));
+						}
+
+						$rootScope.configuration.loadingData = false;
+						$rootScope.$apply();
+
+					});//end of fetching Police
+
+				});//end fo fetching vehicle information process
+
+			});//end of fetching driver information process
+
+
+		}
+
 	}
 
 	$scope.offenseList = false;
