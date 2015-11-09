@@ -251,7 +251,8 @@ function HomeController($scope,$rootScope,$http){
 
 		$rootScope.reportingForms.offence = {
 			'dataElements' : event,
-			'editInput' : $scope.editInputModal
+			'editInput' : $scope.editInputModal,
+			'newOffenseData' : {}
 
 		}
 	}
@@ -624,7 +625,7 @@ function ReportAccidentsController($scope,$rootScope){
 		$rootScope.pageChanger.reportAccidents.basicInfo = false;
 		$rootScope.pageChanger.reportAccidents.areaLocation = false;
 		$rootScope.pageChanger.reportAccidents.otherBasicInfo = false;
-
+		console.log($scope.newAccidentVehicle);
 		if($scope.newAccidentBasicInfoOtherData.numberOfVehicle > 0){
 
 			$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = false;
@@ -838,9 +839,29 @@ function ReportOffenceController($scope,$rootScope){
 
 	};
 
-	$scope.report = function(){
+	$scope.reportOffense = function(){
 		$scope.selectOffense($rootScope.reportingForms.offence.editInput);
-		console.log('selected offense is : ' + JSON.stringify($scope.selected))
+
+		var driverlicence = null;
+		var vehiclePlateNumber = null;
+
+		var message = [];
+		$scope.errorMessagesForOffenseForm = null;
+
+		driverlicence = $rootScope.reportingForms.offence.newOffenseData['Driver License Number'];
+		vehiclePlateNumber = $rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number'];
+
+		if(!driverlicence){
+			message.push('Enter Driver License Number');
+		}
+		if(!vehiclePlateNumber){
+			message.push('Enter Vehicle Plate Number/Registration Number')
+		}
+		$scope.errorMessagesForOffenseForm = message;
+
+
+		console.log('selected offense is : ' + JSON.stringify($scope.selected));
+		console.log('Offense form ' + JSON.stringify($rootScope.reportingForms.offence.newOffenseData));
 	}
 
 	$scope.offenseList = false;
