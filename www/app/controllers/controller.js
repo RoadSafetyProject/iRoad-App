@@ -26,8 +26,8 @@ function LoginController($scope,$location,$rootScope){
 		'loginPage': false,
 		'useData': {},
 		'config': {},
-		'url' : 'http://localhost:8080/demo'
-		//'url':'http://roadsafety.go.tz/demo'
+		//'url' : 'http://localhost:8080/demo'
+		'url':'http://roadsafety.go.tz/demo'
 	};
 
 	$rootScope.pageChanger = {
@@ -991,6 +991,8 @@ function ReportOffenceController($scope,$rootScope){
 
 											},
 											offence.getModalName());
+										$rootScope.configuration.loadingData = false;
+										$rootScope.$apply();
 									}
 								}
 								,function(){
@@ -1002,6 +1004,8 @@ function ReportOffenceController($scope,$rootScope){
 									$scope.$apply();
 								},
 								offenceEventModal.getModalName());
+							$rootScope.configuration.loadingData = false;
+							$rootScope.$apply();
 
 						}
 						else{
