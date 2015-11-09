@@ -870,7 +870,6 @@ function ReportOffenceController($scope,$rootScope){
 		var onSuccess = function(position) {
 			$rootScope.$apply(function() {
 				$scope.geoPosition = position;
-				alert(JSON.stringify(position));
 			});
 		};
 		var onError = function(error) {
@@ -916,6 +915,7 @@ function ReportOffenceController($scope,$rootScope){
 					}
 					$scope.savingErrorMessages = savingError;
 					var savingData = $rootScope.reportingForms.offence.newOffenseData;
+					$scope.$apply();
 					//fetching police officer
 					var policeModal = new iroad2.data.Modal('Police',[]);
 					policeModal.get(new iroad2.data.SearchCriteria('Rank Number',"=",$rootScope.reportingForms.offence.attendant),function(police){
@@ -975,7 +975,11 @@ function ReportOffenceController($scope,$rootScope){
 										});
 										console.log("Saving Offence:"+JSON.stringify(saveDataArray));
 										var offence = new iroad2.data.Modal("Offence",[]);
-										offence.save(saveDataArray,otherData,function(result){
+										var count = 0;
+										offence.save(saveDataArray,otherData,function(){
+
+												$rootScope.configuration.loadingData = false;
+												$rootScope.$apply();
 
 											},function(){
 
@@ -998,8 +1002,7 @@ function ReportOffenceController($scope,$rootScope){
 									$scope.$apply();
 								},
 								offenceEventModal.getModalName());
-							$rootScope.configuration.loadingData = false;
-							$rootScope.$apply();
+
 						}
 						else{
 

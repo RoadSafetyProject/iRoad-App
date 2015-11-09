@@ -121,16 +121,13 @@
             <div class="clo s12">
 
                 <div ng-if="configuration.loadingData">
-                    <p  class="flow-text">Saving offense data</p>
+                    <p ng-if="!savingErrorMessages"  class="flow-text">You have successful report Offense</p>
                 </div>
 
-                <div ng-if="!configuration.loadingData">
-                    <p ng-if="!savingErrorMessages" class="flow-text">You have successful report Offense</p>
-                    <div ng-if = "savingErrorMessages">
-                        <p class="flow-text" ng-repeat="error in savingErrorMessages">
-                            {{ error }}
-                        </p>
-                    </div>
+                <div ng-if = "savingErrorMessages">
+                    <p class="flow-text" ng-repeat="error in savingErrorMessages">
+                        {{ error }}
+                    </p>
                 </div>
 
             </div>
