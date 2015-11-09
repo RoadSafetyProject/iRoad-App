@@ -99,3 +99,19 @@
     </div>
 
 </div>
+
+<!-- reporting progress reports -->
+<div ng-if = "pageChanger.reportOffense.saving" ng-controller="ReportOffenceController">
+
+    <div class="container">
+        <div class="row">
+            <h5 align="center">Reporting Offense Progress</h5>
+            <div class="clo s12">
+                <p ng-if="configuration.loadingData" class="flow-text">Saving offense data</p>
+                <p ng-if="!configuration.loadingData" class="flow-text blue-text">You have successful report Offense</p>
+            </div>
+
+            <div ng-if="!configuration.loadingData" class="btn waves-effect waves-light blue" ng-click="home" ng-controller="HomeController">Return Home</div>
+        </div>
+    </div>
+</div>

@@ -898,6 +898,9 @@ function ReportOffenceController($scope,$rootScope){
 				if(driver.length <= 0){
 
 					savingError.push('Driver Not found');
+				}else{
+
+					$rootScope.reportingForms.offence.newOffenseData.Driver = driver[0];
 				}
 
 				var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
@@ -907,30 +910,41 @@ function ReportOffenceController($scope,$rootScope){
 					if(vehicle.length <= 0){
 
 						savingError.push('Vehicle Not found');
+					}else{
+
+						$rootScope.reportingForms.offence.newOffenseData.Vehicle = vehicle[0];
 					}
 					$scope.savingErrorMessages = savingError;
-					savingError = [];
-
+					var savingData = $rootScope.reportingForms.offence.newOffenseData;
 					//fetching police officer
 					var policeModal = new iroad2.data.Modal('Police',[]);
 					policeModal.get(new iroad2.data.SearchCriteria('Rank Number',"=",$rootScope.reportingForms.offence.attendant),function(police){
 
+						if(police.length > 0){
+							savingData.Police = police[0];
+						}
 						//checking if driver and vehicle found
-						if(!($scope.savingErrorMessages.length > 0)){
+						if($scope.savingErrorMessages.length <= 0){
+
+							//$rootScope.pageChanger.reportOffense.saving = true;
+							//$rootScope.pageChanger.reportOffense.home = false;
 
 							//add additional data to the offense reporting form
-							$rootScope.reportingForms.offence.newOffenseData.Driver = driver[0];
-							$rootScope.reportingForms.offence.newOffenseData.Vehicle = vehicle[0];
-							$rootScope.reportingForms.offence.newOffenseData.Police = police[0];
 
-							var savingData = $rootScope.reportingForms.offence.newOffenseData;
-							savingData['Full Name'] = savingData.Driver['Full Name'];
-							savingData['Gender'] = savingData.Driver['Gender'];
-							savingData['Date of Birth'] = savingData.Driver['Date of Birth'];
-							savingData['Model'] = savingData.Vehicle['Model'];
-							savingData['Make'] = savingData.Vehicle['Make'];
-							savingData['Vehicle Class'] = savingData.Vehicle['Vehicle Class'];
-							savingData['Vehicle Ownership Category'] =savingData.Vehicle['Vehicle Ownership Category'];
+
+							if(savingData.Driver){
+
+								savingData['Full Name'] = savingData.Driver['Full Name'];
+								savingData['Gender'] = savingData.Driver['Gender'];
+								savingData['Date of Birth'] = savingData.Driver['Date of Birth'];
+							}
+							if(savingData.Vehicle){
+
+								savingData['Model'] = savingData.Vehicle['Model'];
+								savingData['Make'] = savingData.Vehicle['Make'];
+								savingData['Vehicle Class'] = savingData.Vehicle['Vehicle Class'];
+								savingData['Vehicle Ownership Category'] =savingData.Vehicle['Vehicle Ownership Category'];
+							}
 
 							//other data
 							var otherData = {orgUnit:$rootScope.configuration.userData.organisationUnits[0].id,status: "COMPLETED",storedBy: "admin",eventDate:new Date()};
@@ -947,29 +961,38 @@ function ReportOffenceController($scope,$rootScope){
 							var offenceEventModal = new iroad2.data.Modal("Offence Event",[new iroad2.data.Relation("Offence Registry","Offence")]);
 							offenceEventModal.save(savingData,otherData,function(result){
 
-								if(result.httpStatus){
-									var offenseSavingResponse = result.response;
-									var offenseId = offenseSavingResponse.importSummaries[0].reference;
+									if(result.httpStatus){
+										var offenseSavingResponse = result.response;
+										var offenseId = offenseSavingResponse.importSummaries[0].reference;
 
-									//prepare selected offense for saving
-									var saveDataArray = [];
-									angular.forEach($scope.selected,function(registry){
-										var off = {
-											"Offence_Event":{"id": offenseId},
-											"Offence_Registry":{"id":registry.id}
-										};
-										saveDataArray.push(off);
-									});
-									console.log("Saving Offence:"+JSON.stringify(saveDataArray));
-									var offence = new iroad2.data.Modal("Offence",[]);
-									offence.save(saveDataArray,otherData,function(result){
+										//prepare selected offense for saving
+										var saveDataArray = [];
+										angular.forEach($scope.selected,function(registry){
+											var off = {
+												"Offence_Event":{"id": offenseId},
+												"Offence_Registry":{"id":registry.id}
+											};
+											saveDataArray.push(off);
+										});
+										console.log("Saving Offence:"+JSON.stringify(saveDataArray));
+										var offence = new iroad2.data.Modal("Offence",[]);
+										offence.save(saveDataArray,otherData,function(result){
 
-									},function(error){
-									},offence.getModalName());
-								}
+											},function(){
+
+												//error
+												$rootScope.configuration.loadingData = false;
+												$rootScope.$apply();
+
+											},
+											offence.getModalName());
+									}
 								}
 								,function(){
-									$scope.savingErrorMessages.push('');
+
+									//error
+									$rootScope.configuration.loadingData = false;
+									$rootScope.$apply();
 								},
 								offenceEventModal.getModalName());
 						}
