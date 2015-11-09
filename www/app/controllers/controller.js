@@ -858,7 +858,25 @@ function ReportOffenceController($scope,$rootScope){
 		if(!vehiclePlateNumber){
 			message.push('Enter Vehicle Plate Number/Registration Number')
 		}
+		if(!($scope.offenseCount > 0)){
+			message.push('Please select at least one offense');
+		}
+
 		$scope.errorMessagesForOffenseForm = message;
+
+		/*
+		*Taking location from the phone if gps is on
+		*/
+		var onSuccess = function(position) {
+			$rootScope.$apply(function() {
+				$scope.geoPosition = position;
+				alert(JSON.stringify(position));
+			});
+		};
+		var onError = function(error) {
+			alert('ERROR! code: ' + error.code + ' ' + 'message: ' + error.message);
+		};
+		navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
 
 		/*
 		*starting saving process
@@ -916,12 +934,44 @@ function ReportOffenceController($scope,$rootScope){
 
 							//other data
 							var otherData = {orgUnit:$rootScope.configuration.userData.organisationUnits[0].id,status: "COMPLETED",storedBy: "admin",eventDate:new Date()};
-							otherData.coordinate = {"latitude": "","longitude": ""};
+							if($scope.geoPosition){
+								otherData.coordinate = {
+									"latitude": $scope.geoPosition.coords.latitude,
+									"longitude": $scope.geoPosition.coords.longitude
+								};
+							}else{
+								otherData.coordinate = {"latitude": "","longitude": ""};
+							}
 
-							console.log('otherData : ' + JSON.stringify(otherData));
+							//saving reported offense
+							var offenceEventModal = new iroad2.data.Modal("Offence Event",[new iroad2.data.Relation("Offence Registry","Offence")]);
+							offenceEventModal.save(savingData,otherData,function(result){
 
-							console.log('selected offense is : ' + JSON.stringify($scope.selected));
-							console.log('Offense form ' + JSON.stringify($rootScope.reportingForms.offence.newOffenseData));
+								if(result.httpStatus){
+									var offenseSavingResponse = result.response;
+									var offenseId = offenseSavingResponse.importSummaries[0].reference;
+
+									//prepare selected offense for saving
+									var saveDataArray = [];
+									angular.forEach($scope.selected,function(registry){
+										var off = {
+											"Offence_Event":{"id": offenseId},
+											"Offence_Registry":{"id":registry.id}
+										};
+										saveDataArray.push(off);
+									});
+									console.log("Saving Offence:"+JSON.stringify(saveDataArray));
+									var offence = new iroad2.data.Modal("Offence",[]);
+									offence.save(saveDataArray,otherData,function(result){
+
+									},function(error){
+									},offence.getModalName());
+								}
+								}
+								,function(){
+									$scope.savingErrorMessages.push('');
+								},
+								offenceEventModal.getModalName());
 						}
 						else{
 
