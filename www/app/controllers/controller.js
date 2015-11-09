@@ -900,7 +900,7 @@ function ReportOffenceController($scope,$rootScope){
 					savingError.push('Driver Not found');
 				}else{
 
-					$rootScope.reportingForms.offence.newOffenseData.Driver = driver[0];
+					$rootScope.reportingForms.offence.newOffenseData.Driver = {'id' : driver[0].id};
 				}
 
 				var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
@@ -912,7 +912,7 @@ function ReportOffenceController($scope,$rootScope){
 						savingError.push('Vehicle Not found');
 					}else{
 
-						$rootScope.reportingForms.offence.newOffenseData.Vehicle = vehicle[0];
+						$rootScope.reportingForms.offence.newOffenseData.Vehicle = {'id' : vehicle[0].id};
 					}
 					$scope.savingErrorMessages = savingError;
 					var savingData = $rootScope.reportingForms.offence.newOffenseData;
@@ -926,11 +926,10 @@ function ReportOffenceController($scope,$rootScope){
 						//checking if driver and vehicle found
 						if($scope.savingErrorMessages.length <= 0){
 
-							//$rootScope.pageChanger.reportOffense.saving = true;
-							//$rootScope.pageChanger.reportOffense.home = false;
+							$rootScope.pageChanger.reportOffense.saving = true;
+							$rootScope.pageChanger.reportOffense.home = false;
 
 							//add additional data to the offense reporting form
-
 
 							if(savingData.Driver){
 
@@ -981,8 +980,10 @@ function ReportOffenceController($scope,$rootScope){
 											},function(){
 
 												//error
+												$scope.savingErrorMessages.push('Fail to save offense');
 												$rootScope.configuration.loadingData = false;
 												$rootScope.$apply();
+												$scope.$apply();
 
 											},
 											offence.getModalName());
@@ -991,18 +992,23 @@ function ReportOffenceController($scope,$rootScope){
 								,function(){
 
 									//error
+									$scope.savingErrorMessages.push('Fail to save offense');
 									$rootScope.configuration.loadingData = false;
 									$rootScope.$apply();
+									$scope.$apply();
 								},
 								offenceEventModal.getModalName());
+							$rootScope.configuration.loadingData = false;
+							$rootScope.$apply();
 						}
 						else{
 
 							console.log('Error saving list : ' + JSON.stringify($scope.savingErrorMessages));
+							$rootScope.configuration.loadingData = false;
+							$rootScope.$apply();
 						}
 
-						$rootScope.configuration.loadingData = false;
-						$rootScope.$apply();
+
 
 					});//end of fetching Police
 
