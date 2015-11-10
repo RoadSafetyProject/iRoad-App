@@ -19,16 +19,7 @@ appControllers.controller('PaymentVerification',PaymentVerification);
 *for control of all login logic for form submission to redirect to home page for success login user
  */
 function LoginController($scope,$location,$rootScope){
-	//variables for the app
-	$rootScope.configuration = {
-		'user': {},
-		'loadingData': false,
-		'loginPage': false,
-		'useData': {},
-		'config': {},
-		//'url' : 'http://localhost:8080/demo'
-		'url':'http://roadsafety.go.tz/demo'
-	};
+
 
 	$rootScope.pageChanger = {
 		'reportOffense': {},
@@ -625,7 +616,6 @@ function ReportAccidentsController($scope,$rootScope){
 		$rootScope.pageChanger.reportAccidents.basicInfo = false;
 		$rootScope.pageChanger.reportAccidents.areaLocation = false;
 		$rootScope.pageChanger.reportAccidents.otherBasicInfo = false;
-		console.log($scope.newAccidentVehicle);
 		if($scope.newAccidentBasicInfoOtherData.numberOfVehicle > 0){
 
 			$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = false;
@@ -762,11 +752,15 @@ function ReportAccidentsController($scope,$rootScope){
 	 */
 	$scope.saveAccident = function(){
 
-		$rootScope.pageChanger.reportAccidents.accidentWitness = false;
+		/*$rootScope.pageChanger.reportAccidents.accidentWitness = false;
 		$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
 
 		$rootScope.pageChanger.reportAccidents.save = true;
-		$rootScope.configuration.loadingData = true;
+		$rootScope.configuration.loadingData = true;*/
+		console.log('newAccidentBasicInfo' + JSON.stringify($scope.newAccidentBasicInfo));
+		console.log('newAccidentVehicle' + JSON.stringify($scope.newAccidentVehicle));
+		console.log('newAccidentWitness' + JSON.stringify($scope.newAccidentWitness));
+
 	}
 
 
