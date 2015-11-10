@@ -697,6 +697,57 @@ function ReportAccidentsController($scope,$rootScope){
 							$scope.newAccidentVehicle[vehicle].data['Make'] = vehicleData['Make'];
 							$scope.newAccidentVehicle[vehicle].data['Model'] = vehicleData['Model'];
 
+							//continue with next part of form
+							if($scope.newAccidentVehicle[vehicle].data.Vehicle && $scope.newAccidentVehicle[vehicle].data.Driver){
+								$scope.newAccidentVehicle[vehicle].error = '';
+								console.log($scope.newAccidentBasicInfoOtherData.numberOfVehicle);
+								if(vehicle == $scope.newAccidentBasicInfoOtherData.numberOfVehicle -1){
+									//checking for witness form
+									if($scope.newAccidentBasicInfoOtherData.numberOfWitness > 0){
+
+										var witnessObjet = [];
+										for(var i = 0; i < $scope.newAccidentBasicInfoOtherData.numberOfWitness; i ++){
+
+											witnessObjet.push(i);
+											if(i == 0){
+												$scope.newAccidentWitness.push({
+													'witness' : i,
+													'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
+													'data' : {},
+													'visibility' : true,
+													'numberOfWitnesses' : $scope.newAccidentBasicInfoOtherData.numberOfWitness
+												});
+											}else{
+
+												$scope.newAccidentWitness.push({
+													'witness' : i,
+													'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
+													'data' : {},
+													'visibility' : false,
+													'numberOfWitnesses' : $scope.newAccidentBasicInfoOtherData.numberOfWitness
+												});
+											}
+										}
+										$scope.witnesses = witnessObjet;
+										witnessObjet = [];
+										console.log(witnessObjet);
+
+										//hide accident vehicles forms
+										$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
+										$rootScope.pageChanger.reportAccidents.accidentWitness = true;
+									}else{
+
+										//saving reported information
+										$scope.saveAccident();
+									}
+								}else {
+
+									$scope.newAccidentVehicle[vehicle].visibility = false;
+									$scope.newAccidentVehicle[vehicle + 1].visibility = true;
+								}
+								$scope.$apply();
+							}
+
 						}
 						else{
 
@@ -705,7 +756,6 @@ function ReportAccidentsController($scope,$rootScope){
 							$scope.$apply();
 						}
 
-						console.log('Data :' +JSON.stringify($scope.newAccidentVehicle[vehicle]));
 					});
 				}
 				else{
@@ -716,48 +766,6 @@ function ReportAccidentsController($scope,$rootScope){
 
 			});//end fetching accident vehicle Drivers
 
-			/*if(vehicle == $scope.newAccidentBasicInfoOtherData.numberOfVehicle -1){
-				//checking for witness form
-				if($scope.newAccidentBasicInfoOtherData.numberOfWitness > 0){
-
-					var witnessObjet = [];
-					for(var i = 0; i < $scope.newAccidentBasicInfoOtherData.numberOfWitness; i ++){
-
-						witnessObjet.push(i);
-						if(i == 0){
-
-							$scope.newAccidentWitness.push({
-								'witness' : i,
-								'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
-								'data' : {},
-								'visibility' : true
-							});
-						}else{
-
-							$scope.newAccidentWitness.push({
-								'witness' : i,
-								'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
-								'data' : {},
-								'visibility' : false
-							});
-						}
-					}
-
-					$scope.witnesses = witnessObjet;
-
-					//hide accident vehicles forms
-					$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
-					$rootScope.pageChanger.reportAccidents.accidentWitness = true;
-				}else{
-
-					//saving reported information
-					$scope.saveAccident();
-				}
-			}else {
-
-				$scope.newAccidentVehicle[vehicle].visibility = false;
-				$scope.newAccidentVehicle[vehicle + 1].visibility = true;
-			}*/
 		}else{
 
 			$scope.newAccidentVehicleMessage ='Please Enter Vehicle Plate Number/Registration Number or Licence Number for Vehicle ' + (vehicle + 1);
@@ -811,36 +819,18 @@ function ReportAccidentsController($scope,$rootScope){
 		$rootScope.configuration.loadingData = true;*/
 		console.log('newAccidentBasicInfo' + JSON.stringify($scope.newAccidentBasicInfo));
 		console.log('newAccidentVehicle' + JSON.stringify($scope.newAccidentVehicle));
-		console.log('newAccidentWitness' + JSON.stringify($scope.newAccidentWitness));
 
-		/*//fetching
-		var drivers = [];
-		var vehicles = [];
-		for (var i=0; i < $scope.newAccidentVehicle.length; i++ ) {
 
-			//prepare data for saving
-			$scope.driver = null;
-			var newAccidentVehicleData = $scope.newAccidentVehicle[i].data;
-			var licenceNumber = newAccidentVehicleData['Licence Number'];
+		var witnessList = [];
+		if($scope.newAccidentWitness){
+			for(var i = 0; i < $scope.newAccidentWitness.length; i ++){
+				if(($scope.newAccidentWitness[i].data)['First Name']){
 
-			var driverModel =  new iroad2.data.Modal('Driver',[]);
-			driverModel.get({value:licenceNumber},function(result){
-
-				if(result[0]){
-
-					$scope.newAccidentVehicle[i].data.Driver = result[0]
-
+					witnessList.push($scope.newAccidentWitness[i].data);
 				}
-				else{
-
-					$scope.newAccidentVehicle[i].data.error = 'Driver Not Found with licence Number' + licenceNumber;
-					$scope.newAccidentVehicle[i].data.visibility = true;
-				}
-				console.log('List : ' + JSON.stringify($scope.newAccidentVehicle));
-
-			});//end fetching accident vehicle Drivers
-
-		}*/
+			}
+			console.log('newAccidentWitness List : ' + JSON.stringify(witnessList));
+		}
 
 	};
 
