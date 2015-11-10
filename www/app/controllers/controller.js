@@ -675,6 +675,10 @@ function ReportAccidentsController($scope,$rootScope){
 			var plateNumber = $scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'];
 			//fetching vehicle and driver before continues
 			var driverModel =  new iroad2.data.Modal('Driver',[]);
+
+			//loading message
+			$rootScope.configuration.loadingData = true;
+
 			driverModel.get({value:licenceNumber},function(driverList){
 				if(driverList[0]){
 
@@ -699,6 +703,9 @@ function ReportAccidentsController($scope,$rootScope){
 
 							//continue with next part of form
 							if($scope.newAccidentVehicle[vehicle].data.Vehicle && $scope.newAccidentVehicle[vehicle].data.Driver){
+
+								$rootScope.configuration.loadingData = false;
+
 								$scope.newAccidentVehicle[vehicle].error = '';
 								console.log($scope.newAccidentBasicInfoOtherData.numberOfVehicle);
 								if(vehicle == $scope.newAccidentBasicInfoOtherData.numberOfVehicle -1){
@@ -710,6 +717,7 @@ function ReportAccidentsController($scope,$rootScope){
 
 											witnessObjet.push(i);
 											if(i == 0){
+
 												$scope.newAccidentWitness.push({
 													'witness' : i,
 													'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
@@ -746,29 +754,36 @@ function ReportAccidentsController($scope,$rootScope){
 									$scope.newAccidentVehicle[vehicle + 1].visibility = true;
 								}
 								$scope.$apply();
+								$rootScope.$apply();
 							}
 
 						}
 						else{
 
+							$rootScope.configuration.loadingData = false;
 							$scope.newAccidentVehicle[vehicle].error = 'Vehicle Plate Number/Registration Number ' + plateNumber + ' not found';
 							$scope.newAccidentVehicle[vehicle].visibility = true;
 							$scope.$apply();
+							$rootScope.$apply();
+
 						}
 
 					});
 				}
 				else{
+
+					$rootScope.configuration.loadingData = false;
 					$scope.newAccidentVehicle[vehicle].error = 'Licence Number ' + licenceNumber + 'not Found';
 					$scope.newAccidentVehicle[vehicle].visibility = true;
 					$scope.$apply();
+					$rootScope.$apply();
 				}
 
 			});//end fetching accident vehicle Drivers
 
 		}else{
 
-			$scope.newAccidentVehicleMessage ='Please Enter Vehicle Plate Number/Registration Number or Licence Number for Vehicle ' + (vehicle + 1);
+			$scope.newAccidentVehicleMessage ='Please Enter Vehicle Plate Number/Registration Number and Licence Number for Vehicle ' + (vehicle + 1);
 		}
 
 	}
@@ -802,6 +817,8 @@ function ReportAccidentsController($scope,$rootScope){
 	}
 
 
+
+
 	/*
 	 function to save accident
 	 fetching all drivers
@@ -832,7 +849,33 @@ function ReportAccidentsController($scope,$rootScope){
 			console.log('newAccidentWitness List : ' + JSON.stringify(witnessList));
 		}
 
+		//other data
+		var otherData = {orgUnit:$rootScope.configuration.userData.organisationUnits[0].id,status: "COMPLETED",storedBy: "admin",eventDate:new Date()};
+		if($scope.geoPosition){
+			otherData.coordinate = {
+				"latitude": $scope.geoPosition.coords.latitude,
+				"longitude": $scope.geoPosition.coords.longitude
+			};
+		}else{
+			otherData.coordinate = {"latitude": "","longitude": ""};
+		}
+
+
+
 	};
+
+
+	//get current location
+	var onSuccess = function(position) {
+		$rootScope.$apply(function() {
+			$scope.geoPosition = position;
+		});
+	};
+	var onError = function(error) {
+		alert('ERROR! code: ' + error.code + ' ' + 'message: ' + error.message);
+	};
+	navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
+
 
 
 	/*
@@ -872,7 +915,7 @@ function ReportAccidentsController($scope,$rootScope){
 		return false;
 	}
 	$scope.getOptionSets = function(key){
-		for(j = 0 ;j < iroad2.data.dataElements.length;j++){
+		for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
 			if(iroad2.data.dataElements[j].name == key){
 				if(iroad2.data.dataElements[j].optionSet){
 					return iroad2.data.dataElements[j].optionSet.options;
@@ -929,18 +972,7 @@ function ReportOffenceController($scope,$rootScope){
 
 		$scope.errorMessagesForOffenseForm = message;
 
-		/*
-		*Taking location from the phone if gps is on
-		*/
-		var onSuccess = function(position) {
-			$rootScope.$apply(function() {
-				$scope.geoPosition = position;
-			});
-		};
-		var onError = function(error) {
-			alert('ERROR! code: ' + error.code + ' ' + 'message: ' + error.message);
-		};
-		navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
+
 
 		/*
 		*starting saving process
