@@ -749,6 +749,11 @@ function ReportAccidentsController($scope,$rootScope){
 
 	/*
 	 function to save accident
+	 fetching all drivers
+	 fetching all vehicles
+	 saving basic information for a given accident
+	 saving accident witness
+	 saving accident vehicle info
 	 */
 	$scope.saveAccident = function(){
 
@@ -761,7 +766,7 @@ function ReportAccidentsController($scope,$rootScope){
 		console.log('newAccidentVehicle' + JSON.stringify($scope.newAccidentVehicle));
 		console.log('newAccidentWitness' + JSON.stringify($scope.newAccidentWitness));
 
-	}
+	};
 
 
 	/*

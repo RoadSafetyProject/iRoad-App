@@ -23,12 +23,14 @@
     </style>
     <link text="text/css" rel="stylesheet" href="css/style.css">
 </head>
-<body ng-app = "roadsafetyMobileApp" >
+<body ng-app = "roadsafetyMobileApp" ng-controller="mainController">
 <div ng-show="configuration.loginPage">
     <div class = "">
 
         <nav class="blue darken-3" ng-controller="HomeController" style="padding-bottom: 15px;padding-left: 10px;padding-top: 5px;">
-            <a class="brand-logo center"></a>
+            <a class="brand-logo center" style="font-size: 1.5em;">
+                iROAD 2.0
+            </a>
 
             <ul class="right hide-on-med-and-down">
                 <li><a ng-click="home()" class="waves-effect waves-light">Home</a> </li>
