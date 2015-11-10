@@ -352,7 +352,6 @@ function HomeController($scope,$rootScope,$http){
 		var eventAccidentWitness = {};
 		angular.forEach(iroad2.data.programs, function (program) {
 			if (program.name == modalName) {
-				//console.log('Program ' + JSON.stringify(program));
 				angular.forEach(program.programStages[0].programStageDataElements, function (dataElement) {
 					if(dataElement.dataElement.name.startsWith(iroad2.config.refferencePrefix)){
 						//eventAccidentWitness[dataElement.dataElement.name.replace(iroad2.config.refferencePrefix,"")] = {};
@@ -365,7 +364,6 @@ function HomeController($scope,$rootScope,$http){
 		});
 		$rootScope.reportingForms.Accident.accidentWitnes = eventAccidentWitness;
 
-		console.log('Accident forms : ' + JSON.stringify($rootScope.reportingForms.Accident));
 		$rootScope.configuration.loadingData = false;
 
 	}
@@ -707,7 +705,6 @@ function ReportAccidentsController($scope,$rootScope){
 								$rootScope.configuration.loadingData = false;
 
 								$scope.newAccidentVehicle[vehicle].error = '';
-								console.log($scope.newAccidentBasicInfoOtherData.numberOfVehicle);
 								if(vehicle == $scope.newAccidentBasicInfoOtherData.numberOfVehicle -1){
 									//checking for witness form
 									if($scope.newAccidentBasicInfoOtherData.numberOfWitness > 0){
@@ -738,7 +735,6 @@ function ReportAccidentsController($scope,$rootScope){
 										}
 										$scope.witnesses = witnessObjet;
 										witnessObjet = [];
-										console.log(witnessObjet);
 
 										//hide accident vehicles forms
 										$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
@@ -859,6 +855,7 @@ function ReportAccidentsController($scope,$rootScope){
 		}else{
 			otherData.coordinate = {"latitude": "","longitude": ""};
 		}
+		alert(JSON.stringify(otherData));
 
 
 
@@ -1070,7 +1067,6 @@ function ReportOffenceController($scope,$rootScope){
 											};
 											saveDataArray.push(off);
 										});
-										console.log("Saving Offence:"+JSON.stringify(saveDataArray));
 										var offence = new iroad2.data.Modal("Offence",[]);
 										var count = 0;
 										offence.save(saveDataArray,otherData,function(){
