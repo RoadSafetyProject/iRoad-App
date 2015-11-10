@@ -825,14 +825,8 @@ function ReportAccidentsController($scope,$rootScope){
 	 */
 	$scope.saveAccident = function(){
 
-		/*$rootScope.pageChanger.reportAccidents.accidentWitness = false;
-		$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
-
-		$rootScope.pageChanger.reportAccidents.save = true;
-		$rootScope.configuration.loadingData = true;*/
 		console.log('newAccidentBasicInfo' + JSON.stringify($scope.newAccidentBasicInfo));
 		console.log('newAccidentVehicle' + JSON.stringify($scope.newAccidentVehicle));
-
 
 		var witnessList = [];
 		if($scope.newAccidentWitness){
@@ -855,9 +849,78 @@ function ReportAccidentsController($scope,$rootScope){
 		}else{
 			otherData.coordinate = {"latitude": "","longitude": ""};
 		}
-		alert(JSON.stringify(otherData));
+
+		var accidentEventModal = new iroad2.data.Modal('Accident',[]);
+		var savedAccidentBasicInfoEvent = $scope.newAccidentBasicInfo;
+		accidentEventModal.save(savedAccidentBasicInfoEvent,otherData,function(result){
+
+				console.log('accident basic info : ' + JSON.stringify(result))
+				//checking if accident basic info have been reported
+				if(result.response){
+
+					savedAccidentBasicInfoEvent['id'] = result.response.importSummaries[0].reference;
+					console.log(savedAccidentBasicInfoEvent);
+
+					//saving accident Witness
+					if(witnessList.length > 0){
+
+						for(var i = 0;i< witnessList.length; i++){
+
+							var witnessEvent = witnessList[i];
+							witnessEvent.Accident = {'id' : savedAccidentBasicInfoEvent['id']};
+
+							console.log('witness : ' + JSON.stringify(witnessEvent));
+							var accidentWitnessModel = new iroad2.data.Modal('Accident Witness',[]);
+							accidentWitnessModel.save(witnessEvent,otherData,function(resultWitness){
+								console.log('Success to add the witness to the accident' + JSON.stringify(resultWitness));
+
+							},function(error){
+								console.log('Fail to add the witness to the accident : ' + JSON.stringify(error));
+
+							},accidentWitnessModel.getModalName());
+
+						}
+					}
+
+					//saving accident vehicle
+					for(var j = 0;j < $scope.newAccidentVehicle.length; j ++){
+
+						var accidentEvent = $scope.newAccidentVehicle[j].data;
+						accidentEvent.Accident = {'id' : savedAccidentBasicInfoEvent['id']};
+
+						console.log('accident vehicle : ' + JSON.stringify(accidentEvent));
+						var driverModel =  new iroad2.data.Modal('Accident Vehicle',[]);
+						driverModel.save(accidentEvent,otherData,function(resultAccidentVehicle){
+							console.log('Success to add the accident vehicle' + JSON.stringify(resultAccidentVehicle));
+
+						},function(error){
+							console.log('Fail to add the accident vehicle : ' + JSON.stringify(error));
+
+						},driverModel.getModalName());
+
+					}
+
+				}else{
+
+					console.log('fail to reporting accident');
+				}
 
 
+			}
+			,function(error){
+
+				console.log('fails' + JSON.stringify(error));
+
+			}
+			,accidentEventModal.getModalName());
+
+
+
+		/*$rootScope.pageChanger.reportAccidents.accidentWitness = false;
+		$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
+
+		$rootScope.pageChanger.reportAccidents.save = true;
+		$rootScope.configuration.loadingData = true;*/
 
 	};
 
