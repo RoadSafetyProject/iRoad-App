@@ -632,7 +632,8 @@ function ReportAccidentsController($scope,$rootScope){
 							'vehicle': i,
 							'dataElements' : $rootScope.reportingForms.Accident.accidentVehicle,
 							'data' : {},
-							'visibility' : true
+							'visibility' : true,
+							'error' : ''
 						}
 					);
 				}
@@ -642,7 +643,8 @@ function ReportAccidentsController($scope,$rootScope){
 							'vehicle': i,
 							'dataElements' : $rootScope.reportingForms.Accident.accidentVehicle,
 							'data' : {},
-							'visibility' : false
+							'visibility' : false,
+							'error' : ''
 						}
 					);
 				}
@@ -669,7 +671,52 @@ function ReportAccidentsController($scope,$rootScope){
 		//set visibility for next vehicle
 		if($scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'] && $scope.newAccidentVehicle[vehicle].data['Licence Number']){
 
-			if(vehicle == $scope.newAccidentBasicInfoOtherData.numberOfVehicle -1){
+			var licenceNumber = $scope.newAccidentVehicle[vehicle].data['Licence Number'];
+			var plateNumber = $scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'];
+			//fetching vehicle and driver before continues
+			var driverModel =  new iroad2.data.Modal('Driver',[]);
+			driverModel.get({value:licenceNumber},function(driverList){
+				if(driverList[0]){
+
+					//fill data for driver object
+					var driver = driverList[0]
+					$scope.newAccidentVehicle[vehicle].data.Driver = {'id':driver['id']};
+					$scope.newAccidentVehicle[vehicle].data['Full Name'] = driver['Full Name'];
+					$scope.newAccidentVehicle[vehicle].data['Gender'] = driver['Gender'];
+					$scope.newAccidentVehicle[vehicle].data['Date of Birth'] = driver['Date of Birth'];
+
+					var vehicleModel = new iroad2.data.Modal('Vehicle',[]);
+					vehicleModel.get({value:plateNumber},function(vehicleList) {
+						if(vehicleList[0]){
+
+							//fill other data from vehicle object
+							var vehicleData = vehicleList[0];
+							$scope.newAccidentVehicle[vehicle].data.Vehicle = {'id':vehicleData['id']};
+							$scope.newAccidentVehicle[vehicle].data['Vehicle Ownership Category'] = vehicleData['Vehicle Ownership Category'];
+							$scope.newAccidentVehicle[vehicle].data['Vehicle Class'] = vehicleData['Vehicle Class'];
+							$scope.newAccidentVehicle[vehicle].data['Make'] = vehicleData['Make'];
+							$scope.newAccidentVehicle[vehicle].data['Model'] = vehicleData['Model'];
+
+						}
+						else{
+
+							$scope.newAccidentVehicle[vehicle].error = 'Vehicle Plate Number/Registration Number ' + plateNumber + ' not found';
+							$scope.newAccidentVehicle[vehicle].visibility = true;
+							$scope.$apply();
+						}
+
+						console.log('Data :' +JSON.stringify($scope.newAccidentVehicle[vehicle]));
+					});
+				}
+				else{
+					$scope.newAccidentVehicle[vehicle].error = 'Licence Number ' + licenceNumber + 'not Found';
+					$scope.newAccidentVehicle[vehicle].visibility = true;
+					$scope.$apply();
+				}
+
+			});//end fetching accident vehicle Drivers
+
+			/*if(vehicle == $scope.newAccidentBasicInfoOtherData.numberOfVehicle -1){
 				//checking for witness form
 				if($scope.newAccidentBasicInfoOtherData.numberOfWitness > 0){
 
@@ -710,7 +757,7 @@ function ReportAccidentsController($scope,$rootScope){
 
 				$scope.newAccidentVehicle[vehicle].visibility = false;
 				$scope.newAccidentVehicle[vehicle + 1].visibility = true;
-			}
+			}*/
 		}else{
 
 			$scope.newAccidentVehicleMessage ='Please Enter Vehicle Plate Number/Registration Number or Licence Number for Vehicle ' + (vehicle + 1);
@@ -765,6 +812,35 @@ function ReportAccidentsController($scope,$rootScope){
 		console.log('newAccidentBasicInfo' + JSON.stringify($scope.newAccidentBasicInfo));
 		console.log('newAccidentVehicle' + JSON.stringify($scope.newAccidentVehicle));
 		console.log('newAccidentWitness' + JSON.stringify($scope.newAccidentWitness));
+
+		/*//fetching
+		var drivers = [];
+		var vehicles = [];
+		for (var i=0; i < $scope.newAccidentVehicle.length; i++ ) {
+
+			//prepare data for saving
+			$scope.driver = null;
+			var newAccidentVehicleData = $scope.newAccidentVehicle[i].data;
+			var licenceNumber = newAccidentVehicleData['Licence Number'];
+
+			var driverModel =  new iroad2.data.Modal('Driver',[]);
+			driverModel.get({value:licenceNumber},function(result){
+
+				if(result[0]){
+
+					$scope.newAccidentVehicle[i].data.Driver = result[0]
+
+				}
+				else{
+
+					$scope.newAccidentVehicle[i].data.error = 'Driver Not Found with licence Number' + licenceNumber;
+					$scope.newAccidentVehicle[i].data.visibility = true;
+				}
+				console.log('List : ' + JSON.stringify($scope.newAccidentVehicle));
+
+			});//end fetching accident vehicle Drivers
+
+		}*/
 
 	};
 

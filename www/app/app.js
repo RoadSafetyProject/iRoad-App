@@ -10,8 +10,8 @@ app.controller('mainController',function($scope,$rootScope,$http){
         'loginPage': false,
         'useData': {},
         'config': {},
-        //'url' : 'http://localhost:8080/demo'
-        'url':'http://roadsafety.go.tz/demo'
+        'url' : 'http://localhost:8080/demo'
+       // 'url':'http://roadsafety.go.tz/demo'
     };
 
     var url = $rootScope.configuration.url + '/api/me.json';

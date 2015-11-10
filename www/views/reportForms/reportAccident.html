@@ -112,7 +112,16 @@
 
             <div ng-if="newAccidentVehicle[vehicle].visibility">
                 <div class="row">
-                    <p class="flow-text">Accident Vehicle {{ vehicle + 1 }}</p>
+                    <div class="col s12">
+                        <p class="flow-text">Accident Vehicle {{ vehicle + 1 }}</p>
+                    </div>
+                    <!-- error message-->
+                    <div ng-if="newAccidentVehicle[vehicle].error">
+                        <div class="col s12">
+                            <p class="red-text flow-text"><i>{{ newAccidentVehicle[vehicle].error }}</i></p>
+                        </div>
+                    </div>
+
 
                     <div class="col s12 input-field">
                         <input id="plateNumber" ng-model = "newAccidentVehicle[$index].data['Vehicle Plate Number/Registration Number']" type="text" class="validate">
