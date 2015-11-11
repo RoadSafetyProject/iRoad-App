@@ -824,10 +824,12 @@ function ReportAccidentsController($scope,$rootScope){
 	 saving accident vehicle info
 	 */
 	$scope.saveAccident = function(){
+		/*$rootScope.pageChanger.reportAccidents.accidentWitness = false;
+		 $rootScope.pageChanger.reportAccidents.accidentVehicles = false;
 
-		console.log('newAccidentBasicInfo' + JSON.stringify($scope.newAccidentBasicInfo));
-		console.log('newAccidentVehicle' + JSON.stringify($scope.newAccidentVehicle));
-
+		 $rootScope.pageChanger.reportAccidents.save = true;
+		 $rootScope.configuration.loadingData = true;
+		 */
 		var witnessList = [];
 		if($scope.newAccidentWitness){
 			for(var i = 0; i < $scope.newAccidentWitness.length; i ++){
@@ -836,11 +838,7 @@ function ReportAccidentsController($scope,$rootScope){
 					witnessList.push($scope.newAccidentWitness[i].data);
 				}
 			}
-			console.log('newAccidentWitness List : ' + JSON.stringify(witnessList));
 		}
-
-		//other data
-
 
 		var accidentEventModal = new iroad2.data.Modal('Accident',[]);
 		var savedAccidentBasicInfoEvent = $scope.newAccidentBasicInfo;
@@ -850,8 +848,7 @@ function ReportAccidentsController($scope,$rootScope){
 		for(var key in savedAccidentBasicInfoEvent){
 			if($scope.isDate(key)){
 
-				var d = new Date();
-				console.log(d);
+				var d = new Date(savedAccidentBasicInfoEvent[key]);
 				var date = d.getFullYear() + '-';
 				if(d.getMonth() > 9){
 					date = date + d.getMonth() + '-';
@@ -866,7 +863,6 @@ function ReportAccidentsController($scope,$rootScope){
 				}
 				savedAccidentBasicInfoEvent[key] = date;
 				eventDate = date;
-				console.log(date);
 			}
 		}
 
@@ -883,24 +879,17 @@ function ReportAccidentsController($scope,$rootScope){
 		console.log(JSON.stringify(savedAccidentBasicInfoEvent));
 
 		accidentEventModal.save(savedAccidentBasicInfoEvent,otherData,function(result){
-
-				console.log('accident basic info : ' + JSON.stringify(result))
 				//checking if accident basic info have been reported
 				if(result.response){
 
 					result = result.response;
 					savedAccidentBasicInfoEvent['id'] = result.importSummaries[0].reference;
-
-					console.log('Saved Accident : ' + JSON.stringify(savedAccidentBasicInfoEvent));
-
 					//saving accident Witness
 					if(witnessList.length > 0){
 
 						for(var i = 0;i< witnessList.length; i++){
-
 							var witnessEvent = witnessList[i];
 							witnessEvent.Accident = {'id' : savedAccidentBasicInfoEvent['id']};
-
 							//convert time and date
 							for(var key in witnessEvent){
 								if($scope.isDate(key)){
@@ -919,22 +908,19 @@ function ReportAccidentsController($scope,$rootScope){
 										date = date + '0' +d.getDate();
 									}
 									witnessEvent[key] = date;
-									console.log(date);
 								}
 							}
-
-							console.log('witness : ' + JSON.stringify(witnessEvent));
 							var accidentWitnessModel = new iroad2.data.Modal('Accident Witness',[]);
 							accidentWitnessModel.save(witnessEvent,otherData,function(resultWitness){
+
 								console.log('Success to add the witness to the accident' + JSON.stringify(resultWitness));
-
 							},function(error){
-								console.log('Fail to add the witness to the accident : ' + JSON.stringify(error));
 
+								console.log('Fail to add the witness to the accident : ' + JSON.stringify(error));
 							},accidentWitnessModel.getModalName());
 
 						}
-					}
+					}//end saving all witness
 
 					//saving accident vehicle
 					for(var j = 0;j < $scope.newAccidentVehicle.length; j ++){
@@ -973,30 +959,20 @@ function ReportAccidentsController($scope,$rootScope){
 
 						},driverModel.getModalName());
 
-					}
+					}//end saving all acident vehicles
 
 				}else{
 
 					console.log('fail to reporting accident');
 				}
 
-
 			}
 			,function(error){
 
 				console.log('fails' + JSON.stringify(error));
-
 			}
-			,accidentEventModal.getModalName());
+			,accidentEventModal.getModalName());//end saving all accident vehicles
 
-
-
-		/*$rootScope.pageChanger.reportAccidents.accidentWitness = false;
-		 $rootScope.pageChanger.reportAccidents.accidentVehicles = false;
-
-		 $rootScope.pageChanger.reportAccidents.save = true;
-		 $rootScope.configuration.loadingData = true;
-		 */
 	};
 
 
