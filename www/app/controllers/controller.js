@@ -16,7 +16,7 @@ appControllers.controller('PaymentVerification',PaymentVerification);
 
 
 /*
-*for control of all login logic for form submission to redirect to home page for success login user
+ *for control of all login logic for form submission to redirect to home page for success login user
  */
 function LoginController($scope,$location,$rootScope){
 
@@ -157,7 +157,7 @@ function LoginController($scope,$location,$rootScope){
 
 
 /*
-*for control all navigation actions to render a given page
+ *for control all navigation actions to render a given page
  */
 function HomeController($scope,$rootScope,$http){
 	$rootScope.reportingForms = {
@@ -411,7 +411,7 @@ function HomeController($scope,$rootScope,$http){
 
 
 /*
-*for control all function for verification of driver
+ *for control all function for verification of driver
  */
 function DriverVerificationController($scope,$rootScope){
 
@@ -487,8 +487,8 @@ function DriverVerificationController($scope,$rootScope){
 
 
 /*
-*Controller for verification of vehicles
-*
+ *Controller for verification of vehicles
+ *
  */
 function VehicleVerificationController($scope,$rootScope){
 
@@ -556,8 +556,8 @@ function VehicleVerificationController($scope,$rootScope){
 
 
 /*
-*Controller for all process during accident registration
-*
+ *Controller for all process during accident registration
+ *
  */
 function ReportAccidentsController($scope,$rootScope){
 
@@ -605,7 +605,7 @@ function ReportAccidentsController($scope,$rootScope){
 
 
 	/*
-	*functions for accident vehicles
+	 *functions for accident vehicles
 	 */
 
 	$scope.accidentVehicleForm = function(){
@@ -660,7 +660,7 @@ function ReportAccidentsController($scope,$rootScope){
 	}
 
 	/*
-	*function to change to next vehicle
+	 *function to change to next vehicle
 	 */
 	$scope.nextVehicle = function(vehicle){
 
@@ -786,7 +786,7 @@ function ReportAccidentsController($scope,$rootScope){
 
 
 	/*
-	functions to handle all actions for witness forms
+	 functions to handle all actions for witness forms
 
 	 */
 	$scope.nextWitness = function(witness){
@@ -840,7 +840,26 @@ function ReportAccidentsController($scope,$rootScope){
 		}
 
 		//other data
-		var otherData = {orgUnit:$rootScope.configuration.userData.organisationUnits[0].id,status: "COMPLETED",storedBy: "admin",eventDate:new Date()};
+
+
+		var accidentEventModal = new iroad2.data.Modal('Accident',[]);
+		var savedAccidentBasicInfoEvent = $scope.newAccidentBasicInfo;
+		console.log(JSON.stringify(savedAccidentBasicInfoEvent));
+		//convert time and date
+		var eventDate = null;
+		for(var key in savedAccidentBasicInfoEvent){
+			if($scope.isDate(key)){
+
+				var d = new Date();
+				console.log(d)
+				var date = d.getFullYear() + '-'+d.getMonth() + '-' +d.getDate() ;
+				savedAccidentBasicInfoEvent[key] = date;
+				eventDate = date;
+				console.log(date);
+			}
+		}
+
+		var otherData = {orgUnit:$rootScope.configuration.userData.organisationUnits[0].id,status: "COMPLETED",storedBy: "admin",eventDate:eventDate};
 		if($scope.geoPosition){
 			otherData.coordinate = {
 				"latitude": $scope.geoPosition.coords.latitude,
@@ -848,18 +867,6 @@ function ReportAccidentsController($scope,$rootScope){
 			};
 		}else{
 			otherData.coordinate = {"latitude": "","longitude": ""};
-		}
-
-		var accidentEventModal = new iroad2.data.Modal('Accident',[]);
-		var savedAccidentBasicInfoEvent = $scope.newAccidentBasicInfo;
-		console.log(JSON.stringify(savedAccidentBasicInfoEvent));
-		//convert time and date
-		for(var key in savedAccidentBasicInfoEvent){
-			 if($scope.isDate(key)){
-				 var d = new Date(savedAccidentBasicInfoEvent[key]);
-				 var date = d.getFullYear() + '-'+d.getMonth() + '-' +d.getDate() + 'T00:00:00.430+0000';
-				 savedAccidentBasicInfoEvent[key] = date;
-			 }
 		}
 
 		console.log(JSON.stringify(savedAccidentBasicInfoEvent));
@@ -888,8 +895,9 @@ function ReportAccidentsController($scope,$rootScope){
 								if($scope.isDate(key)){
 
 									var d = new Date(witnessEvent[key]);
-									var date = d.getFullYear() + '-'+d.getMonth() + '-' +d.getDate() + 'T00:00:00.430+0000';
-									witnessEvent[key] = date
+									var date = d.getFullYear() + '-'+d.getMonth() + '-' +d.getDate();
+									witnessEvent[key] = date;
+									console.log(date);
 								}
 							}
 
@@ -915,8 +923,9 @@ function ReportAccidentsController($scope,$rootScope){
 						for(var key in accidentVehicleEvent){
 							if($scope.isDate(key)){
 								var d = new Date(accidentVehicleEvent[key]);
-								var date = d.getFullYear() + '-'+d.getMonth() + '-' +d.getDate() + 'T00:00:00.430+0000';
-								accidentVehicleEvent[key] = date
+								var date = d.getFullYear() + '-'+d.getMonth() + '-' +d.getDate();
+								accidentVehicleEvent[key] = date;
+								console.log(date);
 							}
 						}
 
@@ -949,11 +958,11 @@ function ReportAccidentsController($scope,$rootScope){
 
 
 		/*$rootScope.pageChanger.reportAccidents.accidentWitness = false;
-		$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
+		 $rootScope.pageChanger.reportAccidents.accidentVehicles = false;
 
-		$rootScope.pageChanger.reportAccidents.save = true;
-		$rootScope.configuration.loadingData = true;
-*/
+		 $rootScope.pageChanger.reportAccidents.save = true;
+		 $rootScope.configuration.loadingData = true;
+		 */
 	};
 
 
@@ -971,7 +980,7 @@ function ReportAccidentsController($scope,$rootScope){
 
 
 	/*
-	*functions for flexible forms
+	 *functions for flexible forms
 	 */
 	$scope.isInteger = function(key){
 		return $scope.is(key,"int");
@@ -1021,7 +1030,7 @@ function ReportAccidentsController($scope,$rootScope){
 
 
 /*
-*controller for reporting offense
+ *controller for reporting offense
  */
 function ReportOffenceController($scope,$rootScope){
 
@@ -1067,11 +1076,11 @@ function ReportOffenceController($scope,$rootScope){
 
 
 		/*
-		*starting saving process
-		* fetching driver
-		* fetching vehicle
-		* saving offense details
-		* saving offense list
+		 *starting saving process
+		 * fetching driver
+		 * fetching vehicle
+		 * saving offense details
+		 * saving offense list
 		 */
 		$scope.savingErrorMessages = null;
 		var savingError = [];
@@ -1202,8 +1211,6 @@ function ReportOffenceController($scope,$rootScope){
 							$rootScope.configuration.loadingData = false;
 							$rootScope.$apply();
 						}
-
-
 
 					});//end of fetching Police
 
