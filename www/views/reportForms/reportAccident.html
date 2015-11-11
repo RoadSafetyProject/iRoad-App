@@ -208,8 +208,27 @@
     <!-- saving accident -->
     <div ng-if="pageChanger.reportAccidents.save">
 
-        <h5 >Saving Accident Data</h5>
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h5 >Saving Accident Data</h5>
+                    <p ng-if="!configuration.loadingData">
+                        You have successful report Accident
+                    </p>
+                </div>
 
+            </div>
+
+            <div class="row">
+                <div ng-controller="HomeController">
+                    <div ng-if="!configuration.loadingData" class="col s12">
+                        <button class="btn waves-effect waves-light blue" ng-click="home()" >
+                            Return Home
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     </div>

@@ -824,12 +824,12 @@ function ReportAccidentsController($scope,$rootScope){
 	 saving accident vehicle info
 	 */
 	$scope.saveAccident = function(){
-		/*$rootScope.pageChanger.reportAccidents.accidentWitness = false;
-		 $rootScope.pageChanger.reportAccidents.accidentVehicles = false;
 
-		 $rootScope.pageChanger.reportAccidents.save = true;
-		 $rootScope.configuration.loadingData = true;
-		 */
+		$rootScope.pageChanger.reportAccidents.accidentWitness = false;
+		$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
+		$rootScope.configuration.loadingData = true;
+		$rootScope.pageChanger.reportAccidents.save = true;
+
 		var witnessList = [];
 		if($scope.newAccidentWitness){
 			for(var i = 0; i < $scope.newAccidentWitness.length; i ++){
@@ -912,7 +912,8 @@ function ReportAccidentsController($scope,$rootScope){
 							}
 							var accidentWitnessModel = new iroad2.data.Modal('Accident Witness',[]);
 							accidentWitnessModel.save(witnessEvent,otherData,function(resultWitness){
-
+								$rootScope.configuration.loadingData = false;
+								$rootScope.$apply();
 								console.log('Success to add the witness to the accident' + JSON.stringify(resultWitness));
 							},function(error){
 
@@ -953,23 +954,27 @@ function ReportAccidentsController($scope,$rootScope){
 						var driverModel =  new iroad2.data.Modal('Accident Vehicle',[]);
 						driverModel.save(accidentVehicleEvent,otherData,function(resultAccidentVehicle){
 							console.log('Success to add the accident vehicle' + JSON.stringify(resultAccidentVehicle));
-
+							$rootScope.configuration.loadingData = false;
+							$rootScope.$apply();
 						},function(error){
 							console.log('Fail to add the accident vehicle : ' + JSON.stringify(error));
+							$rootScope.configuration.loadingData = false;
+							$rootScope.$apply();
 
 						},driverModel.getModalName());
 
-					}//end saving all acident vehicles
+					}//end saving all accident vehicles
 
-				}else{
-
-					console.log('fail to reporting accident');
 				}
+				$rootScope.configuration.loadingData = false;
+				$rootScope.$apply()
 
 			}
 			,function(error){
 
 				console.log('fails' + JSON.stringify(error));
+				$rootScope.configuration.loadingData = false;
+				$rootScope.$apply();
 			}
 			,accidentEventModal.getModalName());//end saving all accident vehicles
 
