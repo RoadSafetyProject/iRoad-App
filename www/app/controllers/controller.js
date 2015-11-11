@@ -1,4 +1,4 @@
-var appControllers = angular.module('appControllers', ['appServices','multi-select']);
+var appControllers = angular.module('appControllers', ['appServices','multi-select',"ui.date"]);
 
 //definition of functions
 appControllers.controller('LoginController',LoginController);
@@ -852,14 +852,28 @@ function ReportAccidentsController($scope,$rootScope){
 
 		var accidentEventModal = new iroad2.data.Modal('Accident',[]);
 		var savedAccidentBasicInfoEvent = $scope.newAccidentBasicInfo;
+		console.log(JSON.stringify(savedAccidentBasicInfoEvent));
+		//convert time and date
+		for(var key in savedAccidentBasicInfoEvent){
+			 if($scope.isDate(key)){
+				 var d = new Date(savedAccidentBasicInfoEvent[key]);
+				 var date = d.getFullYear() + '-'+d.getMonth() + '-' +d.getDate() + 'T00:00:00.430+0000';
+				 savedAccidentBasicInfoEvent[key] = date;
+			 }
+		}
+
+		console.log(JSON.stringify(savedAccidentBasicInfoEvent));
+
 		accidentEventModal.save(savedAccidentBasicInfoEvent,otherData,function(result){
 
 				console.log('accident basic info : ' + JSON.stringify(result))
 				//checking if accident basic info have been reported
 				if(result.response){
 
-					savedAccidentBasicInfoEvent['id'] = result.response.importSummaries[0].reference;
-					console.log(savedAccidentBasicInfoEvent);
+					result = result.response;
+					savedAccidentBasicInfoEvent['id'] = result.importSummaries[0].reference;
+
+					console.log('Saved Accident : ' + JSON.stringify(savedAccidentBasicInfoEvent));
 
 					//saving accident Witness
 					if(witnessList.length > 0){
@@ -868,6 +882,16 @@ function ReportAccidentsController($scope,$rootScope){
 
 							var witnessEvent = witnessList[i];
 							witnessEvent.Accident = {'id' : savedAccidentBasicInfoEvent['id']};
+
+							//convert time and date
+							for(var key in witnessEvent){
+								if($scope.isDate(key)){
+
+									var d = new Date(witnessEvent[key]);
+									var date = d.getFullYear() + '-'+d.getMonth() + '-' +d.getDate() + 'T00:00:00.430+0000';
+									witnessEvent[key] = date
+								}
+							}
 
 							console.log('witness : ' + JSON.stringify(witnessEvent));
 							var accidentWitnessModel = new iroad2.data.Modal('Accident Witness',[]);
@@ -885,12 +909,20 @@ function ReportAccidentsController($scope,$rootScope){
 					//saving accident vehicle
 					for(var j = 0;j < $scope.newAccidentVehicle.length; j ++){
 
-						var accidentEvent = $scope.newAccidentVehicle[j].data;
-						accidentEvent.Accident = {'id' : savedAccidentBasicInfoEvent['id']};
+						var accidentVehicleEvent = $scope.newAccidentVehicle[j].data;
+						accidentVehicleEvent.Accident = {'id' : savedAccidentBasicInfoEvent['id']};
 
-						console.log('accident vehicle : ' + JSON.stringify(accidentEvent));
+						for(var key in accidentVehicleEvent){
+							if($scope.isDate(key)){
+								var d = new Date(accidentVehicleEvent[key]);
+								var date = d.getFullYear() + '-'+d.getMonth() + '-' +d.getDate() + 'T00:00:00.430+0000';
+								accidentVehicleEvent[key] = date
+							}
+						}
+
+						console.log('accident vehicle : ' + JSON.stringify(accidentVehicleEvent));
 						var driverModel =  new iroad2.data.Modal('Accident Vehicle',[]);
-						driverModel.save(accidentEvent,otherData,function(resultAccidentVehicle){
+						driverModel.save(accidentVehicleEvent,otherData,function(resultAccidentVehicle){
 							console.log('Success to add the accident vehicle' + JSON.stringify(resultAccidentVehicle));
 
 						},function(error){
@@ -920,8 +952,8 @@ function ReportAccidentsController($scope,$rootScope){
 		$rootScope.pageChanger.reportAccidents.accidentVehicles = false;
 
 		$rootScope.pageChanger.reportAccidents.save = true;
-		$rootScope.configuration.loadingData = true;*/
-
+		$rootScope.configuration.loadingData = true;
+*/
 	};
 
 
