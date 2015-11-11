@@ -851,8 +851,19 @@ function ReportAccidentsController($scope,$rootScope){
 			if($scope.isDate(key)){
 
 				var d = new Date();
-				console.log(d)
-				var date = d.getFullYear() + '-'+d.getMonth() + '-' +d.getDate() ;
+				console.log(d);
+				var date = d.getFullYear() + '-';
+				if(d.getMonth() > 9){
+					date = date + d.getMonth() + '-';
+				}else{
+					date = date + '0' + d.getMonth() + '-';
+				}
+
+				if(d.getDate() > 9){
+					date = date + d.getDate();
+				}else{
+					date = date + '0' +d.getDate();
+				}
 				savedAccidentBasicInfoEvent[key] = date;
 				eventDate = date;
 				console.log(date);
@@ -895,7 +906,18 @@ function ReportAccidentsController($scope,$rootScope){
 								if($scope.isDate(key)){
 
 									var d = new Date(witnessEvent[key]);
-									var date = d.getFullYear() + '-'+d.getMonth() + '-' +d.getDate();
+									var date = d.getFullYear() + '-';
+									if(d.getMonth() > 9){
+										date = date + d.getMonth() + '-';
+									}else{
+										date = date + '0' + d.getMonth() + '-';
+									}
+
+									if(d.getDate() > 9){
+										date = date + d.getDate();
+									}else{
+										date = date + '0' +d.getDate();
+									}
 									witnessEvent[key] = date;
 									console.log(date);
 								}
@@ -923,7 +945,19 @@ function ReportAccidentsController($scope,$rootScope){
 						for(var key in accidentVehicleEvent){
 							if($scope.isDate(key)){
 								var d = new Date(accidentVehicleEvent[key]);
-								var date = d.getFullYear() + '-'+d.getMonth() + '-' +d.getDate();
+								var date = d.getFullYear() + '-';
+								if(d.getMonth() > 9){
+									date = date + d.getMonth() + '-';
+								}else{
+									date = date + '0' + d.getMonth() + '-';
+								}
+
+								if(d.getDate() > 9){
+									date = date + d.getDate();
+								}else{
+									date = date + '0' +d.getDate();
+								}
+
 								accidentVehicleEvent[key] = date;
 								console.log(date);
 							}
