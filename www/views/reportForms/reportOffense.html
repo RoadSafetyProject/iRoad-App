@@ -73,7 +73,7 @@
             <div class="col s12">
 
                 <div ng-if="!offenseList">
-                    <button ng-click="addOffense()"  class="btn blue waves-effect waves-teal">
+                    <button ng-click="addOffense()"  class="btn btn-large waves-effect waves-light blue">
                         Select Offenses
                     </button>
                     <p class="flow-text">You have selected {{ offenseCount }} offenses</p>
@@ -100,7 +100,7 @@
             </div>
 
             <div class="col s12" ng-if="!offenseList">
-                <button class="btn waves-light waves-effect blue" ng-click="reportOffense()" style="margin-top: 20px;">Report Offense</button>
+                <button class="btn btn-large col s12 waves-effect waves-light blue" ng-click="reportOffense()" style="margin-top: 20px;">Report Offense</button>
             </div>
 
         </div>
@@ -134,7 +134,7 @@
 
             <div ng-controller="HomeController">
                 <div ng-if="!configuration.loadingData" >
-                    <button class="btn waves-effect waves-light blue" ng-click="home()" >
+                    <button class="btn btn-large col s12 waves-effect waves-light blue" ng-click="home()" >
                         Return Home
                     </button>
                 </div>

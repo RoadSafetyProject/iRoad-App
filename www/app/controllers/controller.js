@@ -614,6 +614,18 @@ function ReportAccidentsController($scope,$rootScope){
 		$rootScope.pageChanger.reportAccidents.basicInfo = false;
 		$rootScope.pageChanger.reportAccidents.areaLocation = false;
 		$rootScope.pageChanger.reportAccidents.otherBasicInfo = false;
+
+		//adding accident attendant
+		var accidentAttendantModal = new iroad2.data.Modal('Police',[]);
+		var attendantRank = $scope.newAccidentBasicInfoOtherData.attendant;
+		accidentAttendantModal.get({value:attendantRank},function(policeList){
+
+			//adding police attendant if present
+			if(policeList[0]){
+				$scope.newAccidentBasicInfo.Police = policeList[0];
+			}
+		});
+
 		if($scope.newAccidentBasicInfoOtherData.numberOfVehicle > 0){
 
 			$rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = false;
@@ -889,7 +901,7 @@ function ReportAccidentsController($scope,$rootScope){
 
 						for(var i = 0;i< witnessList.length; i++){
 							var witnessEvent = witnessList[i];
-							witnessEvent.Accident = {'id' : savedAccidentBasicInfoEvent['id']};
+							witnessEvent.Accident = savedAccidentBasicInfoEvent;
 							//convert time and date
 							for(var key in witnessEvent){
 								if($scope.isDate(key)){
@@ -927,7 +939,7 @@ function ReportAccidentsController($scope,$rootScope){
 					for(var j = 0;j < $scope.newAccidentVehicle.length; j ++){
 
 						var accidentVehicleEvent = $scope.newAccidentVehicle[j].data;
-						accidentVehicleEvent.Accident = {'id' : savedAccidentBasicInfoEvent['id']};
+						accidentVehicleEvent.Accident = savedAccidentBasicInfoEvent;
 
 						for(var key in accidentVehicleEvent){
 							if($scope.isDate(key)){
@@ -992,6 +1004,30 @@ function ReportAccidentsController($scope,$rootScope){
 	};
 	navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
 
+
+	/*
+	*
+	* function to media capture
+	*/
+
+	// Called when capture operation is finished
+	//
+	var captureSuccess = function(mediaFiles) {
+		var i, len;
+		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+			//uploadFile(mediaFiles[i]);
+			path = mediaFiles[i].fullPath;
+			$scope.media.data = mediaFiles[i].fullPath;
+			$scope.$apply();
+		}
+	}
+
+	// Called if something bad happens.
+	//
+	var captureError =function(error) {
+		var msg = 'An error occurred during capture: ' + error.code;
+		navigator.notification.alert(msg, null, 'Uh oh!');
+	}
 
 
 	/*
