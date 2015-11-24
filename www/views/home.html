@@ -1,21 +1,24 @@
 <div ng-if="pageChanger.successLogin.home == true">
     <div class = "container" >
-        <div class="row">
-            <!--- welcome note -->
-            <div class=" col s12" >
-                <p class="flow-text">Welcome to iRoad 2.0 Mobile app.</p>
-                <img src="img/home_page.png" width="100%">
+        <div class="card-panel">
+            <div class="row">
+                <!--- welcome note -->
+                <div class=" col s12" >
+                    <p class="flow-text">Welcome to iRoad 2.0 Mobile app.</p>
+                    <img src="img/home_page.png" width="100%">
+
+                </div>
 
             </div>
-
-        </div>
-        <div class="row" ng-controller="HomeController">
-            <div class="col s12">
-                <button ng-click="reportAccidents()" style="margin-bottom: 10px" class="btn btn-large col s12 waves-effect waves-light blue">Report accident</button>
-                <button ng-click="reportOffence()" style="margin-bottom: 10px" class="btn btn-large col s12 waves-effect waves-light blue">Report Offense</button>
-                <button ng-click="verifyDriver()" style="margin-bottom: 10px" class="btn btn-large col s12 waves-effect waves-light blue">Verify Driver</button>
-                <button ng-click="verifyVehicle()" style="margin-bottom: 10px" class="btn btn-large col s12 waves-effect waves-light blue">Verify Vehicle</button>
+            <div class="row" ng-controller="HomeController">
+                <div class="col s12">
+                    <button ng-click="reportAccidents()" style="margin-bottom: 10px" class="btn btn-large col s12 waves-effect waves-light blue">Report accident</button>
+                    <button ng-click="reportOffence()" style="margin-bottom: 10px" class="btn btn-large col s12 waves-effect waves-light blue">Report Offense</button>
+                    <button ng-click="verifyDriver()" style="margin-bottom: 10px" class="btn btn-large col s12 waves-effect waves-light blue">Verify Driver</button>
+                    <button ng-click="verifyVehicle()" style="margin-bottom: 10px" class="btn btn-large col s12 waves-effect waves-light blue">Verify Vehicle</button>
+                </div>
             </div>
         </div>
+
     </div>
 </div>

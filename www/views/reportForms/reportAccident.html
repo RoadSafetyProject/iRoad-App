@@ -114,7 +114,7 @@
                     <div class="col s12">
                         <h5>Other Information</h5>
                         <div ng-repeat="(key,value) in reportingForms.Accident.basicInfo">
-                            <div ng-if="!(key == 'Cause of Accident' || key == 'Accident Class' ||key == 'Accident Registration Number' ||key == 'Accident Type' || key == 'Accident Type Detail'||key == 'Time of Accident' ||key == 'Road Number' ||key == 'Road Name' ||key == 'Road Mark' ||key == 'Area of Accident' ||key == 'Intersection Mark' ||key == 'Intersection Name' || key == 'Intersection Number')">
+                            <div ng-if="!(key == 'Accident Image' || key == 'Accident Video' || key == 'Accident Description Image' || key == 'Cause of Accident' || key == 'Accident Class' ||key == 'Accident Registration Number' ||key == 'Accident Type' || key == 'Accident Type Detail'||key == 'Time of Accident' ||key == 'Road Number' ||key == 'Road Name' ||key == 'Road Mark' ||key == 'Area of Accident' ||key == 'Intersection Mark' ||key == 'Intersection Name' || key == 'Intersection Number')">
                                 <label class="col s12 input-field" ng-if ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
                                 <div class="col s12 input-field" >
                                     <input ng-model="newAccidentBasicInfo[key]" ng-if="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />

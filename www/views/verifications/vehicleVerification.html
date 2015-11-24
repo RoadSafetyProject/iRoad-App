@@ -2,79 +2,81 @@
 <div class="container"><div class="row"></div> </div>
 <div ng-if="pageChanger.verifyVehicle.home == true" ng-controller="VehicleVerificationController">
     <div class="container">
-        <div class="row">
-            <form class="col s12" ng-submit="verifyVehicle()" style = "">
-
+        <div class="card-panel">
+            <div class="">
                 <div class="row">
-                    <div class="input-field col s12">
-                        <input id="vehiclePlateNumber" ng-model="data.vehilcePlateNumber" type="text" class="validate">
-                        <label for="vehiclePlateNumber">Vehicle Plate Number/Registration Number</label>
-                    </div>
+                    <form class="col s12" ng-submit="verifyVehicle()" style = "">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="vehiclePlateNumber" ng-model="data.vehilcePlateNumber" type="text" class="validate">
+                                <label for="vehiclePlateNumber">Vehicle Plate Number/Registration Number</label>
+                            </div>
+                        </div>
+
+                        <div class = "row">
+                            <button type="submit" class=" col s12 waves-effect waves-light btn-large blue">
+                                Verify Vehicle
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-                <div class = "row">
-                    <button type="submit" class=" col s12 waves-effect waves-light btn-large blue">
-                        Verify Vehicle
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- vehicle verification results -->
-    <div class="container" ng-if="!configuration.loadingData">
-        <div class="row">
-
-            <!-- display information for user for driver licence verification purpose -->
-            <div ng-if="!verificationData.Vehicle.vehicleData">
-                <div class="col s12">
-                    <div ng-if="!verificationData.Vehicle.error">
-                        <p class="flow-text">Enter Vehicle Plate Number/Registration Number to verify a vehicle</p>
-                    </div>
-                    <div ng-if="verificationData.Vehicle.error">
-                        <p class="flow-text">{{ verificationData.Vehicle.error }}</p>
-                    </div>
-
-                </div>
-
             </div>
 
-            <!-- display driver information -->
-            <div ng-if = "verificationData.Vehicle.vehicleData">
-                <h5 align="center">Vehicle Information</h5>
-                <div class="col s12" ng-repeat="(key,value) in verificationData.Vehicle.vehicle">
+            <!-- vehicle verification results -->
+            <div class="" ng-if="!configuration.loadingData">
+                <div class="row">
 
-                    <div ng-if = "key == 'Model' || key == 'Make' || key == 'Color' || key == 'Vehicle Class' || key == 'Body Type' || key == 'Vehicle Plate Number/Registration Number'">
+                    <!-- display information for user for driver licence verification purpose -->
+                    <div ng-if="!verificationData.Vehicle.vehicleData">
+                        <div class="col s12">
+                            <div ng-if="!verificationData.Vehicle.error">
+                                <p class="flow-text">Enter Vehicle Plate Number/Registration Number to verify a vehicle</p>
+                            </div>
+                            <div ng-if="verificationData.Vehicle.error">
+                                <p class="flow-text">{{ verificationData.Vehicle.error }}</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- display driver information -->
+                    <div ng-if = "verificationData.Vehicle.vehicleData">
+                        <h5 align="center">Vehicle Information</h5>
+                        <div class="col s12" ng-repeat="(key,value) in verificationData.Vehicle.vehicle">
+
+                            <div ng-if = "key == 'Model' || key == 'Make' || key == 'Color' || key == 'Vehicle Class' || key == 'Body Type' || key == 'Vehicle Plate Number/Registration Number'">
 
                         <span class = "flow-text">
                             {{ key }} <br>
                             <span style="padding-top: 2px" class="blue-text text-darken-2"> {{ verificationData.Vehicle.vehicle[key] }}</span>
                         </span>
 
-                    </div>
-                </div>
+                            </div>
+                        </div>
 
-                <div class="col s12" ng-if = "moreInformationStatus">
-                    <div ng-repeat="(key,value) in verificationData.Vehicle.vehicle">
-                        <div ng-if="key =='Seating Capacity' || key =='Tare Weight' || key =='Vehicle Class' || key =='Year of Make' || key == 'Engine Capacity' || key == 'Engine Number' || key == 'Fuel' || key == 'Number of Axial' || key == 'Axial Distance' || key == 'Chasis Number' ">
+                        <div class="col s12" ng-if = "moreInformationStatus">
+                            <div ng-repeat="(key,value) in verificationData.Vehicle.vehicle">
+                                <div ng-if="key =='Seating Capacity' || key =='Tare Weight' || key =='Vehicle Class' || key =='Year of Make' || key == 'Engine Capacity' || key == 'Engine Number' || key == 'Fuel' || key == 'Number of Axial' || key == 'Axial Distance' || key == 'Chasis Number' ">
                             <span class = "flow-text">
                                 {{ key }} <br>
                                 <span style="padding-top: 2px" class="blue-text text-darken-2"> {{ verificationData.Vehicle.vehicle[key] }}</span>
                             </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col s12" style="margin-top: 15px;">
+                            <button class="btn waves-effect waves-light blue" ng-click="moreInformationStatus = !moreInformationStatus">
+                                <span ng-if = "!moreInformationStatus">View More</span>
+                                <span ng-if = "moreInformationStatus">Hide More</span>
+                            </button>
                         </div>
                     </div>
-                </div>
 
-                <div class="col s12" style="margin-top: 15px;">
-                    <button class="btn waves-effect waves-light blue" ng-click="moreInformationStatus = !moreInformationStatus">
-                        <span ng-if = "!moreInformationStatus">View More</span>
-                        <span ng-if = "moreInformationStatus">Hide More</span>
-                    </button>
                 </div>
             </div>
-
         </div>
     </div>
-
 
 </div>
