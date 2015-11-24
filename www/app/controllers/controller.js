@@ -283,7 +283,7 @@ function HomeController($scope,$rootScope,$http){
 		$scope.clearFormsFields();
 
 		$rootScope.pageChanger = {};
-		$rootScope.pageChanger.reportAccidents = {'home': true,'basicInfo' : true};
+		$rootScope.pageChanger.reportAccidents = {'home': true,'captureMedia' : true};
 		$scope.prepareAccidentForms();
 	}
 
@@ -566,6 +566,27 @@ function ReportAccidentsController($scope,$rootScope){
 
 	$scope.newAccidentVehicle = [];
 	$scope.newAccidentWitness = [];
+
+	//function to capture image from mobile device
+	$scope.capturePhoto = function(){
+
+		console.log('capture photo');
+		navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 1});
+	}
+
+	//function to capture video from mobile device
+	$scope.captureVideo = function(){
+
+		console.log('capture video');
+		navigator.device.capture.captureVideo(captureSuccess, captureError, {limit: 1});
+	}
+
+	//function to show basic information
+	$scope.accidentBaiscInfo = function(){
+		$scope.pageChanger.reportAccidents.captureMedia = false;
+		$rootScope.pageChanger.reportAccidents.basicInfo = true;
+	}
+
 
 	//function to set visibility for area of accident sub-form and time
 	$scope.areaLocation = function(){
@@ -1009,6 +1030,8 @@ function ReportAccidentsController($scope,$rootScope){
 	*
 	* function to media capture
 	*/
+
+	$scope.media = null;
 
 	// Called when capture operation is finished
 	//
