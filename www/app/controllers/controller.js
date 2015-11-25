@@ -146,6 +146,7 @@ function LoginController($scope,$location,$rootScope){
 		//empty submitted form		
 		else{
 
+			navigator.notification.vibrate();
 			$location.path('/');
 			$scope.message  = "Please enter password or username";
 
@@ -453,7 +454,8 @@ function DriverVerificationController($scope,$rootScope){
 
 			//fetching driver from system
 			var driverModal =  new iroad2.data.Modal('Driver',[]);
-			driverModal.get({value:$scope.data.driverLicenceNumber},function(result){
+			var licenceNumber = $scope.data.driverLicenceNumber;
+			driverModal.get({'value':licenceNumber},function(result){
 				//checking id driver found
 				if(result.length > 0){
 					$rootScope.verificationData.Driver.driverData = true;
@@ -469,6 +471,38 @@ function DriverVerificationController($scope,$rootScope){
 						$scope.driverPhotoUrl = $rootScope.configuration.url + '/api/documents/' + $rootScope.defaultPhotoID + '/data';
 					}
 					$rootScope.configuration.loadingData = false;
+
+					//fetching accidents
+					var accidentModal = new  iroad2.data.Modal('Accident Vehicle',[]);
+					var accidents = [];
+					accidentModal.get(new iroad2.data.SearchCriteria('Licence Number',"=",licenceNumber),function(accidentResults){
+
+						for(var i = 0; i < accidentResults.length; i++){
+							var data = accidentResults[i];
+							if(!(JSON.stringify(data.Accident) === '{}' )){
+								accidents.push(data);
+							}
+						}
+						$rootScope.verificationData.Driver.accidentData = accidents;
+
+					});
+
+					//fetching offenses  $rootScope.verificationData.Driver.offenceData
+					var offenseModal = new  iroad2.data.Modal('Offence Event',[]);
+					var offenses = [];
+					offenseModal.get(new iroad2.data.SearchCriteria('Driver License Number',"=",licenceNumber),function(offensesResults){
+
+						console.log('offenses : ' + JSON.stringify(offensesResults));
+						$rootScope.verificationData.Driver.offenceData = offensesResults;
+						/*for(var i = 0; i < accidentResults.length; i++){
+							var data = accidentResults[i];
+							if(!(JSON.stringify(data.Accident) === '{}' )){
+								accidents.push(data);
+							}
+						}
+						$rootScope.verificationData.Driver.accidentData = accidents;*/
+
+					});
 				}
 				else{
 					$rootScope.verificationData.Driver.driverData = false;
@@ -511,6 +545,8 @@ function VehicleVerificationController($scope,$rootScope){
 		$rootScope.verificationData.Driver.driverData = false;
 		$rootScope.verificationData.Driver.driver = {};
 		$rootScope.verificationData.Driver.error = '';
+		$rootScope.verificationData.Driver.accidentData = [];
+		$rootScope.verificationData.Driver.offenceData = [];
 	}
 
 	$scope.cleanDriverData();
