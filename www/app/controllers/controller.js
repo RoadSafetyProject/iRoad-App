@@ -567,20 +567,6 @@ function ReportAccidentsController($scope,$rootScope){
 	$scope.newAccidentVehicle = [];
 	$scope.newAccidentWitness = [];
 
-	//function to capture image from mobile device
-	$scope.capturePhoto = function(){
-
-		console.log('capture photo');
-		navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 1});
-	}
-
-	//function to capture video from mobile device
-	$scope.captureVideo = function(){
-
-		console.log('capture video');
-		navigator.device.capture.captureVideo(captureSuccess, captureError, {limit: 1});
-	}
-
 	//function to show basic information
 	$scope.accidentBaiscInfo = function(){
 		$scope.pageChanger.reportAccidents.captureMedia = false;
@@ -1031,8 +1017,6 @@ function ReportAccidentsController($scope,$rootScope){
 	* function to media capture
 	*/
 
-	$scope.media = null;
-
 	// Called when capture operation is finished
 	//
 	var captureSuccess = function(mediaFiles) {
@@ -1050,6 +1034,24 @@ function ReportAccidentsController($scope,$rootScope){
 	var captureError =function(error) {
 		var msg = 'An error occurred during capture: ' + error.code;
 		navigator.notification.alert(msg, null, 'Uh oh!');
+	}
+
+	$scope.media = {
+		type : '',
+		data : ''
+	}
+	$scope.captureVideo = function(){
+
+		$scope.location = false;
+		$scope.media.type = 'video';
+		navigator.device.capture.captureVideo(captureSuccess, captureError, {limit: 1});
+	}
+
+	$scope.capturePhoto = function (){
+
+		$scope.location = false;
+		$scope.media.type = 'photo';
+		navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 1});
 	}
 
 
