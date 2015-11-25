@@ -570,6 +570,7 @@ function ReportAccidentsController($scope,$rootScope){
 	// Called when capture operation is finished
 	//
 	var captureSuccess = function(mediaFiles) {
+		alert('ok');
 		var i, len;
 		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
 			//uploadFile(mediaFiles[i]);
