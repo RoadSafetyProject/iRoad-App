@@ -27,52 +27,31 @@
 
 
 
-    <gap:plugin name="org.apache.cordova.battery-status" source = "npm"/>
-    <gap:plugin name="org.apache.cordova.camera" source = "npm"/>
-    <!--<gap:plugin name="org.apache.cordova.media-capture" source = "npm"/>-->
-    <gap:plugin name="org.apache.cordova.console" source = "npm"/>
-    <gap:plugin name="org.apache.cordova.contacts" source = "npm"/>
-    <gap:plugin name="org.apache.cordova.device" source = "npm"/>
-    <gap:plugin name="org.apache.cordova.device-motion" source = "npm"/>
-    <gap:plugin name="org.apache.cordova.device-orientation" source = "npm"/>
-    <gap:plugin name="org.apache.cordova.dialogs" source = "npm"/>
-    <gap:plugin name="org.apache.cordova.file" source = "npm"/>
-    <gap:plugin name="org.apache.cordova.file-transfer" source = "npm"/>
-    <gap:plugin name="org.apache.cordova.geolocation" source = "npm"/>
-    <gap:plugin name="org.apache.cordova.inappbrowser" source = "npm"/>
-    <gap:plugin name="org.apache.cordova.media" source = "npm"/>
-    <gap:plugin name="org.apache.cordova.network-information" source = "npm" />
-    <gap:plugin name="org.apache.cordova.splashscreen" source = "npm" />
-    <gap:plugin name="org.apache.cordova.vibration" source = "npm"/>
+    <gap:plugin name="org.apache.cordova.battery-status" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.camera" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.media-capture" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.console" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.contacts" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.device" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.device-motion" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.device-orientation" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.dialogs" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.file" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.file-transfer" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.geolocation" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.inappbrowser" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.media" source = "pgb"/>
+    <gap:plugin name="org.apache.cordova.network-information" source = "pgb" />
+    <gap:plugin name="org.apache.cordova.splashscreen" source = "pgb" />
+    <gap:plugin name="org.apache.cordova.vibration" source = "pgb"/>
 
     <icon src="ic_launcher.png" />
-    <!--<icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/ic_launcher.png" />
-    <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/ic_launcher.png" />
-    <icon gap:platform="android" gap:qualifier="hdpi" src="www/res/icon/android/ic_launcher.png" />
-    <icon gap:platform="android" gap:qualifier="xhdpi" src="www/res/icon/android/ic_launcher.png" />
-    <icon gap:platform="blackberry" src="www/res/icon/blackberry/ic_launcher.png" />
-    <icon gap:platform="blackberry" gap:state="hover" src="www/res/icon/blackberry/ic_launcher.png" />
-    <icon gap:platform="ios" height="57" src="www/res/icon/ios/ic_launcher.png" width="57" />
-    <icon gap:platform="ios" height="72" src="www/res/icon/ios/ic_launcher.png" width="72" />
-    <icon gap:platform="ios" height="114" src="www/res/icon/ios/ic_launcher.png" width="114" />
-    <icon gap:platform="ios" height="144" src="www/res/icon/ios/ic_launcher.png" width="144" />
-    <icon gap:platform="webos" src="www/res/icon/webos/ic_launcher.png" />
-    <icon gap:platform="winphone" src="www/res/icon/windows-phone/ic_launcher.png" />
-    <icon gap:platform="winphone" gap:role="background" src="www/res/icon/windows-phone/ic_launcher.png" />
-    <gap:splash gap:platform="android" gap:qualifier="port-ldpi" src="www/res/screen/android/screen-ldpi-portrait.png" />
-    <gap:splash gap:platform="android" gap:qualifier="port-mdpi" src="www/res/screen/android/screen-mdpi-portrait.png" />
-    <gap:splash gap:platform="android" gap:qualifier="port-hdpi" src="www/res/screen/android/screen-hdpi-portrait.png" />
-    <gap:splash gap:platform="android" gap:qualifier="port-xhdpi" src="www/res/screen/android/screen-xhdpi-portrait.png" />
-    <gap:splash gap:platform="blackberry" src="www/res/screen/blackberry/screen-225.png" />
-    <gap:splash gap:platform="ios" height="480" src="www/res/screen/ios/screen-iphone-portrait.png" width="320" />
-    <gap:splash gap:platform="ios" height="960" src="www/res/screen/ios/screen-iphone-portrait-2x.png" width="640" />
-    <gap:splash gap:platform="ios" height="1136" src="www/res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640" />
-    <gap:splash gap:platform="ios" height="1024" src="www/res/screen/ios/screen-ipad-portrait.png" width="768" />
-    <gap:splash gap:platform="ios" height="768" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
-    <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />-->
-    <!--<access origin="*" />
-    <plugin name="cordova-plugin-whitelist" source = "npm"/>-->
-    <gap:plugin name="com.indigoway.cordova.whitelist.whitelistplugin" />
+
+    <!--<gap:plugin name="com.indigoway.cordova.whitelist.whitelistplugin" />-->
+    <gap:plugin name="cordova-plugin-whitelist" source="npm" version="~1" />
+    <plugin name="cordova-plugin-whitelist" version="~1" />
+    <plugin name="cordova-plugin-whitelist" spec="~1" />
+
     <access origin="http://*" />
     <feature name="http://api.phonegap.com/1.0/network"/>
     <allow-intent href="http://*/*" />
@@ -89,3 +68,30 @@
         <allow-intent href="itms-apps:*" />
     </platform>
 </widget>
+
+        <!--<icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/ic_launcher.png" />
+            <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/ic_launcher.png" />
+            <icon gap:platform="android" gap:qualifier="hdpi" src="www/res/icon/android/ic_launcher.png" />
+            <icon gap:platform="android" gap:qualifier="xhdpi" src="www/res/icon/android/ic_launcher.png" />
+            <icon gap:platform="blackberry" src="www/res/icon/blackberry/ic_launcher.png" />
+            <icon gap:platform="blackberry" gap:state="hover" src="www/res/icon/blackberry/ic_launcher.png" />
+            <icon gap:platform="ios" height="57" src="www/res/icon/ios/ic_launcher.png" width="57" />
+            <icon gap:platform="ios" height="72" src="www/res/icon/ios/ic_launcher.png" width="72" />
+            <icon gap:platform="ios" height="114" src="www/res/icon/ios/ic_launcher.png" width="114" />
+            <icon gap:platform="ios" height="144" src="www/res/icon/ios/ic_launcher.png" width="144" />
+            <icon gap:platform="webos" src="www/res/icon/webos/ic_launcher.png" />
+            <icon gap:platform="winphone" src="www/res/icon/windows-phone/ic_launcher.png" />
+            <icon gap:platform="winphone" gap:role="background" src="www/res/icon/windows-phone/ic_launcher.png" />
+            <gap:splash gap:platform="android" gap:qualifier="port-ldpi" src="www/res/screen/android/screen-ldpi-portrait.png" />
+            <gap:splash gap:platform="android" gap:qualifier="port-mdpi" src="www/res/screen/android/screen-mdpi-portrait.png" />
+            <gap:splash gap:platform="android" gap:qualifier="port-hdpi" src="www/res/screen/android/screen-hdpi-portrait.png" />
+            <gap:splash gap:platform="android" gap:qualifier="port-xhdpi" src="www/res/screen/android/screen-xhdpi-portrait.png" />
+            <gap:splash gap:platform="blackberry" src="www/res/screen/blackberry/screen-225.png" />
+            <gap:splash gap:platform="ios" height="480" src="www/res/screen/ios/screen-iphone-portrait.png" width="320" />
+            <gap:splash gap:platform="ios" height="960" src="www/res/screen/ios/screen-iphone-portrait-2x.png" width="640" />
+            <gap:splash gap:platform="ios" height="1136" src="www/res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640" />
+            <gap:splash gap:platform="ios" height="1024" src="www/res/screen/ios/screen-ipad-portrait.png" width="768" />
+            <gap:splash gap:platform="ios" height="768" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
+            <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />-->
+        <!--<access origin="*" />
+        <plugin name="cordova-plugin-whitelist" source = "npm"/>-->
