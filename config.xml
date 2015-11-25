@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="roadsafety.go.tz.iroad" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>IROAD 2</name>
+<widget id="roadsafety.go.tz" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>IROAD 2 Phonegap</name>
     <description>
         Mobile app for accessing Iroad system.
     </description>
@@ -8,6 +8,9 @@
         IROAD 2 Team
     </author>
     <content src="index.html" />
+    <icon src="ic_launcher.png" />
+
+    <platform name="ios|winphone|wp8|android" />
 
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />
@@ -42,33 +45,7 @@
     <gap:plugin name="org.apache.cordova.network-information" source = "npm" />
     <gap:plugin name="org.apache.cordova.splashscreen" source = "npm" />
     <gap:plugin name="org.apache.cordova.vibration" source = "npm"/>
-    <icon src="ic_launcher.png" />
-    <!--<icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/ic_launcher.png" />
-    <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/ic_launcher.png" />
-    <icon gap:platform="android" gap:qualifier="hdpi" src="www/res/icon/android/ic_launcher.png" />
-    <icon gap:platform="android" gap:qualifier="xhdpi" src="www/res/icon/android/ic_launcher.png" />
-    <icon gap:platform="blackberry" src="www/res/icon/blackberry/ic_launcher.png" />
-    <icon gap:platform="blackberry" gap:state="hover" src="www/res/icon/blackberry/ic_launcher.png" />
-    <icon gap:platform="ios" height="57" src="www/res/icon/ios/ic_launcher.png" width="57" />
-    <icon gap:platform="ios" height="72" src="www/res/icon/ios/ic_launcher.png" width="72" />
-    <icon gap:platform="ios" height="114" src="www/res/icon/ios/ic_launcher.png" width="114" />
-    <icon gap:platform="ios" height="144" src="www/res/icon/ios/ic_launcher.png" width="144" />
-    <icon gap:platform="webos" src="www/res/icon/webos/ic_launcher.png" />
-    <icon gap:platform="winphone" src="www/res/icon/windows-phone/ic_launcher.png" />
-    <icon gap:platform="winphone" gap:role="background" src="www/res/icon/windows-phone/ic_launcher.png" />
-    <gap:splash gap:platform="android" gap:qualifier="port-ldpi" src="www/res/screen/android/screen-ldpi-portrait.png" />
-    <gap:splash gap:platform="android" gap:qualifier="port-mdpi" src="www/res/screen/android/screen-mdpi-portrait.png" />
-    <gap:splash gap:platform="android" gap:qualifier="port-hdpi" src="www/res/screen/android/screen-hdpi-portrait.png" />
-    <gap:splash gap:platform="android" gap:qualifier="port-xhdpi" src="www/res/screen/android/screen-xhdpi-portrait.png" />
-    <gap:splash gap:platform="blackberry" src="www/res/screen/blackberry/screen-225.png" />
-    <gap:splash gap:platform="ios" height="480" src="www/res/screen/ios/screen-iphone-portrait.png" width="320" />
-    <gap:splash gap:platform="ios" height="960" src="www/res/screen/ios/screen-iphone-portrait-2x.png" width="640" />
-    <gap:splash gap:platform="ios" height="1136" src="www/res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640" />
-    <gap:splash gap:platform="ios" height="1024" src="www/res/screen/ios/screen-ipad-portrait.png" width="768" />
-    <gap:splash gap:platform="ios" height="768" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
-    <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />-->
-    <!--<access origin="*" />
-    <plugin name="cordova-plugin-whitelist" source = "npm"/>-->
+
     <gap:plugin name="com.indigoway.cordova.whitelist.whitelistplugin" />
     <access origin="http://*" />
     <feature name="http://api.phonegap.com/1.0/network"/>
@@ -85,4 +62,5 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+
 </widget>
