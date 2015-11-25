@@ -569,13 +569,21 @@ function ReportAccidentsController($scope,$rootScope){
 
 	// Called when capture operation is finished
 	//
-	var captureSuccess = function(mediaFiles) {
+	var captureVideoSuccess = function(mediaFiles) {
 		var i, len;
 		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
 			//uploadFile(mediaFiles[i]);
 			path = mediaFiles[i].fullPath;
-			$scope.media.data = mediaFiles[i].fullPath;
-			alert(JSON.stringify(mediaFiles[i].fullPath));
+			$scope.media.image.data = mediaFiles[i].fullPath;
+			$scope.$apply();
+		}
+	}
+	var captureImageSuccess = function(mediaFiles) {
+		var i, len;
+		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+			//uploadFile(mediaFiles[i]);
+			path = mediaFiles[i].fullPath;
+			scope.media.video.data = mediaFiles[i].fullPath;
 			$scope.$apply();
 		}
 	}
@@ -588,20 +596,20 @@ function ReportAccidentsController($scope,$rootScope){
 	}
 
 	$scope.media = {
-		type : '',
-		data : ''
+		'image' : {},
+		'video' : {}
 	}
 	$scope.takeVideo = function(){
 
-		$scope.media.type = 'video';
-		navigator.device.capture.captureVideo(captureSuccess, captureError, {limit: 1});
+		$scope.media.video.type = 'video';
+		navigator.device.capture.captureVideo(captureVideoSuccess, captureError, {limit: 1});
 	}
 
 	$scope.takePhoto = function (){
 
-		$scope.media.type = 'photo';
+		$scope.media.image.type = 'photo';
 		navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
-		navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 1});
+		navigator.device.capture.captureImage(captureImageSuccess, captureError, {limit: 1});
 	}
 
 	//function to show basic information
