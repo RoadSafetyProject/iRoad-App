@@ -569,21 +569,24 @@ function ReportAccidentsController($scope,$rootScope){
 
 	// Called when capture operation is finished
 	//
-	var captureVideoSuccess = function(mediaFiles) {
+	var captureImageSuccess = function(mediaFiles) {
+		alert(JSON.stringify(mediaFiles));
 		var i, len;
 		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
 			//uploadFile(mediaFiles[i]);
 			path = mediaFiles[i].fullPath;
-			$scope.media.image.data = mediaFiles[i].fullPath;
+			//$scope.media.image.data = mediaFiles[i].fullPath;
+			$scope.media.image.data = mediaFiles[i];
 			$scope.$apply();
 		}
 	}
-	var captureImageSuccess = function(mediaFiles) {
+	var captureVideoSuccess = function(mediaFiles) {
+		alert(JSON.stringify(mediaFiles));
 		var i, len;
 		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
 			//uploadFile(mediaFiles[i]);
 			path = mediaFiles[i].fullPath;
-			scope.media.video.data = mediaFiles[i].fullPath;
+			$scope.media.video.data = mediaFiles[i];
 			$scope.$apply();
 		}
 	}
@@ -607,10 +610,10 @@ function ReportAccidentsController($scope,$rootScope){
 
 	$scope.takePhoto = function (){
 
-		$scope.media.image.type = 'photo';
 		navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
 		navigator.device.capture.captureImage(captureImageSuccess, captureError, {limit: 1});
 	}
+
 
 	//function to show basic information
 	$scope.accidentBaiscInfo = function(){

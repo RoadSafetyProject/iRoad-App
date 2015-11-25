@@ -18,8 +18,13 @@
             </div>
 
             <div class="row">
-                <div class="col s12">
-                    {{ media }}
+                <!-- image or video data-->
+                <div class="col s12" ng-if="media.image.data">
+                    {{ media.image.data }}
+                </div>
+
+                <div class="col s12" ng-if = "media.video.data">
+                    {{ media.video.data }}
                 </div>
             </div>
         </div>
