@@ -567,6 +567,42 @@ function ReportAccidentsController($scope,$rootScope){
 	$scope.newAccidentVehicle = [];
 	$scope.newAccidentWitness = [];
 
+	// Called when capture operation is finished
+	//
+	var captureSuccess = function(mediaFiles) {
+		var i, len;
+		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+			//uploadFile(mediaFiles[i]);
+			path = mediaFiles[i].fullPath;
+			$scope.media.data = mediaFiles[i].fullPath;
+			alert(JSON.stringify(mediaFiles[i].fullPath));
+			$scope.$apply();
+		}
+	}
+
+	// Called if something bad happens.
+	//
+	var captureError =function(error) {
+		var msg = 'An error occurred during capture: ' + error.code;
+		navigator.notification.alert(msg, null, 'Uh oh!');
+	}
+
+	$scope.media = {
+		type : '',
+		data : ''
+	}
+	$scope.takeVideo = function(){
+
+		$scope.media.type = 'video';
+		navigator.device.capture.captureVideo(captureSuccess, captureError, {limit: 1});
+	}
+
+	$scope.takePhoto = function (){
+
+		$scope.media.type = 'photo';
+		navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 1});
+	}
+
 	//function to show basic information
 	$scope.accidentBaiscInfo = function(){
 		$scope.pageChanger.reportAccidents.captureMedia = false;
@@ -1012,47 +1048,7 @@ function ReportAccidentsController($scope,$rootScope){
 	navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
 
 
-	/*
-	*
-	* function to media capture
-	*/
 
-	// Called when capture operation is finished
-	//
-	var captureSuccess = function(mediaFiles) {
-		var i, len;
-		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-			//uploadFile(mediaFiles[i]);
-			path = mediaFiles[i].fullPath;
-			$scope.media.data = mediaFiles[i].fullPath;
-			$scope.$apply();
-		}
-	}
-
-	// Called if something bad happens.
-	//
-	var captureError =function(error) {
-		var msg = 'An error occurred during capture: ' + error.code;
-		navigator.notification.alert(msg, null, 'Uh oh!');
-	}
-
-	$scope.media = {
-		type : '',
-		data : ''
-	}
-	$scope.captureVideo = function(){
-
-		$scope.location = false;
-		$scope.media.type = 'video';
-		navigator.device.capture.captureVideo(captureSuccess, captureError, {limit: 1});
-	}
-
-	$scope.capturePhoto = function (){
-
-		$scope.location = false;
-		$scope.media.type = 'photo';
-		navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 1});
-	}
 
 
 	/*
