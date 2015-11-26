@@ -438,6 +438,8 @@ function DriverVerificationController($scope,$rootScope){
 		$rootScope.verificationData.Vehicle.vehicle = {};
 		$rootScope.verificationData.Vehicle.vehicleData = false;
 		$rootScope.verificationData.Vehicle.error = '';
+		$rootScope.verificationData.Vehicle.accidentData = [];
+		$rootScope.verificationData.Vehicle.offenceData = [];
 	}
 	$scope.clearVehicleData();
 
@@ -470,7 +472,6 @@ function DriverVerificationController($scope,$rootScope){
 
 						$scope.driverPhotoUrl = $rootScope.configuration.url + '/api/documents/' + $rootScope.defaultPhotoID + '/data';
 					}
-					$rootScope.configuration.loadingData = false;
 
 					//fetching accidents
 					var accidentModal = new  iroad2.data.Modal('Accident Vehicle',[]);
@@ -485,24 +486,28 @@ function DriverVerificationController($scope,$rootScope){
 						}
 						$rootScope.verificationData.Driver.accidentData = accidents;
 
+						//fetching offenses  $rootScope.verificationData.Driver.offenceData
+						var offenseModal = new  iroad2.data.Modal('Offence Event',[]);
+						var offenses = [];
+						offenseModal.get(new iroad2.data.SearchCriteria('Driver License Number',"=",licenceNumber),function(offensesResults){
+
+							console.log('offenses : ' + JSON.stringify(offensesResults));
+							$rootScope.verificationData.Driver.offenceData = offensesResults;
+							/*for(var i = 0; i < accidentResults.length; i++){
+							 var data = accidentResults[i];
+							 if(!(JSON.stringify(data.Accident) === '{}' )){
+							 accidents.push(data);
+							 }
+							 }
+							 $rootScope.verificationData.Driver.accidentData = accidents;*/
+							$rootScope.$apply();
+						});
+
+						$rootScope.configuration.loadingData = false;
+						$rootScope.$apply();
 					});
 
-					//fetching offenses  $rootScope.verificationData.Driver.offenceData
-					var offenseModal = new  iroad2.data.Modal('Offence Event',[]);
-					var offenses = [];
-					offenseModal.get(new iroad2.data.SearchCriteria('Driver License Number',"=",licenceNumber),function(offensesResults){
 
-						console.log('offenses : ' + JSON.stringify(offensesResults));
-						$rootScope.verificationData.Driver.offenceData = offensesResults;
-						/*for(var i = 0; i < accidentResults.length; i++){
-							var data = accidentResults[i];
-							if(!(JSON.stringify(data.Accident) === '{}' )){
-								accidents.push(data);
-							}
-						}
-						$rootScope.verificationData.Driver.accidentData = accidents;*/
-
-					});
 				}
 				else{
 					$rootScope.verificationData.Driver.driverData = false;
@@ -562,12 +567,50 @@ function VehicleVerificationController($scope,$rootScope){
 
 			//get a vehicle using a given plate number
 			var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
-			vehicleModal.get({value:$scope.data.vehilcePlateNumber},function(result){
+			var plateNumber = $scope.data.vehilcePlateNumber;
+			vehicleModal.get({value:plateNumber},function(result){
 				//checking if vehicle found
 				if(result.length > 0){
 					$rootScope.verificationData.Vehicle.vehicle = result[0];
 					$rootScope.verificationData.Vehicle.vehicleData = true;
-					$rootScope.configuration.loadingData = false;
+
+
+					//fetching accidents
+					var accidentModal = new  iroad2.data.Modal('Accident Vehicle',[]);
+					var accidents = [];
+					accidentModal.get(new iroad2.data.SearchCriteria('Vehicle Plate Number/Registration Number',"=",plateNumber),function(accidentResults){
+
+						for(var i = 0; i < accidentResults.length; i++){
+							var data = accidentResults[i];
+							if(!(JSON.stringify(data.Accident) === '{}' )){
+								accidents.push(data);
+							}
+						}
+						$rootScope.verificationData.Vehicle.accidentData = accidents;
+
+
+						//fetching offenses  $rootScope.verificationData.Driver.offenceData
+						var offenseModal = new  iroad2.data.Modal('Offence Event',[]);
+						var offenses = [];
+						offenseModal.get(new iroad2.data.SearchCriteria('Vehicle Plate Number/Registration Number',"=",plateNumber),function(offensesResults){
+
+							$rootScope.verificationData.Vehicle.offenceData = offensesResults;
+							/*for(var i = 0; i < accidentResults.length; i++){
+							 var data = accidentResults[i];
+							 if(!(JSON.stringify(data.Accident) === '{}' )){
+							 accidents.push(data);
+							 }
+							 }
+							 $rootScope.verificationData.Driver.accidentData = accidents;
+							 */
+
+							$rootScope.$apply();
+						});
+
+						$rootScope.configuration.loadingData = false;
+						$rootScope.$apply();
+					});
+
 				}
 				else{
 					$rootScope.verificationData.Vehicle.error = 'Vehicle Not Found';
