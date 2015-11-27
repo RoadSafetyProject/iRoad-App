@@ -438,8 +438,8 @@ function DriverVerificationController($scope,$rootScope){
 		$rootScope.verificationData.Vehicle.vehicle = {};
 		$rootScope.verificationData.Vehicle.vehicleData = false;
 		$rootScope.verificationData.Vehicle.error = '';
-		$rootScope.verificationData.Vehicle.accidentData = [];
-		$rootScope.verificationData.Vehicle.offenceData = [];
+		$rootScope.verificationData.Vehicle.accidentData = null;
+		$rootScope.verificationData.Vehicle.offenceData = null;
 	}
 	$scope.clearVehicleData();
 
@@ -462,6 +462,7 @@ function DriverVerificationController($scope,$rootScope){
 				if(result.length > 0){
 					$rootScope.verificationData.Driver.driverData = true;
 					$rootScope.verificationData.Driver.driver = result[0];
+					$rootScope.configuration.loadingData = false;
 
 					//driver photo
 					if($rootScope.verificationData.Driver.driver['Driver Photo']){
@@ -472,6 +473,7 @@ function DriverVerificationController($scope,$rootScope){
 
 						$scope.driverPhotoUrl = $rootScope.configuration.url + '/api/documents/' + $rootScope.defaultPhotoID + '/data';
 					}
+					$rootScope.$apply();
 
 					//fetching accidents
 					var accidentModal = new  iroad2.data.Modal('Accident Vehicle',[]);
@@ -485,6 +487,7 @@ function DriverVerificationController($scope,$rootScope){
 							}
 						}
 						$rootScope.verificationData.Driver.accidentData = accidents;
+						$rootScope.$apply();
 
 						//fetching offenses  $rootScope.verificationData.Driver.offenceData
 						var offenseModal = new  iroad2.data.Modal('Offence Event',[]);
@@ -503,8 +506,6 @@ function DriverVerificationController($scope,$rootScope){
 							$rootScope.$apply();
 						});
 
-						$rootScope.configuration.loadingData = false;
-						$rootScope.$apply();
 					});
 
 
@@ -550,8 +551,8 @@ function VehicleVerificationController($scope,$rootScope){
 		$rootScope.verificationData.Driver.driverData = false;
 		$rootScope.verificationData.Driver.driver = {};
 		$rootScope.verificationData.Driver.error = '';
-		$rootScope.verificationData.Driver.accidentData = [];
-		$rootScope.verificationData.Driver.offenceData = [];
+		$rootScope.verificationData.Driver.accidentData = null;
+		$rootScope.verificationData.Driver.offenceData = null;
 	}
 
 	$scope.cleanDriverData();
@@ -567,13 +568,16 @@ function VehicleVerificationController($scope,$rootScope){
 
 			//get a vehicle using a given plate number
 			var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
-			var plateNumber = $scope.data.vehilcePlateNumber;
+			if($scope.data.vehilcePlateNumber){
+				var plateNumber = $scope.data.vehilcePlateNumber.toUpperCase();
+			}
 			vehicleModal.get({value:plateNumber},function(result){
 				//checking if vehicle found
 				if(result.length > 0){
 					$rootScope.verificationData.Vehicle.vehicle = result[0];
 					$rootScope.verificationData.Vehicle.vehicleData = true;
-
+					$rootScope.configuration.loadingData = false;
+					$rootScope.$apply();
 
 					//fetching accidents
 					var accidentModal = new  iroad2.data.Modal('Accident Vehicle',[]);
@@ -587,7 +591,7 @@ function VehicleVerificationController($scope,$rootScope){
 							}
 						}
 						$rootScope.verificationData.Vehicle.accidentData = accidents;
-
+						$rootScope.$apply();
 
 						//fetching offenses  $rootScope.verificationData.Driver.offenceData
 						var offenseModal = new  iroad2.data.Modal('Offence Event',[]);
@@ -603,12 +607,10 @@ function VehicleVerificationController($scope,$rootScope){
 							 }
 							 $rootScope.verificationData.Driver.accidentData = accidents;
 							 */
-
 							$rootScope.$apply();
 						});
 
-						$rootScope.configuration.loadingData = false;
-						$rootScope.$apply();
+
 					});
 
 				}
@@ -816,7 +818,10 @@ function ReportAccidentsController($scope,$rootScope){
 		if($scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'] && $scope.newAccidentVehicle[vehicle].data['Licence Number']){
 
 			var licenceNumber = $scope.newAccidentVehicle[vehicle].data['Licence Number'];
-			var plateNumber = $scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'];
+			if($scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number']){
+				var plateNumber = $scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'].toUpperCase();
+				$scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'] = plateNumber;
+			}
 			//fetching vehicle and driver before continues
 			var driverModel =  new iroad2.data.Modal('Driver',[]);
 
@@ -1092,13 +1097,12 @@ function ReportAccidentsController($scope,$rootScope){
 								}
 
 								accidentVehicleEvent[key] = date;
-								console.log(date);
 							}
 						}
 
 						console.log('accident vehicle : ' + JSON.stringify(accidentVehicleEvent));
-						var driverModel =  new iroad2.data.Modal('Accident Vehicle',[]);
-						driverModel.save(accidentVehicleEvent,otherData,function(resultAccidentVehicle){
+						var accidentVehicleModel =  new iroad2.data.Modal('Accident Vehicle',[]);
+						accidentVehicleModel.save(accidentVehicleEvent,otherData,function(resultAccidentVehicle){
 							console.log('Success to add the accident vehicle' + JSON.stringify(resultAccidentVehicle));
 							$rootScope.configuration.loadingData = false;
 							$rootScope.$apply();
@@ -1107,7 +1111,7 @@ function ReportAccidentsController($scope,$rootScope){
 							$rootScope.configuration.loadingData = false;
 							$rootScope.$apply();
 
-						},driverModel.getModalName());
+						},accidentVehicleModel.getModalName());
 
 					}//end saving all accident vehicles
 
@@ -1222,7 +1226,10 @@ function ReportOffenceController($scope,$rootScope){
 
 		//taking driver license number and vehicle plate number
 		driverlicence = $rootScope.reportingForms.offence.newOffenseData['Driver License Number'];
-		vehiclePlateNumber = $rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number'];
+		if($rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number']){
+			vehiclePlateNumber = $rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number'].toUpperCase();
+			$rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number'] = vehiclePlateNumber;
+		}
 
 		if(!driverlicence){
 			message.push('Enter Driver License Number');
@@ -1258,130 +1265,156 @@ function ReportOffenceController($scope,$rootScope){
 				if(driver.length <= 0){
 
 					savingError.push('Driver Not found');
+					$scope.savingErrorMessages = savingError;
+					$scope.$apply();
 				}else{
 
-					$rootScope.reportingForms.offence.newOffenseData.Driver = {'id' : driver[0].id};
-				}
+					$rootScope.reportingForms.offence.newOffenseData.Driver = driver[0];
+					var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
+					vehicleModal.get({value:vehiclePlateNumber},function(vehicle){
+						console.log(vehiclePlateNumber);
 
-				var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
-				vehicleModal.get({value:vehiclePlateNumber},function(vehicle){
+						//checking if vehicle not found
+						if(vehicle.length <= 0){
 
-					//checking if vehicle not found
-					if(vehicle.length <= 0){
+							savingError.push('Vehicle Not found');
+							$scope.savingErrorMessages = savingError;
+							$scope.$apply();
+						}else{
 
-						savingError.push('Vehicle Not found');
-					}else{
+							$rootScope.reportingForms.offence.newOffenseData.Vehicle = vehicle[0];
 
-						$rootScope.reportingForms.offence.newOffenseData.Vehicle = {'id' : vehicle[0].id};
-					}
-					$scope.savingErrorMessages = savingError;
-					var savingData = $rootScope.reportingForms.offence.newOffenseData;
-					$scope.$apply();
-					//fetching police officer
-					var policeModal = new iroad2.data.Modal('Police',[]);
-					policeModal.get(new iroad2.data.SearchCriteria('Rank Number',"=",$rootScope.reportingForms.offence.attendant),function(police){
+							$scope.savingErrorMessages = savingError;
 
-						if(police.length > 0){
-							savingData.Police = police[0];
-						}
-						//checking if driver and vehicle found
-						if($scope.savingErrorMessages.length <= 0){
+							var savingData = $rootScope.reportingForms.offence.newOffenseData;
 
-							$rootScope.pageChanger.reportOffense.saving = true;
-							$rootScope.pageChanger.reportOffense.home = false;
-
-							//add additional data to the offense reporting form
-
-							if(savingData.Driver){
-
-								savingData['Full Name'] = savingData.Driver['Full Name'];
-								savingData['Gender'] = savingData.Driver['Gender'];
-								savingData['Date of Birth'] = savingData.Driver['Date of Birth'];
-							}
-							if(savingData.Vehicle){
-
-								savingData['Model'] = savingData.Vehicle['Model'];
-								savingData['Make'] = savingData.Vehicle['Make'];
-								savingData['Vehicle Class'] = savingData.Vehicle['Vehicle Class'];
-								savingData['Vehicle Ownership Category'] =savingData.Vehicle['Vehicle Ownership Category'];
-							}
-
-							//other data
-							var otherData = {orgUnit:$rootScope.configuration.userData.organisationUnits[0].id,status: "COMPLETED",storedBy: "admin",eventDate:new Date()};
-							if($scope.geoPosition){
-								otherData.coordinate = {
-									"latitude": $scope.geoPosition.coords.latitude,
-									"longitude": $scope.geoPosition.coords.longitude
-								};
+							var eventDate = null;
+							var d = null;
+							if(savingData['Offence Date']){
+								d = new Date(savingData['Offence Date']);
 							}else{
-								otherData.coordinate = {"latitude": "","longitude": ""};
+								d = new Date();
 							}
 
-							//saving reported offense
-							var offenceEventModal = new iroad2.data.Modal("Offence Event",[new iroad2.data.Relation("Offence Registry","Offence")]);
-							offenceEventModal.save(savingData,otherData,function(result){
+							var date = d.getFullYear() + '-';
+							if(d.getMonth() > 9){
+								date = date + d.getMonth() + '-';
+							}else{
+								date = date + '0' + d.getMonth() + '-';
+							}
 
-									if(result.httpStatus){
-										var offenseSavingResponse = result.response;
-										var offenseId = offenseSavingResponse.importSummaries[0].reference;
+							if(d.getDate() > 9){
+								date = date + d.getDate();
+							}else{
+								date = date + '0' +d.getDate();
+							}
+							eventDate = date;
+							savingData['Offence Date'] = eventDate;
 
-										//prepare selected offense for saving
-										var saveDataArray = [];
-										angular.forEach($scope.selected,function(registry){
-											var off = {
-												"Offence_Event":{"id": offenseId},
-												"Offence_Registry":{"id":registry.id}
+							//fetching police officer
+							var policeModal = new iroad2.data.Modal('Police',[]);
+							policeModal.get(new iroad2.data.SearchCriteria('Rank Number',"=",$rootScope.reportingForms.offence.attendant),function(police){
+
+								if(police.length > 0){
+									savingData.Police = police[0];
+
+									//checking if driver and vehicle found
+									if($scope.savingErrorMessages.length <= 0){
+
+										$rootScope.pageChanger.reportOffense.saving = true;
+										$rootScope.pageChanger.reportOffense.home = false;
+
+										//add additional data to the offense reporting form
+
+										if(savingData.Driver){
+
+											savingData['Full Name'] = savingData.Driver['Full Name'];
+											savingData['Gender'] = savingData.Driver['Gender'];
+											savingData['Date of Birth'] = savingData.Driver['Date of Birth'];
+										}
+										if(savingData.Vehicle){
+
+											savingData['Model'] = savingData.Vehicle['Model'];
+											savingData['Make'] = savingData.Vehicle['Make'];
+											savingData['Vehicle Class'] = savingData.Vehicle['Vehicle Class'];
+											savingData['Vehicle Ownership Category'] =savingData.Vehicle['Vehicle Ownership Category'];
+										}
+
+										//other data
+										var otherData = {orgUnit:$rootScope.configuration.userData.organisationUnits[0].id,status: "COMPLETED",storedBy: "admin",eventDate:eventDate};
+										if($scope.geoPosition){
+											otherData.coordinate = {
+												"latitude": $scope.geoPosition.coords.latitude,
+												"longitude": $scope.geoPosition.coords.longitude
 											};
-											saveDataArray.push(off);
-										});
-										var offence = new iroad2.data.Modal("Offence",[]);
-										var count = 0;
-										offence.save(saveDataArray,otherData,function(){
+										}else{
+											otherData.coordinate = {"latitude": "","longitude": ""};
+										}
 
-												$rootScope.configuration.loadingData = false;
-												$rootScope.$apply();
+										//saving reported offense
+										var offenceEventModal = new iroad2.data.Modal("Offence Event",[new iroad2.data.Relation("Offence Registry","Offence")]);
+										offenceEventModal.save(savingData,otherData,function(result){
 
-											},function(){
+												if(result.httpStatus){
+													var offenseSavingResponse = result.response;
+													var offenseId = offenseSavingResponse.importSummaries[0].reference;
+
+													//prepare selected offense for saving
+													var saveDataArray = [];
+													angular.forEach($scope.selected,function(registry){
+														var off = {
+															"Offence_Event":{"id": offenseId},
+															"Offence_Registry":{"id":registry.id}
+														};
+														saveDataArray.push(off);
+													});
+													var offence = new iroad2.data.Modal("Offence",[]);
+													var count = 0;
+													offence.save(saveDataArray,otherData,function(){
+
+															$rootScope.configuration.loadingData = false;
+															$rootScope.$apply();
+
+														},function(){
+
+															//error
+															$scope.savingErrorMessages.push('Fail to save offense');
+															$rootScope.configuration.loadingData = false;
+															$rootScope.$apply();
+															$scope.$apply();
+
+														},
+														offence.getModalName());
+													$rootScope.configuration.loadingData = false;
+													$rootScope.$apply();
+												}
+											}
+											,function(){
 
 												//error
 												$scope.savingErrorMessages.push('Fail to save offense');
 												$rootScope.configuration.loadingData = false;
 												$rootScope.$apply();
 												$scope.$apply();
-
 											},
-											offence.getModalName());
+											offenceEventModal.getModalName());
+										$rootScope.configuration.loadingData = false;
+										$rootScope.$apply();
+
+									}
+									else{
+
+										console.log('Error saving list : ' + JSON.stringify($scope.savingErrorMessages));
 										$rootScope.configuration.loadingData = false;
 										$rootScope.$apply();
 									}
 								}
-								,function(){
 
-									//error
-									$scope.savingErrorMessages.push('Fail to save offense');
-									$rootScope.configuration.loadingData = false;
-									$rootScope.$apply();
-									$scope.$apply();
-								},
-								offenceEventModal.getModalName());
-							$rootScope.configuration.loadingData = false;
-							$rootScope.$apply();
-
+							});//end of fetching Police
 						}
-						else{
-
-							console.log('Error saving list : ' + JSON.stringify($scope.savingErrorMessages));
-							$rootScope.configuration.loadingData = false;
-							$rootScope.$apply();
-						}
-
-					});//end of fetching Police
-
-				});//end fo fetching vehicle information process
-
+					});//end fo fetching vehicle information process
+				}
 			});//end of fetching driver information process
-
-
 		}
 
 	}

@@ -83,9 +83,13 @@
                         </button>
                     </div>
 
-                    <div class="col s12">
-                        Number of accidents : {{ verificationData.Driver.accidentData.length }}<br>
-                        Number of offenses : {{ verificationData.Driver.offenceData.length  }}
+                    <div class="col s12" style="margin-top: 20px;" >
+                        <div ng-if = "verificationData.Driver.accidentData">
+                            Number of accidents : {{ verificationData.Driver.accidentData.length }}<br>
+                        </div>
+                        <div ng-if="verificationData.Driver.offenceData">
+                            Number of offenses : {{ verificationData.Driver.offenceData.length  }}
+                        </div>
                     </div>
 
                 </div>
