@@ -223,11 +223,12 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 		ft.upload(path,
 			$rootScope.configuration.url + "/dhis-web-reporting/displayViewDocumentForm.action",
 			function(result) {
+				alert('results : ' + JSON.stringify(result));
 				alert('Upload success: ' + result.responseCode);
 				alert(result.bytesSent + ' bytes sent');
 			},
 			function(error) {
-				alert('Error uploading file ' + path + ': ' + error.code);
+				alert('Error uploading file ' + path + ': ' + JSON.stringify(error));
 			},
 			{ fileName: name });
 	}
