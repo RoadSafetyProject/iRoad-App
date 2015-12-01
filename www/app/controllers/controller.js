@@ -221,7 +221,7 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 			name = mediaFile.name;
 
 		ft.upload(path,
-			$rootScope.configuration.url + "/dhis-web-reporting/displayViewDocumentForm.action",
+			$rootScope.configuration.url + "/dhis-web-reporting/saveDocument.action",
 			function(result) {
 				alert('results : ' + JSON.stringify(result));
 				alert('Upload success: ' + result.responseCode);
