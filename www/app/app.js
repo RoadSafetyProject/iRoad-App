@@ -1,7 +1,7 @@
 /**
  * Created by joseph on 10/21/15.
  */
-var app = angular.module('roadsafetyMobileApp', ['appControllers','ui.date','ngRoute']);
+var app = angular.module('roadsafetyMobileApp', ['appControllers','ui.date','ngRoute','ngFileUpload']);
 app.controller('mainController',function($scope,$rootScope,$http){
     //variables for the app
     $rootScope.configuration = {
