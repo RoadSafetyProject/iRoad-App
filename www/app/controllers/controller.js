@@ -1,4 +1,4 @@
-var appControllers = angular.module('appControllers', ['appServices','multi-select',"ui.date"]);
+var appControllers = angular.module('appControllers', ['appServices','multi-select',"ui.date",'ngFileUpload']);
 
 //definition of functions
 appControllers.controller('LoginController',LoginController);
@@ -14,7 +14,21 @@ appControllers.controller('PaymentVerification',PaymentVerification);
 
 //functions implementations
 
+appControllers.service('fileUpload', ['$http', function ($http) {
+	this.uploadFileToUrl = function(uploadObject){
+		var fd = new FormData();
+		angular.forEach(uploadObject.parameters,function(parameter){
+			fd.append(parameter.name, parameter.value);
+		});
 
+		$http.post(uploadObject.url, fd, {
+			//transformRequest: angular.identity,
+			headers: {'Content-Type': "multipart/form-data"}
+		})
+			.success(uploadObject.success)
+			.error(uploadObject.error);
+	}
+}])
 /*
  *for control of all login logic for form submission to redirect to home page for success login user
  */
@@ -160,11 +174,105 @@ function LoginController($scope,$location,$rootScope){
 /*
  *for control all navigation actions to render a given page
  */
-function HomeController($scope,$rootScope,$http){
+function HomeController($scope,$rootScope,$http,fileUpload){
 	$rootScope.reportingForms = {
 		'Accident' : {},
 		'Offence' : {}
 	};
+
+	var captureSuccess = function(mediaFiles) {
+		var i, len;
+		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+			uploadFile(mediaFiles[i]);
+			path = mediaFiles[i].fullPath;
+			$scope.media.data = mediaFiles[i].fullPath;
+			$scope.$apply();
+		}
+	}
+
+	// Called if something bad happens.
+	//
+	var captureError =function(error) {
+		var msg = 'An error occurred during capture: ' + error.code;
+		navigator.notification.alert(msg, null, 'Uh oh!');
+	}
+
+	$scope.media = {
+		type : '',
+		data : ''
+	}
+	$scope.takeVideo = function(){
+
+		$scope.location = false;
+		$scope.media.type = 'video';
+		navigator.device.capture.captureVideo(captureSuccess, captureError, {limit: 1});
+	}
+
+	$scope.takePhoto = function (){
+
+		$scope.location = false;
+		$scope.media.type = 'photo';
+		navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 1});
+	}
+
+	function uploadFile(mediaFile) {
+		var ft = new FileTransfer(),
+			path = mediaFile.fullPath,
+			name = mediaFile.name;
+
+		ft.upload(path,
+			$rootScope.configuration.url + "/dhis-web-reporting/displayViewDocumentForm.action",
+			function(result) {
+				alert('Upload success: ' + result.responseCode);
+				alert(result.bytesSent + ' bytes sent');
+			},
+			function(error) {
+				alert('Error uploading file ' + path + ': ' + error.code);
+			},
+			{ fileName: name });
+	}
+
+	$scope.uploadTesting = function(){
+
+
+		/*var fileName = 'pgadmin.log';
+		var file = '/home/joseph/pgadmin.log';
+		var uploadObject = {
+			url:$rootScope.configuration.url + "/dhis-web-reporting/displayAddDocumentForm.action",
+			parameters:[
+				{name:"name",value:fileName},
+				{name:"external",value:"false"},
+				{name:"upload",value: file},
+				{name :"filename",value:fileName}
+			],
+			success:function(data){
+				console.log('After uploading : ' + JSON.stringify(data));
+				$http.get($rootScope.configuration.url + '/api/documents.json?filter=name:eq:'+fileName).
+					success(function(data) {
+						console.log("Document:" + JSON.stringify(data));
+						if(data.documents.length > 0){
+							//onSuccess(data.documents[0].id);
+						}else{
+							//onError("File Not uploaded.");
+						}
+
+					}).
+					error(function(data) {
+						alert(JSON.stringify(data))
+						//onError("Error uploading file.");
+					});
+			},
+			error:function(data, status, headers, config){
+				console.log("Error Uploading")
+				//onError("Error uploading file.");
+			}
+		}
+
+		fileUpload.uploadFileToUrl(uploadObject);*/
+
+	//file=/home/joseph/pgadmin.log;filename=pgadmin.log
+
+	}
 
 	//function to empty data
 	$scope.clearFormsFields = function(){

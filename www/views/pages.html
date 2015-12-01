@@ -93,10 +93,27 @@
                 </div>
                 <div class="row" ng-controller="HomeController">
                     <div class="col s12">
+                        <button class="btn" ng-click="uploadTesting()">upload testing</button>
                         <button ng-click="reportAccidents()" style="margin-bottom: 10px" class="btn btn-large col s12 waves-effect waves-light blue">Report accident</button>
                         <button ng-click="reportOffence()" style="margin-bottom: 10px" class="btn btn-large col s12 waves-effect waves-light blue">Report Offense</button>
                         <button ng-click="verifyDriver()" style="margin-bottom: 10px" class="btn btn-large col s12 waves-effect waves-light blue">Verify Driver</button>
                         <button ng-click="verifyVehicle()" style="margin-bottom: 10px" class="btn btn-large col s12 waves-effect waves-light blue">Verify Vehicle</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <button ng-click="takePhoto()" style = "padding: 3%;margin: 1%;">Take Photo</button>
+                    <button ng-click="takeVideo()" style = "padding: 3%;margin: 1%;">Take Video</button>
+
+
+                    {{ media|json}}
+
+                    <div ng-if = "media.type == 'photo'">
+                        <img ng-src="{{media.data}}" width="320" height="240">
+                    </div>
+                    <div ng-if = "media.type == 'video'">
+                        <video width="320" height="240" controls  >
+                            <source ng-src="{{media.data}}" >
+                        </video>
                     </div>
                 </div>
             </div>
