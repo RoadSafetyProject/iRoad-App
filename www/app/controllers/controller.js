@@ -221,7 +221,7 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 			path = mediaFile.localURL;
 			//name = mediaFile.name;
 		alert('1');
-		var options = new FileUploadOptions();
+		var options = {};
 		options.fileKey = "upload";
 		//options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
 		//options.mimeType = "text/plain";
