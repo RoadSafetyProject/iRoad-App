@@ -223,7 +223,7 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 		alert('1');
 		var options = new FileUploadOptions();
 		options.fileKey = "upload";
-		options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+		//options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
 		//options.mimeType = "text/plain";
 		alert('2');
 		var params = {};
