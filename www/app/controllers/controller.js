@@ -183,10 +183,10 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 	var captureSuccess = function(mediaFiles) {
 		var i, len;
 		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-			uploadFile(mediaFiles[i]);
-			path = mediaFiles[i].fullPath;
 			$scope.media.data = mediaFiles[i].fullPath;
 			$scope.$apply();
+			alert('media file : ' + JSON.stringify(mediaFiles[i]));
+			uploadFile(mediaFiles[i]);
 		}
 	}
 
@@ -216,9 +216,10 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 	}
 
 	function uploadFile(mediaFile) {
+		alert('inside upload function');
 		var ft = new FileTransfer(),
-			path = mediaFile.localURL,
-			name = mediaFile.name;
+			path = mediaFile.localURL;
+			//name = mediaFile.name;
 
 		var options = new FileUploadOptions();
 		options.fileKey = "upload";
@@ -227,13 +228,11 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 
 		var params = {};
 		params.name = "test";
-		params.external = "false";
+		params.external = false;
 
 		options.params = params;
 		ft.upload(path, encodeURI($rootScope.configuration.url + "/dhis-web-reporting/saveDocument.action"), function(result) {
 				alert('results : ' + JSON.stringify(result));
-				alert('Upload success: ' + result.responseCode);
-				alert(result.bytesSent + ' bytes sent');
 			},
 			function(error) {
 				alert('Error uploading file ' + path + ': ' + JSON.stringify(error));
