@@ -216,22 +216,18 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 	}
 
 	function uploadFile(mediaFile) {
-		alert('inside upload function');
 		var ft = new FileTransfer(),
 			path = mediaFile.localURL;
 			//name = mediaFile.name;
-		alert('1');
 		var options = {};
 		options.fileKey = "upload";
 		//options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
 		//options.mimeType = "text/plain";
-		alert('2');
 		var params = {};
 		params.name = "test";
 		params.external = false;
 
 		options.params = params;
-		alert('3');
 		ft.upload(path, encodeURI($rootScope.configuration.url + "/dhis-web-reporting/saveDocument.action"), function(result) {
 				alert('results : ' + JSON.stringify(result));
 			},
