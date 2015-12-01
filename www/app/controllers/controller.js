@@ -217,10 +217,28 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 
 	function uploadFile(mediaFile) {
 		var ft = new FileTransfer(),
-			path = mediaFile.fullPath,
+			path = mediaFile.localURL,
 			name = mediaFile.name;
 
-		ft.upload(path,
+		var options = new FileUploadOptions();
+		options.fileKey = "upload";
+		options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+		//options.mimeType = "text/plain";
+
+		var params = {};
+		params.name = "test";
+		params.external = "false";
+
+		options.params = params;
+		ft.upload(path, encodeURI($rootScope.configuration.url + "/dhis-web-reporting/saveDocument.action"), function(result) {
+				alert('results : ' + JSON.stringify(result));
+				alert('Upload success: ' + result.responseCode);
+				alert(result.bytesSent + ' bytes sent');
+			},
+			function(error) {
+				alert('Error uploading file ' + path + ': ' + JSON.stringify(error));
+			}, options);
+		/*ft.upload(path,
 			$rootScope.configuration.url + "/dhis-web-reporting/saveDocument.action",
 			function(result) {
 				alert('results : ' + JSON.stringify(result));
@@ -230,7 +248,7 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 			function(error) {
 				alert('Error uploading file ' + path + ': ' + JSON.stringify(error));
 			},
-			{ fileName: name });
+			{ fileName: name });*/
 	}
 
 	$scope.uploadTesting = function(){
