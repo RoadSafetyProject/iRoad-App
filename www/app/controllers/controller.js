@@ -405,10 +405,9 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 	//control links for reporting accident form
 	$scope.reportAccidents = function(){
 		$scope.clearFormsFields();
+        $scope.prepareAccidentForms();
 
-		$rootScope.pageChanger = {};
-		$rootScope.pageChanger.reportAccidents = {'home': true,'captureMedia' : true};
-		$scope.prepareAccidentForms();
+
 	}
 
 	//function to prepare accident forms for reporting
@@ -489,6 +488,9 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 		$rootScope.reportingForms.Accident.accidentWitnes = eventAccidentWitness;
 
 		$rootScope.configuration.loadingData = false;
+        $rootScope.pageChanger = {};
+        $rootScope.pageChanger.reportAccidents = {'home': true,'captureMedia' : true};
+
 
 	}
 
