@@ -1,4 +1,4 @@
-var appControllers = angular.module('appControllers', ['appServices','multi-select',"ui.date",'ngFileUpload']);
+var appControllers = angular.module('appControllers', ['ui.materialize','appServices',"ui.date",'ngFileUpload']);
 
 //definition of functions
 appControllers.controller('LoginController',LoginController);
