@@ -218,9 +218,9 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 	function uploadFile(mediaFile) {
 		var ft = new FileTransfer(),
 			path = mediaFile.localURL;
-			//name = mediaFile.name;
+			name = mediaFile.name;
 		var options = {};
-		options.fileKey = "upload";
+		options.upload = name;
 		//options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
 		//options.mimeType = "text/plain";
 		var params = {};
@@ -234,7 +234,6 @@ function HomeController($scope,$rootScope,$http,fileUpload){
 			function(error) {
 				alert('Error uploading file ' + path + ': ' + JSON.stringify(error));
 			}, options);
-		alert('4');
 		/*ft.upload(path,
 			$rootScope.configuration.url + "/dhis-web-reporting/saveDocument.action",
 			function(result) {
@@ -778,21 +777,23 @@ function ReportAccidentsController($scope,$rootScope){
 		alert(JSON.stringify(mediaFiles));
 		var i, len;
 		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-			//uploadFile(mediaFiles[i]);
+
 			path = mediaFiles[i].fullPath;
 			//$scope.media.image.data = mediaFiles[i].fullPath;
 			$scope.media.image.data = mediaFiles[i];
 			$scope.$apply();
+            uploadFile(mediaFiles[i]);
 		}
 	}
 	var captureVideoSuccess = function(mediaFiles) {
 		alert(JSON.stringify(mediaFiles));
 		var i, len;
 		for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-			//uploadFile(mediaFiles[i]);
+
 			path = mediaFiles[i].fullPath;
 			$scope.media.video.data = mediaFiles[i];
 			$scope.$apply();
+            uploadFile(mediaFiles[i]);
 		}
 	}
 
@@ -802,6 +803,26 @@ function ReportAccidentsController($scope,$rootScope){
 		var msg = 'An error occurred during capture: ' + error.code;
 		navigator.notification.alert(msg, null, 'Uh oh!');
 	}
+    function uploadFile(mediaFile) {
+        var ft = new FileTransfer(),
+            path = mediaFile.localURL;
+        name = mediaFile.name;
+        var options = {};
+        options.upload = name;
+        //options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+        //options.mimeType = "text/plain";
+        var params = {};
+        params.name = "test";
+        params.external = false;
+
+        options.params = params;
+        ft.upload(path, encodeURI($rootScope.configuration.url + "/dhis-web-reporting/saveDocument.action"), function(result) {
+                alert('results : ' + JSON.stringify(result));
+            },
+            function(error) {
+                alert('Error uploading file ' + path + ': ' + JSON.stringify(error));
+            }, options);
+    }
 
 	$scope.media = {
 		'image' : {},

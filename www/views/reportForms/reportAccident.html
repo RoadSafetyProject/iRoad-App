@@ -1,29 +1,39 @@
-<div ng-if="pageChanger.reportAccidents.home == true" ng-controller="ReportAccidentsController">
+<div ng-if="pageChanger.reportAccidents.home == true" ng-controller="ReportAccidentsController"
+     xmlns="http://www.w3.org/1999/html">
 
 
     <div class ="container" ng-if = "pageChanger.reportAccidents.captureMedia == true" style="margin-top: 5%;" >
         <div class="card-panel">
             <div class="row">
                 <div class="col s12">
-                    <h5>Accident Media Capture </h5>
+                    <h5 align="center">Accident Media Capture </h5>
                 </div>
             </div>
             <div class="row">
-                <div class="col s12">
+                <!--<div class="col s12">
 
                     <button class="btn blue waves-light waves-effect" style="margin-top:3%;" ng-click="takePhoto()">Capture photo</button>
 
                     <button class="btn blue waves-light waves-effect " style="margin-top:3%;" ng-click="takeVideo()">Capture Video</button>
+                </div>-->
+                <div class="col s12">
+                    <div class="col s6 m6 center-align">
+                        <button class="btn-floating btn-large waves-effect waves-light blue" style="margin-top:3%;" ng-click="takePhoto()"><i class="mdi-image-photo-camera"></i></button>
+                    </div>
+                    <div class="col s6 m6 center-align">
+                        <button class="btn-floating btn-large waves-effect waves-light blue " style="margin-top:3%;" ng-click="takeVideo()"><i class="mdi-av-videocam"></i></button>
+                    </div>
                 </div>
             </div>
 
             <div class="row">
                 <!-- image or video data-->
-                <div class="col s8" ng-if="media.image.data">
+                <div class="col s12" ng-if="media.image.data">
                     <img ng-src="{{ media.image.data.fullPath }}" width="100%">
                 </div>
-
-                <div class="col s10" ng-if = "media.video.data">
+            </div>
+            <div class = "row">
+                <div class="col s12" ng-if = "media.video.data">
                     <video width="100%" controls>
                         <source ng-src="{{ media.video.data.fullPath }}" type="{{media.video.data.type}}">
                     </video>
@@ -122,9 +132,11 @@
                     <div class="col s12">
                         <h5>Other Information</h5>
                         <div ng-repeat="(key,value) in reportingForms.Accident.basicInfo">
-                            <div ng-if="!(key == 'Accident Image' || key == 'Accident Video' || key == 'Accident Description Image' || key == 'Cause of Accident' || key == 'Accident Class' ||key == 'Accident Registration Number' ||key == 'Accident Type' || key == 'Accident Type Detail'||key == 'Time of Accident' ||key == 'Road Number' ||key == 'Road Name' ||key == 'Road Mark' ||key == 'Area of Accident' ||key == 'Intersection Mark' ||key == 'Intersection Name' || key == 'Intersection Number')">
-                                <label class="col s12 input-field" ng-if ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
-                                <div class="col s12 input-field" >
+                            <div ng-if="!(key == 'Signature' ||key == 'Accident Image' || key == 'Accident Video' || key == 'Accident Description Image' || key == 'Cause of Accident' || key == 'Accident Class' ||key == 'Accident Registration Number' ||key == 'Accident Type' || key == 'Accident Type Detail'||key == 'Time of Accident' ||key == 'Road Number' ||key == 'Road Name' ||key == 'Road Mark' ||key == 'Area of Accident' ||key == 'Intersection Mark' ||key == 'Intersection Name' || key == 'Intersection Number')">
+                                <label class="col s12 input-field" ng-if ="hasDataSets(key) || isDate(key) || isBoolean(key)" >
+                                    <span ng-if="key != 'Comment/Observations On accident'">{{ key }}</span>
+                                </label>
+                                <div class="col s12 input-field" ng-if="key != 'Comment/Observations On accident'">
                                     <input ng-model="newAccidentBasicInfo[key]" ng-if="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
                                     <input ng-model="newAccidentBasicInfo[key]" ng-if="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
                                     <select ng-model="newAccidentBasicInfo[key]" ng-if="isBoolean(key)"  class="browser-default" id = "{{key}}" >
@@ -136,6 +148,10 @@
                                     </select>
                                     <input ng-model="newAccidentBasicInfo[key]" ng-if="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
                                     <label ng-if ="!(hasDataSets(key) || isDate(key) || isBoolean(key))" for = "{{ key }}">{{ key }}</label>
+                                </div>
+                                <div class="col s12 input-field" ng-if="key == 'Comment/Observations On accident'">
+                                    <textarea id="textarea" class="materialize-textarea" ng-model="newAccidentBasicInfo['Comment/Observations On accident']"></textarea>
+                                    <label for="textarea">Comment/Observations On accident</label>
                                 </div>
                             </div>
                         </div>
