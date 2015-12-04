@@ -1449,20 +1449,27 @@ function ReportOffenceController($scope,$rootScope){
 		if($rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number']){
 			vehiclePlateNumber = $rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number'].toUpperCase();
 			$rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number'] = vehiclePlateNumber;
-		}
-        if(vehiclePlateNumber.length == 7){
+            if(vehiclePlateNumber.length == 7){
 
-            vehiclePlateNumber  =  vehiclePlateNumber.substr(0,4) + ' ' +vehiclePlateNumber.substr(4);
-            $rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number'] = vehiclePlateNumber;
-        }
+                vehiclePlateNumber  =  vehiclePlateNumber.substr(0,4) + ' ' +vehiclePlateNumber.substr(4);
+                $rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number'] = vehiclePlateNumber;
+            }
+		}
+
 
 		if(!driverlicence){
+
+            Materialize.toast('Enter Driver License Number',3000);
 			message.push('Enter Driver License Number');
 		}
 		if(!vehiclePlateNumber){
+
+            Materialize.toast('Enter Vehicle Plate Number/Registration Number',3000);
 			message.push('Enter Vehicle Plate Number/Registration Number')
 		}
 		if(!($scope.offenseCount > 0)){
+
+            Materialize.toast('Please select at least one offense',3000);
 			message.push('Please select at least one offense');
 		}
 
@@ -1489,6 +1496,7 @@ function ReportOffenceController($scope,$rootScope){
 				//checking if driver found
 				if(driver.length <= 0){
 
+                    Materialize.toast('Driver not found');
 					savingError.push('Driver Not found');
 					$scope.savingErrorMessages = savingError;
 					$scope.$apply();
@@ -1501,6 +1509,7 @@ function ReportOffenceController($scope,$rootScope){
 						//checking if vehicle not found
 						if(vehicle.length <= 0){
 
+                            Materialize.toast('Vehicle Not found',3000);
 							savingError.push('Vehicle Not found');
 							$scope.savingErrorMessages = savingError;
 							$scope.$apply();
@@ -1600,8 +1609,8 @@ function ReportOffenceController($scope,$rootScope){
 															$rootScope.$apply();
 
 														},function(){
-
 															//error
+                                                            Materialize.toast('Fail to save offense',3000);
 															$scope.savingErrorMessages.push('Fail to save offense');
 															$rootScope.configuration.loadingData = false;
 															$rootScope.$apply();
@@ -1617,6 +1626,7 @@ function ReportOffenceController($scope,$rootScope){
 
 												//error
 												$scope.savingErrorMessages.push('Fail to save offense');
+                                                Materialize.toast('Fail to save offense',3000);
 												$rootScope.configuration.loadingData = false;
 												$rootScope.$apply();
 												$scope.$apply();
@@ -1628,7 +1638,6 @@ function ReportOffenceController($scope,$rootScope){
 									}
 									else{
 
-										console.log('Error saving list : ' + JSON.stringify($scope.savingErrorMessages));
 										$rootScope.configuration.loadingData = false;
 										$rootScope.$apply();
 									}

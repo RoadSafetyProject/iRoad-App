@@ -9,22 +9,6 @@
                 </div>
 
                 <div ng-if="!offenseList">
-                    <!--- error during reporting offense form -->
-                    <div ng-if="errorMessagesForOffenseForm">
-                        <div class="col s12" >
-                            <p class="red-text" ng-repeat=" error in errorMessagesForOffenseForm">
-                                <i>{{ error }}</i>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div ng-if="savingErrorMessages">
-                        <div class="col s12">
-                            <p class="flow-text red-text" ng-repeat="error in savingErrorMessages">
-                                <i>{{ error }}</i>
-                            </p>
-                        </div>
-                    </div>
 
                     <!-- driver and vehicle -->
                     <div ng-repeat="(key,value) in reportingForms.offence.dataElements">
