@@ -9,8 +9,8 @@ app.controller('mainController',function($scope,$rootScope,$http){
         'loginPage': false,
         'useData': {},
         'config': {},
-        'url' : 'http://localhost:8080/demo'
-        //'url':'http://roadsafety.go.tz/demo'
+        //'url' : 'http://localhost:8080/demo'
+        'url':'http://roadsafety.go.tz/demo'
     };
 
     var url = $rootScope.configuration.url + '/api/me.json';
@@ -589,13 +589,11 @@ function DriverVerificationController($scope,$rootScope){
 	$rootScope.verificationData= {
 		'Driver':{
 			'driverData' : false,
-			'driver' : {},
-			'error' : ''
+			'driver' : {}
 		},
 		'Vehicle':{
 			'vehicleData' : false,
-			'vehicle' : {},
-			'error' : ''
+			'vehicle' : {}
 		}
 	};
 	$scope.data = {};
@@ -681,15 +679,16 @@ function DriverVerificationController($scope,$rootScope){
 				}
 				else{
 					$rootScope.verificationData.Driver.driverData = false;
-					$rootScope.verificationData.Driver.error = "Driver Not Found";
 					$rootScope.configuration.loadingData = false;
+                    Materialize.toast("Driver Not Found",3000);
 				}
 				$rootScope.$apply();
 			});
 
 		}
 		else{
-			$rootScope.verificationData.Driver.error = 'Please Enter Driver Licence number to verify';
+
+            Materialize.toast('Please Enter Driver Licence number',3000);
 		}
 	}
 }
@@ -705,13 +704,11 @@ function VehicleVerificationController($scope,$rootScope){
 	$rootScope.verificationData= {
 		'Driver':{
 			'driverData' : false,
-			'driver' : {},
-			'error' : ''
+			'driver' : {}
 		},
 		'Vehicle':{
 			'vehicleData' : false,
-			'vehicle' : {},
-			'error' : ''
+			'vehicle' : {}
 		}
 	};
 	$scope.data = {}
@@ -773,35 +770,37 @@ function VehicleVerificationController($scope,$rootScope){
 						//fetching offenses  $rootScope.verificationData.Driver.offenceData
 						var offenseModal = new  iroad2.data.Modal('Offence Event',[]);
 						var offenses = [];
-						offenseModal.get(new iroad2.data.SearchCriteria('Vehicle Plate Number/Registration Number',"=",plateNumber),function(offensesResults){
+                        offenseModal.get(new iroad2.data.SearchCriteria('Vehicle Plate Number/Registration Number',"=",plateNumber),function(offensesResults){
 
-							$rootScope.verificationData.Vehicle.offenceData = offensesResults;
-							for(var i = 0; i < accidentResults.length; i++){
-							 var data = accidentResults[i];
-							 if(!(JSON.stringify(data.Accident) === '{}' )){
-							 accidents.push(data);
-							 }
-							 }
-							 $rootScope.verificationData.Driver.accidentData = accidents;
+                            $rootScope.verificationData.Vehicle.offenceData = offensesResults;
+                            for(var i = 0; i < accidentResults.length; i++){
+                                var data = accidentResults[i];
+                                if(!(JSON.stringify(data.Accident) === '{}' )){
+                                    accidents.push(data);
+                                }
+                            }
+                            $rootScope.verificationData.Driver.accidentData = accidents;
 
-							$rootScope.$apply();
-						});
+                            $rootScope.$apply();
+                        });
 
 
 					});
 
 				}
 				else{
-					$rootScope.verificationData.Vehicle.error = 'Vehicle Not Found';
+
 					$rootScope.verificationData.Vehicle.vehicleData = false;
 					$rootScope.configuration.loadingData = false;
+                    Materialize.toast('Vehicle Not Found',3000);
 				}
 				$rootScope.$apply();
 			});
 
 		}
 		else{
-			$rootScope.verificationData.Vehicle.error = 'Please Enter Vehicle Plate Number/Registration Number to Verify a vehicle';
+
+            Materialize.toast('Please Enter Vehicle Plate Number/Registration Number',3000);
 		}
 	}
 

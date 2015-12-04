@@ -25,19 +25,6 @@
 
             <!-- for results form verification of drivers -->
             <div class="row" ng-if="!configuration.loadingData">
-
-                <!-- display information for user for driver licence verification purpose -->
-                <div ng-if="!verificationData.Driver.driverData">
-                    <div class="col s12">
-                        <div ng-if="!verificationData.Driver.error">
-                            <p class="flow-text">Enter Driver Licence Number to verify a driver</p>
-                        </div>
-                        <div ng-if="verificationData.Driver.error">
-                            <p class="flow-text">{{ verificationData.Driver.error }}</p>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- display driver information -->
                 <div ng-if = "verificationData.Driver.driverData">
                     <h5 align="center">Driver Information</h5>
