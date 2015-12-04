@@ -169,14 +169,14 @@ function LoginController($scope,$location,$rootScope){
 									$rootScope.$apply();
 								}
 								catch (e){
-									$scope.message = "wrong password or username";
+                                    Materialize.toast('Wrong Username or Password', 4000);
 									$rootScope.configuration.loginPage = false;
 									$rootScope.configuration.loadingData = false;
 									$rootScope.$apply();
 								}
 							},
 							failure : function(){
-								$scope.message  = "Please Check your network";
+                                Materialize.toast('Please Check your network', 4000);
 								$rootScope.configuration.loadingData = false;
 								$rootScope.$apply();
 							}
@@ -185,8 +185,9 @@ function LoginController($scope,$location,$rootScope){
 					},
 					failure : function(response) {
 						//fail to connect to the server
-						console.log('Data : ' + JSON.stringify(response))
-						$scope.message  = "Fail to load server : " + $rootScope.configuration.url;
+						var message  = "<span>" + "Fail to load server : " + $rootScope.configuration.url+"</span>";
+                        Materialize.toast('Fail to access server', 3000);
+                        Materialize.toast($rootScope.configuration.url,3200);
 						$rootScope.configuration.loadingData = false;
 						$rootScope.$apply();
 					}
@@ -201,9 +202,10 @@ function LoginController($scope,$location,$rootScope){
 		//empty submitted form		
 		else{
 
-			navigator.notification.vibrate();
+			//navigator.notification.vibrate();
 			$location.path('/');
-			$scope.message  = "Please enter password or username";
+			var message  = "Please enter password or username";
+            Materialize.toast(message, 4000);
 
 		};
 	}
@@ -560,7 +562,8 @@ function HomeController($scope,$rootScope,$http){
 			withCredentials: true,
 			useDefaultXhrHeader: false,
 			success: function () {
-				$scope.message = "Success log out ";
+				var message = "Success log out ";
+                Materialize.toast(message,3000);
 				$scope.$apply();
 				$rootScope.configuration.loginPage = false;
 				$rootScope.configuration.loadingData = false;
@@ -569,7 +572,7 @@ function HomeController($scope,$rootScope,$http){
 			failure : function(){
 				$rootScope.configuration.loginPage = true;
 				$rootScope.$apply();
-				alert('fail to log out');
+				Materialize.toast('Fail to log out',3000);
 			}
 
 		});
@@ -734,9 +737,17 @@ function VehicleVerificationController($scope,$rootScope){
 
 			//get a vehicle using a given plate number
 			var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
+
+            //prepare plate number for seearching
 			if($scope.data.vehilcePlateNumber){
 				var plateNumber = $scope.data.vehilcePlateNumber.toUpperCase();
 			}
+            if(plateNumber.length == 7){
+
+                plateNumber  =  plateNumber.substr(0,4) + ' ' +plateNumber.substr(4);
+            }
+
+
 			vehicleModal.get({value:plateNumber},function(result){
 				//checking if vehicle found
 				if(result.length > 0){
@@ -765,14 +776,14 @@ function VehicleVerificationController($scope,$rootScope){
 						offenseModal.get(new iroad2.data.SearchCriteria('Vehicle Plate Number/Registration Number',"=",plateNumber),function(offensesResults){
 
 							$rootScope.verificationData.Vehicle.offenceData = offensesResults;
-							/*for(var i = 0; i < accidentResults.length; i++){
+							for(var i = 0; i < accidentResults.length; i++){
 							 var data = accidentResults[i];
 							 if(!(JSON.stringify(data.Accident) === '{}' )){
 							 accidents.push(data);
 							 }
 							 }
 							 $rootScope.verificationData.Driver.accidentData = accidents;
-							 */
+
 							$rootScope.$apply();
 						});
 
@@ -1010,6 +1021,11 @@ function ReportAccidentsController($scope,$rootScope){
 				var plateNumber = $scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'].toUpperCase();
 				$scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'] = plateNumber;
 			}
+            if(plateNumber.length == 7){
+
+                plateNumber  =  plateNumber.substr(0,4) + ' ' +plateNumber.substr(4);
+                $scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'] = plateNumber;
+            }
 			//fetching vehicle and driver before continues
 			var driverModel =  new iroad2.data.Modal('Driver',[]);
 
@@ -1418,6 +1434,11 @@ function ReportOffenceController($scope,$rootScope){
 			vehiclePlateNumber = $rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number'].toUpperCase();
 			$rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number'] = vehiclePlateNumber;
 		}
+        if(vehiclePlateNumber.length == 7){
+
+            vehiclePlateNumber  =  vehiclePlateNumber.substr(0,4) + ' ' +vehiclePlateNumber.substr(4);
+            $rootScope.reportingForms.offence.newOffenseData['Vehicle Plate Number/Registration Number'] = vehiclePlateNumber;
+        }
 
 		if(!driverlicence){
 			message.push('Enter Driver License Number');
@@ -1460,7 +1481,6 @@ function ReportOffenceController($scope,$rootScope){
 					$rootScope.reportingForms.offence.newOffenseData.Driver = driver[0];
 					var vehicleModal = new iroad2.data.Modal('Vehicle',[]);
 					vehicleModal.get({value:vehiclePlateNumber},function(vehicle){
-						console.log(vehiclePlateNumber);
 
 						//checking if vehicle not found
 						if(vehicle.length <= 0){
