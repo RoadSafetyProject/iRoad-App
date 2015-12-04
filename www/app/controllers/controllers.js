@@ -988,8 +988,7 @@ function ReportAccidentsController($scope,$rootScope){
 							'vehicle': i,
 							'dataElements' : $rootScope.reportingForms.Accident.accidentVehicle,
 							'data' : {},
-							'visibility' : false,
-							'error' : ''
+							'visibility' : false
 						}
 					);
 				}
@@ -1002,7 +1001,7 @@ function ReportAccidentsController($scope,$rootScope){
 		}else{
 
 			$scope.verifyBasicInfo();
-			$scope.setNumberOfVehicleWitnessMessage = 'Please Enter Number Of Vehicle(s)';
+			Materialize.toast('Please Enter Number Of Vehicle(s)',3000);
 		}
 	}
 
@@ -1011,7 +1010,6 @@ function ReportAccidentsController($scope,$rootScope){
 	 */
 	$scope.nextVehicle = function(vehicle){
 
-		$scope.newAccidentVehicleMessage ='';
 
 		//set visibility for next vehicle
 		if($scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'] && $scope.newAccidentVehicle[vehicle].data['Licence Number']){
@@ -1112,7 +1110,7 @@ function ReportAccidentsController($scope,$rootScope){
 						else{
 
 							$rootScope.configuration.loadingData = false;
-							$scope.newAccidentVehicle[vehicle].error = 'Vehicle Plate Number/Registration Number ' + plateNumber + ' not found';
+							Materialize.toast('Vehicle Plate Number/Registration Number not found',3000);
 							$scope.newAccidentVehicle[vehicle].visibility = true;
 							$scope.$apply();
 							$rootScope.$apply();
@@ -1124,7 +1122,8 @@ function ReportAccidentsController($scope,$rootScope){
 				else{
 
 					$rootScope.configuration.loadingData = false;
-					$scope.newAccidentVehicle[vehicle].error = 'Licence Number ' + licenceNumber + 'not Found';
+                    Materialize.toast('Licence Number not Found',3000);
+
 					$scope.newAccidentVehicle[vehicle].visibility = true;
 					$scope.$apply();
 					$rootScope.$apply();
@@ -1133,8 +1132,15 @@ function ReportAccidentsController($scope,$rootScope){
 			});//end fetching accident vehicle Drivers
 
 		}else{
+            if(!$scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number']){
 
-			$scope.newAccidentVehicleMessage ='Please Enter Vehicle Plate Number/Registration Number and Licence Number for Vehicle ' + (vehicle + 1);
+                Materialize.toast('Enter Vehicle Plate Number/Registration Number',3000);
+            }
+            if(!$scope.newAccidentVehicle[vehicle].data['Licence Number']){
+
+                Materialize.toast('Enter driver Licence Number ',3100);
+            }
+
 		}
 
 	}
@@ -1161,8 +1167,18 @@ function ReportAccidentsController($scope,$rootScope){
 				$scope.newAccidentWitness[witness + 1].visibility = true;
 			}
 		}else{
+            if(!$scope.newAccidentWitness[witness].data['First Name']){
 
-			$scope.newAccidentWitnessMessage = 'You must enter first name, last name and phone number of accident witness ' + (witness + 1);
+               Materialize.toast('Enter First Name',3000);
+            }
+            if(!$scope.newAccidentWitness[witness].data['Last Name']){
+
+                Materialize.toast('Enter Last Name',3000);
+            }
+            if(!$scope.newAccidentWitness[witness].data['Phone Number']){
+
+                Materialize.toast('Enter Phone number',3000);
+            }
 		}
 
 	}
