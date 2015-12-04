@@ -1,34 +1,75 @@
-var appControllers = angular.module('appControllers', ['ui.materialize','appServices',"ui.date",'ngFileUpload']);
+//var appControllers = angular.module('appControllers', ['ui.materialize','appServices',"ui.date",'ngFileUpload']);
 
 //definition of functions
-appControllers.controller('LoginController',LoginController);
-appControllers.controller('HomeController', HomeController);
-appControllers.controller('DriverVerificationController', DriverVerificationController);
-appControllers.controller('VehicleVerificationController', VehicleVerificationController);
+app.controller('mainController',function($scope,$rootScope,$http){
+    //variables for the app
+    $rootScope.configuration = {
+        'user': {},
+        'loadingData': false,
+        'loginPage': false,
+        'useData': {},
+        'config': {},
+        'url' : 'http://localhost:8080/demo'
+        //'url':'http://roadsafety.go.tz/demo'
+    };
 
-appControllers.controller('ReportAccidentsController', ReportAccidentsController);
-appControllers.controller('ReportOffenceController', ReportOffenceController);
-appControllers.controller('PaymentsController',PaymentsController);
-appControllers.controller('DriverLicenceVerificationController',DriverLicenceVerificationController);
-appControllers.controller('PaymentVerification',PaymentVerification);
+    var url = $rootScope.configuration.url + '/api/me.json';
+    $http.get(url,{})
+        .then(function(reponse){
+            var data = reponse.data;
+
+            if(data.id){
+                $rootScope.configuration.userData = data;
+                $rootScope.configuration.loginPage = true;
+                $rootScope.configuration.loadingData = false;
+                $rootScope.pageChanger = {};
+                $rootScope.pageChanger.successLogin = {'home' : true};
+
+                //loading library
+                var dhisConfigs = {
+                    baseUrl: $rootScope.configuration.url + '/',
+                    refferencePrefix: "Program_"
+                };
+
+                $rootScope.dataOffense = {};
+                $scope.onInitialize = function(){
+                    var registries = new iroad2.data.Modal("Offence Registry",[]);
+                    registries.getAll(function(result){
+                        $rootScope.dataOffense.registries = result;
+                        $rootScope.$apply();
+                    });
+                }
+
+                $rootScope.configuration.config = dhisConfigs;
+                dhisConfigs.onLoad = function () {
+                    $scope.onInitialize();
+                }
+                iroad2.Init(dhisConfigs);
+
+            }
+
+            console.log(JSON.stringify($rootScope.pageChanger));
+
+        },function(error){
+
+            console.log('error : ' + JSON.stringify(error));
+            $rootScope.configuration.loginPage = false;
+        }
+    );
+
+});
+
+app.controller('LoginController',LoginController);
+app.controller('HomeController', HomeController);
+app.controller('DriverVerificationController', DriverVerificationController);
+app.controller('VehicleVerificationController', VehicleVerificationController);
+
+app.controller('ReportAccidentsController', ReportAccidentsController);
+app.controller('ReportOffenceController', ReportOffenceController);
+
 
 //functions implementations
 
-appControllers.service('fileUpload', ['$http', function ($http) {
-	this.uploadFileToUrl = function(uploadObject){
-		var fd = new FormData();
-		angular.forEach(uploadObject.parameters,function(parameter){
-			fd.append(parameter.name, parameter.value);
-		});
-
-		$http.post(uploadObject.url, fd, {
-			//transformRequest: angular.identity,
-			headers: {'Content-Type': "multipart/form-data"}
-		})
-			.success(uploadObject.success)
-			.error(uploadObject.error);
-	}
-}])
 /*
  *for control of all login logic for form submission to redirect to home page for success login user
  */
@@ -174,7 +215,7 @@ function LoginController($scope,$location,$rootScope){
 /*
  *for control all navigation actions to render a given page
  */
-function HomeController($scope,$rootScope,$http,fileUpload){
+function HomeController($scope,$rootScope,$http){
 	$rootScope.reportingForms = {
 		'Accident' : {},
 		'Offence' : {}
@@ -1628,23 +1669,5 @@ function ReportOffenceController($scope,$rootScope){
 }
 
 
-//controller for payments
-function PaymentsController($scope,$location,$rootScope){
 
-
-}
-
-
-function DriverLicenceVerificationController ($scope,$location) {
-
-
-
-
-}
-
-
-function PaymentVerification($scope){
-
-
-}
 
