@@ -25,9 +25,9 @@
 </head>
 <body ng-app = "roadsafetyMobileApp" ng-controller="mainController" class="deep-purple lighten-5">
 <div ng-show="configuration.loginPage">
-    <div>
+    <div class="navbar-fixed">
 
-        <nav class="blue darken-3" ng-controller="HomeController" style="padding-bottom: 15px;padding-left: 10px;padding-top: 5px;">
+        <nav class="blue darken-3 " ng-controller="HomeController" style="padding-bottom: 15px;padding-left: 10px;padding-top: 5px;">
             <a class="brand-logo center" style="font-size: 1.5em;">
                 iROAD 2.0
             </a>
@@ -109,6 +109,12 @@
         menuWidth: 300, // Default is 240
         edge: 'left',
         closeOnClick: true
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+        $('.modal-trigger').leanModal();
     });
 </script>
 

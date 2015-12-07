@@ -9,8 +9,8 @@ app.controller('mainController',function($scope,$rootScope,$http){
         'loginPage': false,
         'useData': {},
         'config': {},
-        //'url' : 'http://localhost:8080/demo'
-        'url':'http://roadsafety.go.tz/demo'
+        'url' : 'http://localhost:8080/demo'
+        //'url':'http://roadsafety.go.tz/demo'
     };
 
     var url = $rootScope.configuration.url + '/api/me.json';
@@ -596,6 +596,9 @@ function DriverVerificationController($scope,$rootScope){
 			'vehicle' : {}
 		}
 	};
+    $scope.rapSheetStatus = false;
+    $scope.accidentHistory = false;
+    $scope.offenseHistory = false;
 	$scope.data = {};
 	//variable for control hide and show more information r results
 	$scope.moreInformationStatus = false;
@@ -609,6 +612,23 @@ function DriverVerificationController($scope,$rootScope){
 		$rootScope.verificationData.Vehicle.offenceData = null;
 	}
 	$scope.clearVehicleData();
+
+    $scope.hideOrShowRapSheet = function(){
+
+        $scope.rapSheetStatus = !$scope.rapSheetStatus;
+        $scope.accidentHistory = false;
+        $scope.offenseHistory = false;
+    }
+    $scope.hideOrShowAccidentHistory = function(){
+
+        $scope.accidentHistory = !$scope.accidentHistory;
+        $scope.offenseHistory = false;
+    }
+    $scope.hideOrShowOffenseHistory = function(){
+
+        $scope.offenseHistory = !$scope.offenseHistory;
+        $scope.accidentHistory = false;
+    }
 
 	//function to verify driver based on given Licence number
 	$scope.verifyDriver = function(){
@@ -711,6 +731,9 @@ function VehicleVerificationController($scope,$rootScope){
 			'vehicle' : {}
 		}
 	};
+    $scope.rapSheetStatus = false;
+    $scope.accidentHistory = false;
+    $scope.offenseHistory = false;
 	$scope.data = {}
 
 	$scope.cleanDriverData = function(){
@@ -722,6 +745,23 @@ function VehicleVerificationController($scope,$rootScope){
 	}
 
 	$scope.cleanDriverData();
+
+    $scope.hideOrShowRapSheet = function(){
+
+        $scope.rapSheetStatus = !$scope.rapSheetStatus;
+        $scope.accidentHistory = false;
+        $scope.offenseHistory = false;
+    }
+    $scope.hideOrShowAccidentHistory = function(){
+
+        $scope.accidentHistory = !$scope.accidentHistory;
+        $scope.offenseHistory = false;
+    }
+    $scope.hideOrShowOffenseHistory = function(){
+
+        $scope.offenseHistory = !$scope.offenseHistory;
+        $scope.accidentHistory = false;
+    }
 
 	//function to verify vehicle based on given vehicle plate number
 	$scope.verifyVehicle = function () {
@@ -773,14 +813,6 @@ function VehicleVerificationController($scope,$rootScope){
                         offenseModal.get(new iroad2.data.SearchCriteria('Vehicle Plate Number/Registration Number',"=",plateNumber),function(offensesResults){
 
                             $rootScope.verificationData.Vehicle.offenceData = offensesResults;
-                            for(var i = 0; i < accidentResults.length; i++){
-                                var data = accidentResults[i];
-                                if(!(JSON.stringify(data.Accident) === '{}' )){
-                                    accidents.push(data);
-                                }
-                            }
-                            $rootScope.verificationData.Driver.accidentData = accidents;
-
                             $rootScope.$apply();
                         });
 

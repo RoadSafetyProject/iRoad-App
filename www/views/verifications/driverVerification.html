@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="row">
-                        <button type="submit" class=" col s12 waves-effect waves-light btn-large blue">
+                        <button type="submit" class="mdi-action-perm-identity col s12 waves-effect waves-light btn-large blue">
                             Verify Driver
                         </button>
                     </div>
@@ -77,6 +77,25 @@
                         <div ng-if="verificationData.Driver.offenceData">
                             Number of offenses : {{ verificationData.Driver.offenceData.length  }}
                         </div>
+                    </div>
+
+                    <!-- accident history -->
+                    <div  ng-if="verificationData.Driver.accidentData">
+                        <div class = "center">
+                            <h5>Accident history</h5>
+                        </div>
+                        <div class="card-panel" ng-repeat="data in  verificationData.Driver.accidentData">
+                            <div  class = "row">
+                                <span class="col s12">Vehicle Used </span>
+                                <span class="col s12 blue-text text-darken-2">{{data['Vehicle Plate Number/Registration Number']}}</span>
+                                <span class="col s12">Area of Accident </span>
+                                <span class="col s12 blue-text text-darken-2">{{data.Accident['Area of Accident']}}</span>
+                                <span class="col s12">Date &amp; Time of Accident </span>
+                                <span class="col s12 blue-text text-darken-2">{{data.Accident['Time of Accident']}}</span>
+                                <button class="btn blue waves-effect waves-light">View more</button>
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
