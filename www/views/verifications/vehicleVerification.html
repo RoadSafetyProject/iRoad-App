@@ -80,10 +80,10 @@
                                         Number of offenses : {{ verificationData.Vehicle.offenceData.length  }}
                                     </div>
                                     <div>
-                                        <button style="margin: 0.5%;" class="blue btn waves-light waves-effect" ng-click="hideOrShowAccidentHistory()">
+                                        <button ng-if="verificationData.Vehicle.accidentData.length > 0" style="margin: 0.5%;" class="blue btn waves-light waves-effect" ng-click="hideOrShowAccidentHistory()">
                                             <span ng-if="accidentHistory">Hide </span><span ng-if="!accidentHistory">View </span>Accident History
                                         </button>
-                                        <button style="margin: 0.5%;" class="blue btn waves-light waves-effect" ng-click="hideOrShowOffenseHistory()">
+                                        <button ng-if="verificationData.Vehicle.offenceData.length > 0" style="margin: 0.5%;" class="blue btn waves-light waves-effect" ng-click="hideOrShowOffenseHistory()">
                                             <span ng-if="offenseHistory">Hide </span><span ng-if="!offenseHistory">View </span>Offense History
                                         </button>
                                     </div>
