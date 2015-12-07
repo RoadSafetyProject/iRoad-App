@@ -68,7 +68,7 @@
                     </div>
 
                     <div ng-if="offenseList" >
-                        <span style="" class="right blue waves-effect waves-circle waves-light btn-floating secondary-content" ng-click="addOffense()">X</span>
+                        <span style="" class="right blue waves-effect waves-circle waves-light btn-floating secondary-content btn-large" ng-click="addOffense()">X</span>
                         <div >
                             <div class="col s12 input-field">
                                 <input type = "text" ng-model = "search" id = "searchOffenseList">
@@ -112,12 +112,6 @@
 
                 <div ng-if="!configuration.loadingData">
                     <p ng-if="!savingErrorMessages"  class="flow-text">You have successful report Offense</p>
-                </div>
-
-                <div ng-if = "savingErrorMessages">
-                    <p class="flow-text" ng-repeat="error in savingErrorMessages">
-                        {{ error }}
-                    </p>
                 </div>
 
             </div>

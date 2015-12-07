@@ -64,7 +64,7 @@
                     </div>
 
                     <div class="col s12" style="margin-top: 15px;">
-                        <button class="btn col s12 waves-effect waves-light blue" ng-click="moreInformationStatus = !moreInformationStatus">
+                        <button class="btn btn-large col s12 waves-effect waves-light blue" ng-click="moreInformationStatus = !moreInformationStatus">
                             <span ng-if = "!moreInformationStatus"><span  class="mdi-action-visibility" style="margin: 0.7%;"></span>View More</span>
                             <span ng-if = "moreInformationStatus"><span  class="mdi-action-visibility-off" style="margin: 0.7%;"></span>Hide More</span>
                         </button>
@@ -72,7 +72,7 @@
 
                     <!-- view vehicle rep sheet -->
                     <div class="col s12" style="margin-top: 15px;">
-                        <button class="btn col s12 blue waves-effect waves-light" ng-click="hideOrShowRapSheet()">
+                        <button class="btn btn-large col s12 blue waves-effect waves-light" ng-click="hideOrShowRapSheet()">
                             <span class="mdi-action-view-list"style="font-size: 14px;margin: 0.5%;"></span>
                             <span ng-if = "rapSheetStatus">Hide Rap Sheet</span> <span ng-if = "!rapSheetStatus">show Rap Sheet</span>
                         </button>
@@ -87,10 +87,10 @@
                                     Number of offenses : {{ verificationData.Driver.offenceData.length  }}
                                 </div>
                                 <div>
-                                    <button ng-if="verificationData.Driver.accidentData.length > 0" style="margin: 0.5%;" class="blue btn waves-light waves-effect" ng-click="hideOrShowAccidentHistory()">
+                                    <button ng-if="verificationData.Driver.accidentData.length > 0" style="margin: 0.5%;" class="blue btn-large btn waves-light waves-effect" ng-click="hideOrShowAccidentHistory()">
                                         <span ng-if="accidentHistory">Hide </span><span ng-if="!accidentHistory">View </span>Accident History
                                     </button>
-                                    <button ng-if="verificationData.Driver.offenceData.length > 0" style="margin: 0.5%;" class="blue btn waves-light waves-effect" ng-click="hideOrShowOffenseHistory()">
+                                    <button ng-if="verificationData.Driver.offenceData.length > 0" style="margin: 0.5%;" class="blue btn-large btn waves-light waves-effect" ng-click="hideOrShowOffenseHistory()">
                                         <span ng-if="offenseHistory">Hide </span><span ng-if="!offenseHistory">View </span>Offense History
                                     </button>
                                 </div>
@@ -117,7 +117,7 @@
 
                         <!-- offense history -->
                         <div ng-if = "verificationData.Driver.offenceData && offenseHistory">
-                            <div class = "center">{{ verificationData.Driver.offenceData }}
+                            <div class = "center">
                                 <h5>Offense History for {{ verificationData.Driver.driver['Driver License Number'] }} </h5>
                             </div>
                             <div class="card-panel" ng-repeat="data in  verificationData.Driver.offenceData">

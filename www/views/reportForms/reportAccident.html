@@ -1,6 +1,4 @@
-<div ng-if="pageChanger.reportAccidents.home == true" ng-controller="ReportAccidentsController"
-     xmlns="http://www.w3.org/1999/html">
-
+<div ng-if="pageChanger.reportAccidents.home == true" ng-controller="ReportAccidentsController">
 
     <div class ="container" ng-if = "pageChanger.reportAccidents.captureMedia == true" style="margin-top: 5%;" >
         <div class="card-panel">
@@ -10,19 +8,7 @@
                 </div>
             </div>
 
-            <div class="input-field col s12">
-                <select material-select watch
-                        ng-options="i.name as (i.name) for i in [{'name':'Name'}]">
-                    <option value="">Choose</option>
-                </select>
-            </div>
             <div class="row">
-                <!--<div class="col s12">
-
-                    <button class="btn blue waves-light waves-effect" style="margin-top:3%;" ng-click="takePhoto()">Capture photo</button>
-
-                    <button class="btn blue waves-light waves-effect " style="margin-top:3%;" ng-click="takeVideo()">Capture Video</button>
-                </div>-->
                 <div class="col s12">
                     <div class="col s6 m6 center-align">
                         <button class="btn-floating btn-large waves-effect waves-light blue" style="margin-top:3%;" ng-click="takePhoto()"><i class="mdi-image-photo-camera"></i></button>
@@ -47,7 +33,7 @@
         </div>
         <div class="row">
             <div class="col s12">
-                <button class="btn blue waves-light waves-effect col s12" ng-click="accidentBaiscInfo()">Report</button>
+                <button class="btn btn-large blue waves-light waves-effect col s12" ng-click="accidentBaiscInfo()">Report</button>
             </div>
         </div>
     </div>
@@ -86,7 +72,7 @@
             <!-- next button-->
             <div class="row">
                 <div class="col s12">
-                    <button ng-if="pageChanger.reportAccidents.button != true" style="margin: 7px;" class="btn waves-effect waves-light blue" ng-click="areaLocation()">Next</button>
+                    <button ng-if="pageChanger.reportAccidents.button != true" style="margin: 7px;" class="btn btn-large waves-effect waves-light blue" ng-click="areaLocation()">Next</button>
                 </div>
             </div>
 
@@ -124,7 +110,7 @@
             <!-- next button-->
             <div class="row">
                 <div class="col s12">
-                    <button ng-if="pageChanger.reportAccidents.button != true" style="margin: 7px;" class="btn waves-effect waves-light blue" ng-click="otherBasicInfo()">Next</button>
+                    <button ng-if="pageChanger.reportAccidents.button != true" style="margin: 7px;" class="btn btn-large waves-effect waves-light blue" ng-click="otherBasicInfo()">Next</button>
                 </div>
             </div>
         </div>
@@ -166,7 +152,7 @@
             <!-- next button -->
             <div class="row">
                 <div class="col s12">
-                    <button ng-if="pageChanger.reportAccidents.button != true" style="margin: 7px;" class="btn waves-effect waves-light blue " ng-click="setNumberOfVehicleWitness()">Next</button>
+                    <button ng-if="pageChanger.reportAccidents.button != true" style="margin: 7px;" class="btn btn-large waves-effect waves-light blue " ng-click="setNumberOfVehicleWitness()">Next</button>
                 </div>
             </div>
 
@@ -197,8 +183,8 @@
             </div>
             <div class="row">
                 <div class="col s12">
-                    <button style="margin: 7px;" class="btn waves-effect waves-light blue " ng-click="verifyBasicInfo()">Verify Information</button>
-                    <button class="btn waves-effect waves-light blue" ng-click="accidentVehicleForm()">Next</button>
+                    <button style="margin: 7px;" class="btn btn-large waves-effect waves-light blue " ng-click="verifyBasicInfo()">Verify Information</button>
+                    <button class="btn waves-effect btn-large waves-light blue" ng-click="accidentVehicleForm()">Next</button>
                 </div>
             </div>
 
@@ -250,12 +236,10 @@
 
                     <div class="row">
                         <div class="col s12">
-                            <button class="waves-effect waves-light blue btn" ng-click="nextVehicle(vehicle)">Next</button>
+                            <button class="waves-effect waves-light blue btn btn-large" ng-click="nextVehicle(vehicle)">Next</button>
                         </div>
                     </div>
-
                 </div>
-
 
             </div>
         </div>
@@ -296,7 +280,7 @@
                         </div>
 
                         <div class="col s12">
-                            <button class="btn waves-effect waves-light blue" ng-click="nextWitness(witness)">Next</button>
+                            <button class="btn btn-large waves-effect waves-light blue btn-large" ng-click="nextWitness(witness)">Next</button>
                         </div>
 
                     </div>
@@ -326,7 +310,7 @@
                 <div class="row">
                     <div ng-controller="HomeController">
                         <div ng-if="!configuration.loadingData" class="col s12">
-                            <button class="btn waves-effect waves-light blue" ng-click="home()" >
+                            <button class="btn waves-effect waves-light blue btn-large" ng-click="home()" >
                                 Return Home
                             </button>
                         </div>

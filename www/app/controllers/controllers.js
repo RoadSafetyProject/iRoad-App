@@ -633,6 +633,10 @@ function DriverVerificationController($scope,$rootScope){
 	//function to verify driver based on given Licence number
 	$scope.verifyDriver = function(){
 
+        $scope.rapSheetStatus = false;
+        $scope.accidentHistory = false;
+        $scope.offenseHistory = false;
+
 		$scope.clearVehicleData();
 		$scope.moreInformationStatus = false;
 
@@ -765,6 +769,11 @@ function VehicleVerificationController($scope,$rootScope){
 
 	//function to verify vehicle based on given vehicle plate number
 	$scope.verifyVehicle = function () {
+
+        $scope.rapSheetStatus = false;
+        $scope.accidentHistory = false;
+        $scope.offenseHistory = false;
+
 		$scope.cleanDriverData();
 		$scope.moreInformationStatus = false;
 
