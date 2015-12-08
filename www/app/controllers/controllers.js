@@ -8,55 +8,70 @@ app.controller('mainController',function($scope,$rootScope,$http,$localStorage){
         'loginPage': false,
         'useData': {},
         'config': {},
-        //'url' : 'http://localhost:8080/demo'
-        'url':'http://roadsafety.go.tz/demo'
+        'url' : 'http://localhost:8080/demo'
+        //'url':'http://roadsafety.go.tz/demo'
     };
 
-    $scope.user = $localStorage.User;
 
-    var url = $rootScope.configuration.url + '/api/me.json';
-    $http.get(url,{})
-        .then(function(reponse){
-            var data = reponse.data;
 
-            if(data.id){
-                $rootScope.configuration.userData = data;
-                $rootScope.configuration.loginPage = true;
-                $rootScope.configuration.loadingData = false;
-                $rootScope.pageChanger = {};
-                $rootScope.pageChanger.successLogin = {'home' : true};
+    $scope.checkingUser = function(){
 
-                //loading library
-                var dhisConfigs = {
-                    baseUrl: $rootScope.configuration.url + '/',
-                    refferencePrefix: "Program_"
-                };
+        $scope.user = $localStorage.User;
+        if($scope.user){
 
-                $rootScope.dataOffense = {};
-                $scope.onInitialize = function(){
-                    var registries = new iroad2.data.Modal("Offence Registry",[]);
-                    registries.getAll(function(result){
-                        $rootScope.dataOffense.registries = result;
-                        $rootScope.$apply();
-                    });
-                }
-
-                $rootScope.configuration.config = dhisConfigs;
-                dhisConfigs.onLoad = function () {
-                    $scope.onInitialize();
-                }
-                iroad2.Init(dhisConfigs);
-
-            }
-
-            console.log(JSON.stringify($rootScope.pageChanger));
-
-        },function(error){
-
-            console.log('error : ' + JSON.stringify(error));
-            $rootScope.configuration.loginPage = false;
+            $scope.loadUserData();
+            Materialize.toast($scope.user,3000);
         }
-    );
+    };
+
+    $scope.loadUserData = function(){
+
+        var url = $rootScope.configuration.url + '/api/me.json';
+        $http.get(url,{})
+            .then(function(reponse){
+                var data = reponse.data;
+
+                if(data.id){
+                    $rootScope.configuration.userData = data;
+                    $rootScope.configuration.loginPage = true;
+                    $rootScope.configuration.loadingData = false;
+                    $rootScope.pageChanger = {};
+                    $rootScope.pageChanger.successLogin = {'home' : true};
+
+                    //loading library
+                    var dhisConfigs = {
+                        baseUrl: $rootScope.configuration.url + '/',
+                        refferencePrefix: "Program_"
+                    };
+
+                    $rootScope.dataOffense = {};
+                    $scope.onInitialize = function(){
+                        var registries = new iroad2.data.Modal("Offence Registry",[]);
+                        registries.getAll(function(result){
+                            $rootScope.dataOffense.registries = result;
+                            $rootScope.$apply();
+                        });
+                    }
+
+                    $rootScope.configuration.config = dhisConfigs;
+                    dhisConfigs.onLoad = function () {
+                        $scope.onInitialize();
+                    }
+                    iroad2.Init(dhisConfigs);
+
+                }
+
+                console.log(JSON.stringify($rootScope.pageChanger));
+
+            },function(error){
+
+                console.log('error : ' + JSON.stringify(error));
+                $rootScope.configuration.loginPage = false;
+            }
+        );
+    }
+
+
 
 });
 
@@ -163,7 +178,9 @@ function LoginController($scope,$location,$rootScope,$localStorage){
                                     }
                                     iroad2.Init(dhisConfigs);
                                     $rootScope.configuration.userData = loginUserData;
-                                    $localStorage.User = loginUserData;
+
+                                    $localStorage.User = $rootScope.configuration.user;
+
                                     $rootScope.configuration.loginPage = true;
                                     $rootScope.configuration.loadingData = false;
                                     $rootScope.pageChanger = {};
