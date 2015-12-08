@@ -1,7 +1,6 @@
-//var appControllers = angular.module('appControllers', ['ui.materialize','appServices',"ui.date",'ngFileUpload']);
 
 //definition of functions
-app.controller('mainController',function($scope,$rootScope,$http){
+app.controller('mainController',function($scope,$rootScope,$http,$localStorage){
     //variables for the app
     $rootScope.configuration = {
         'user': {},
