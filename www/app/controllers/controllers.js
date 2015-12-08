@@ -12,18 +12,6 @@ app.controller('mainController',function($scope,$rootScope,$http,$localStorage){
         //'url':'http://roadsafety.go.tz/demo'
     };
 
-
-
-    $scope.checkingUser = function(){
-
-        $scope.user = $localStorage.User;
-        if($scope.user){
-
-            $scope.loadUserData();
-            Materialize.toast($scope.user,3000);
-        }
-    };
-
     $scope.loadUserData = function(){
 
         var url = $rootScope.configuration.url + '/api/me.json';
@@ -70,6 +58,18 @@ app.controller('mainController',function($scope,$rootScope,$http,$localStorage){
             }
         );
     }
+
+    $scope.checkingUser = function(){
+
+        $scope.user = $localStorage.User;
+        if($scope.user){
+            $scope.loadUserData();
+            Materialize.toast(JSON.stringify($scope.user),3000);
+        }
+    };
+
+    $scope.checkingUser();
+
 
 
 
