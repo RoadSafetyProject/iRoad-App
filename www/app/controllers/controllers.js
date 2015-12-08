@@ -9,9 +9,11 @@ app.controller('mainController',function($scope,$rootScope,$http){
         'loginPage': false,
         'useData': {},
         'config': {},
-        'url' : 'http://localhost:8080/demo'
-        //'url':'http://roadsafety.go.tz/demo'
+        //'url' : 'http://localhost:8080/demo'
+        'url':'http://roadsafety.go.tz/demo'
     };
+
+    $scope.user = $localStorage.User;
 
     var url = $rootScope.configuration.url + '/api/me.json';
     $http.get(url,{})
@@ -73,7 +75,7 @@ app.controller('ReportOffenceController', ReportOffenceController);
 /*
  *for control of all login logic for form submission to redirect to home page for success login user
  */
-function LoginController($scope,$location,$rootScope){
+function LoginController($scope,$location,$rootScope,$localStorage){
 
 
     $rootScope.pageChanger = {
@@ -162,6 +164,7 @@ function LoginController($scope,$location,$rootScope){
                                     }
                                     iroad2.Init(dhisConfigs);
                                     $rootScope.configuration.userData = loginUserData;
+                                    $localStorage.User = loginUserData;
                                     $rootScope.configuration.loginPage = true;
                                     $rootScope.configuration.loadingData = false;
                                     $rootScope.pageChanger = {};
@@ -868,9 +871,7 @@ function ReportAccidentsController($scope,$rootScope){
     // Called when capture operation is finished
     //
     var captureImageSuccess = function(mediaFiles) {
-        var i, len;
-        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-
+        for (var i = 0; i < mediaFiles.length; i ++) {
             path = mediaFiles[i].fullPath;
             //$scope.media.image.data = mediaFiles[i].fullPath;
             $scope.media.image.data = mediaFiles[i];
@@ -879,8 +880,7 @@ function ReportAccidentsController($scope,$rootScope){
         }
     };
     var captureVideoSuccess = function(mediaFiles) {
-        var i, len;
-        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+        for (var i = 0; i < mediaFiles.length; i ++) {
 
             path = mediaFiles[i].fullPath;
             $scope.media.video.data = mediaFiles[i];
@@ -1678,7 +1678,6 @@ function ReportOffenceController($scope,$rootScope){
                                         }
                                     }
                                     ,function(){
-
                                         //error
                                         $scope.savingErrorMessages.push('Fail to save offense');
                                         Materialize.toast('Fail to save offense',3000);
