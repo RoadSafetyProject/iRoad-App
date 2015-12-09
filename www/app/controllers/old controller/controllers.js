@@ -1432,6 +1432,7 @@ function ReportAccidentsController($scope,$rootScope){
     $scope.is = function(key,dataType){
         for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
             if(iroad2.data.dataElements[j].name == key){
+                console.log('type : ' + iroad2.data.dataElements[j].type)
                 if(iroad2.data.dataElements[j].type == dataType){
                     return true;
                 }

@@ -1,4 +1,4 @@
-<div ng-if="pageChanger.reportAccidents.home == true" ng-controller="ReportAccidentsController">
+<div ng-if="pageChanger.reportAccidents.home == true" ng-controller="reportAccidentsController">
 
     <div class ="container" ng-if = "pageChanger.reportAccidents.captureMedia == true" style="margin-top: 5%;" >
         <div class="card-panel">
@@ -46,7 +46,7 @@
                 <div class="row" >
                     <div class="col s12">
                         <h5>Basic information </h5>
-                        <div ng-repeat="(key,value) in reportingForms.Accident.basicInfo">
+                        <div ng-repeat="(key,value) in reportingForms.Accident.basicInfo">{{}}
                             <div ng-if="key == 'Cause of Accident' || key == 'Accident Class' ||key == 'Accident Registration Number' ||key == 'Accident Type' || key == 'Accident Type Detail'">
                                 <label class="col s12 input-field" ng-if ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
                                 <div class="col s12 input-field" >

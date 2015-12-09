@@ -1,0 +1,68 @@
+<div class="container" ng-controller="LoginController">
+    <div class="">
+        <div class="row" style="margin-top:10%;text-align: center;margin-bottom:5%;">
+            <h5>iRoad 2.0 Mobile app</h5>
+            <img src="img/logo.png" widh = "100%">
+        </div>
+
+        <div class="row" ng-if="!loginForm" style="margin-top:20%;">
+            <div class="">
+                <h6 align="center" class="flow-text">Set base url for iroad 2 server</h6>
+
+                <div class="col s12">
+                    <input ng-model="configuration.url" type="text" placeholder="Enter url eg http://41.86.176.205:8080/demo">
+                </div>
+
+                <div class="col s6">
+                    <button class="col s12 btn waves-effect waves-light blue" ng-click="setConfigurations()">Save</button>
+                </div>
+                <div class="col s6">
+                    <button class="col s12 btn waves-effect waves-light blue" ng-click="setOrCloseSetting()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div  ng-if="loginForm">
+            <div class="row">
+                <div class="">
+                    <div style="margin-top:20%;">
+                        <form>
+                            <div style="padding-top:1%;padding-bottom: 0.2%;border-radius: 2px;margin-bottom:2%;">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input ng-model="loginUser.username" id="username" type="text" class="validate">
+                                        <label for="username">Username</label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input ng-model="loginUser.password" id="password" type="password" class="validate">
+                                        <label for="password">Password</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="!loadingData">
+
+                                <div class="row">
+                                    <div class="col s12">
+                                        <button ng-click="login()" class="col s12 btn-large waves-effect waves-light blue ">login</button>
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col s12">
+                                        <button class="btn col s12 btn-large waves-effect waves-light blue" ng-click="setOrCloseSetting()">Setting</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

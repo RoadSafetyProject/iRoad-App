@@ -27,11 +27,11 @@
     <link text="text/css" rel="stylesheet" href="css/style.css">
 </head>
 <body ng-app = "roadsafetyMobileApp" ng-controller="mainController" class="deep-purple lighten-5">
-<div ng-show="configuration.loginPage">
-    <!--<div class="navbar-fixed">-->
+<div ng-show="userLogin">
+    <!--<div class="navbar-fixed" style="top:0;">-->
     <div>
 
-        <nav class="blue darken-3 " ng-controller="HomeController" style="padding-bottom: 15px;padding-left: 10px;padding-top: 5px;">
+        <nav class="blue darken-3 " ng-controller="navController" style="padding-bottom: 15px;padding-left: 10px;padding-top: 5px;">
             <a class="brand-logo center" style="font-size: 1.5em;">
                 iROAD 2.0
             </a>
@@ -47,7 +47,7 @@
             </ul>
 
 
-            <ul id="slide-out" class="side-nav" style="-webkit-overflow-scrolling: touch;">
+            <ul id="slide-out" class="side-nav" >
 
                 <li style = "color:#000000" ng-click="viewProfile()">
                     <a style="height:initial;padding-top: 0%;margin-bottom: 0px">
@@ -73,9 +73,7 @@
 </div>
 
 <!-- view for app -->
-<div ng-view >
-
-</div>
+<div ng-view ></div>
 
 
 <!-- loading spinner -->
@@ -87,23 +85,31 @@
 <script src="js/ext-all.js"></script>
 <script src="js/table.js"></script>
 
-<script type="text/javascript" src="cordova.js"></script>
+
 
 <script type="text/javascript" src="js/bower_components/angular/angular.js"></script>
 <script type="text/javascript" src="js/bower_components/angular/angular-route.js"></script>
 <script type="text/javascript" src="js/bower_components/angular/angular-animate.min.js"></script>
 <script type="text/javascript" src="js/bower_components/angular/angular-aria.min.js"></script>
 <script type="text/javascript" src="js/bower_components/angular-material.min.js"></script>
+<script type="text/javascript" src="js/bower_components/localStorage/ngStorage.js"></script>
 <script type="text/javascript" src="js/bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script>
 <script type="text/javascript" src="js/bower_components/ng-file-upload/ng-file-upload.min.js"></script>
 <script type="text/javascript" src="js/bower_components/ui-date/date.js"></script>
-<script type="text/javascript" src="js/bower_components/localStorage/ngStorage.js"></script>
 <script type="text/javascript" src="js/angular-materialize.js"></script>
 
 <!-- angular app --->
 <script type="text/javascript" src="app/app.js"></script>
 <script type="text/javascript" src="app/services/appServices.js"></script>
-<script type="text/javascript" src="app/controllers/controllers.js"></script>
+
+<!-- app controller -->
+<script type="text/javascript" src="app/controllers/mainController.js"></script>
+<script type="text/javascript" src="app/controllers/navController.js"></script>
+<script type="text/javascript" src="app/controllers/LoginController.js"></script>
+<script type="text/javascript" src="app/controllers/driverVerificationController.js"></script>
+<script type="text/javascript" src="app/controllers/vehicleVerificationController.js"></script>
+<script type="text/javascript" src="app/controllers/reportAccidentsController.js"></script>
+<script type="text/javascript" src="app/controllers/reportOffenceController.js"></script>
 
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
@@ -116,12 +122,10 @@
         closeOnClick: true
     });
 </script>
-<script>
-    $(document).ready(function(){
-        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-        $('.modal-trigger').leanModal();
-    });
-</script>
+
+<!--ngCordova and cordova pligin support-->
+<script type="text/javascript" src="js/bower_components/ngCordova/dist/ng-cordova.min.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
 
 <script type="text/javascript">
     app.initialize();
