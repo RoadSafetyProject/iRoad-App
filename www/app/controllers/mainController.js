@@ -96,7 +96,6 @@ app.controller('mainController',function($scope,$localStorage,$rootScope,$locati
                                     dhisConfigs.onLoad = function () {
                                         $scope.onInitialize();
                                         Materialize.toast('Success Reload data',3000);
-                                        console.log('iroad2' + JSON.stringify(iroad2))
                                     }
                                     iroad2.Init(dhisConfigs);
 
