@@ -40,7 +40,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope){
         alert('uploading function');
         var filename = mediaFIle.name;
         var file = mediaFIle.localURL;
-        baseUrl = $localStorage.url;
+        var baseUrl = $localStorage.url;
         $http({
             method  : 'POST',
             url     : baseUrl + '/api/fileResources',
