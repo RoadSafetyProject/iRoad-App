@@ -3,15 +3,23 @@
  */
 app.controller('mainController',function($scope,$localStorage,$rootScope,$location){
 
-    $rootScope.configuration = {
-        'config': {},
-        'url' : 'http://localhost:8080/demo'
-        //'url':'http://roadsafety.go.tz/demo'
-    };
-
     //loading data form local storage
     $rootScope.userLogin = $localStorage.User;
     var baseUrl = $localStorage.url;
+
+    if(baseUrl){
+        $rootScope.configuration = {
+            'config': {},
+            'url' : baseUrl
+        };
+    }
+    else{
+        $rootScope.configuration = {
+            'config': {},
+            //'url' : 'http://localhost:8080/demo'
+            'url':'http://roadsafety.go.tz/demo'
+        };
+    }
 
     if($rootScope.userLogin && (baseUrl !=null)){
 

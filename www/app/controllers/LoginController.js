@@ -88,6 +88,8 @@ app.controller('LoginController',function($scope,$http,$localStorage,$location,$
                                     $localStorage.User = $rootScope.configuration.user;
                                     $localStorage.userData = loginUserData;
 
+                                    $rootScope.userLogin = $rootScope.configuration.user;
+
                                     //stop loading spinner as well as redirect to home page
                                     $location.path('/home');
                                     $rootScope.loadingData = false;
