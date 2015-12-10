@@ -7,7 +7,7 @@ var app = angular.module('roadsafetyMobileApp', ['ui.date','ngRoute','ngFileUplo
         .when('/home', {
 
             templateUrl: 'views/home/home.html',
-            controller: 'mainController'
+            controller: 'navController'
         })
         .when('/login',{
 

@@ -32,6 +32,7 @@ app.controller('mainController',function($scope,$localStorage,$rootScope,$locati
 
             Materialize.toast('checking user done',3000);
             var base = $localStorage.url;
+            alert(base);
             if(base){
                 //enable loading notifications
                 $rootScope.loadingData= true;
