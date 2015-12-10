@@ -4,6 +4,10 @@
 var app = angular.module('roadsafetyMobileApp', ['ui.date','ngRoute','ngFileUpload','ngMaterial','ngStorage'])
     .config(function($routeProvider,$localStorageProvider){
     $routeProvider
+        .when('/reload', {
+
+            templateUrl: 'views/home/reloadData.html'
+        })
         .when('/home', {
 
             templateUrl: 'views/home/home.html',
