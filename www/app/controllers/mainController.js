@@ -40,6 +40,7 @@ app.controller('mainController',function($scope,$localStorage,$rootScope,$locati
                 useDefaultXhrHeader : false,
                 success: function () {
 
+                    alert('login call');
                     Ext.Ajax.request({
                         url: base + '/api/me.json',
                         callbackKey : 'callback',
@@ -75,6 +76,7 @@ app.controller('mainController',function($scope,$localStorage,$rootScope,$locati
                                 $rootScope.configuration.config = dhisConfigs;
                                 dhisConfigs.onLoad = function () {
                                     $scope.onInitialize();
+                                    alert('loading library')
                                 }
                                 iroad2.Init(dhisConfigs);
 
