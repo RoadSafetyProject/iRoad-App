@@ -25,7 +25,7 @@ app.controller('mainController',function($scope,$localStorage,$rootScope,$locati
 
         $rootScope.configuration.userData = $localStorage.userData;
         $rootScope.userLogin = null;
-        Materialize.toast('Reload data');
+        Materialize.toast('Reload data',2000);
         $location.path('/reload');
         login();
     }else{
