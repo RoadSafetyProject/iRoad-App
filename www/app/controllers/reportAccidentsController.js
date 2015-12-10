@@ -1,7 +1,7 @@
 /**
  * Created by joseph on 12/9/15.
  */
-app.controller('reportAccidentsController',function($scope,$rootScope){
+app.controller('reportAccidentsController',function($scope,$rootScope,$localStorage){
 
     $scope.newAccidentBasicInfo = {};
     $scope.newAccidentBasicInfoOtherData = {}
@@ -36,7 +36,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope){
         Materialize.toast('An error occurred during capture',3000);
     };
 
-    function uploadingImage(mediaFIle){
+    /*function uploadingImage(mediaFIle){
         alert('uploading function');
         var filename = mediaFIle.name;
         var file = mediaFIle.localURL;
@@ -58,29 +58,27 @@ app.controller('reportAccidentsController',function($scope,$rootScope){
 
             alert('Fail : ' + JSON.stringify(error))
         });
-    }
+    }*/
 
     function uploadFile(mediaFile) {
-        var ft = new FileTransfer(),
-            path = mediaFile.localURL;
-        name = mediaFile.name;
+        alert('start');
+        var ft = new FileTransfer(),path = mediaFile.localURL;
         var options = {};
-        options.upload = name;
-        //options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
-        //options.mimeType = "text/plain";
-        var params = {};
+        /*var params = {};
         params.name = "test";
         params.external = false;
 
-        options.params = params;
-        ft.upload(path, encodeURI($rootScope.configuration.url + "/dhis-web-reporting/saveDocument.action"), function(result) {
-                //alert('results : ' + JSON.stringify(result));
+        options.params = params;*/
+        alert('start 1');
+        ft.upload(path, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
+                alert('results : ' + JSON.stringify(result));
                 Materialize.toast('Success upload media data',3000);
             },
             function(error) {
-
+                alert('error : ' + JSON.stringify(error));
                 Materialize.toast('Fail to upload media data',3000);
             }, options);
+        alert('start 2');
     }
 
     $scope.media = {
