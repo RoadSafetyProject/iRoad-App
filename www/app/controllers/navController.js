@@ -230,7 +230,9 @@ app.controller('navController',function($scope,$rootScope,$localStorage,$locatio
                 Materialize.toast(message,3000);
                 $rootScope.loadingData = false;
                 $rootScope.$apply()
-                $localStorage.$reset()
+                $localStorage.$reset();
+                $rootScope.userLogin = null;
+                $rootScope.$apply();
                 $location.path('/login');
             },
             failure : function(){

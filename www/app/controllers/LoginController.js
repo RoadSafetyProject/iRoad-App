@@ -6,7 +6,7 @@ app.controller('LoginController',function($scope,$http,$localStorage,$location,$
     //variables declaration
     $localStorage.url = $rootScope.configuration.url;
     $scope.loginForm = true;
-    $scope.loadingData = false;
+    $rootScope.loadingData = false;
     $scope.loginUser = {};
 
     //set or close setting
@@ -89,6 +89,7 @@ app.controller('LoginController',function($scope,$http,$localStorage,$location,$
                                     $localStorage.userData = loginUserData;
 
                                     $rootScope.userLogin = $rootScope.configuration.user;
+                                    $rootScope.configuration.userData = loginUserData;
 
                                     //stop loading spinner as well as redirect to home page
                                     $location.path('/home');
@@ -98,7 +99,7 @@ app.controller('LoginController',function($scope,$http,$localStorage,$location,$
                                 catch (e){
 
                                     Materialize.toast('Wrong Username or Password', 4000);
-                                    $scope.loadingData = false;
+                                    $rootScope.loadingData = false;
                                     $scope.$apply();
                                 }
                             },
