@@ -17,7 +17,8 @@ app.controller('mainController',function($scope,$localStorage,$rootScope,$locati
         $rootScope.configuration = {
             'config': {},
             //'url' : 'http://localhost:8080/demo'
-            'url':'http://roadsafety.go.tz/demo'
+            'url' : 'http://192.168.43.62:8080/demo'
+            //'url':'http://roadsafety.go.tz/demo'
         };
     }
 

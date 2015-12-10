@@ -84,6 +84,7 @@ app.controller('vehicleVerificationController',function($scope,$rootScope){
                     $rootScope.$apply();
 
                     //fetching accidents
+                    Materialize.toast('Loading Rap sheet',1000);
                     var accidentModal = new  iroad2.data.Modal('Accident Vehicle',[]);
                     var accidents = [];
                     accidentModal.get(new iroad2.data.SearchCriteria('Vehicle Plate Number/Registration Number',"=",plateNumber),function(accidentResults){
@@ -95,6 +96,7 @@ app.controller('vehicleVerificationController',function($scope,$rootScope){
                             }
                         }
                         $rootScope.verificationData.Vehicle.accidentData = accidents;
+                        Materialize.toast('Accident Data loaded',1000);
                         $rootScope.$apply();
 
                         //fetching offenses  $rootScope.verificationData.Driver.offenceData
@@ -103,6 +105,7 @@ app.controller('vehicleVerificationController',function($scope,$rootScope){
                         offenseModal.get(new iroad2.data.SearchCriteria('Vehicle Plate Number/Registration Number',"=",plateNumber),function(offensesResults){
 
                             $rootScope.verificationData.Vehicle.offenceData = offensesResults;
+                            Materialize.toast('offense Data loaded',1000);
                             $rootScope.$apply();
                         });
 

@@ -17,7 +17,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope){
             //$scope.media.image.data = mediaFiles[i].fullPath;
             $scope.media.image.data = mediaFiles[i];
             $scope.$apply();
-            uploadFile(mediaFiles[i]);
+            uploadingImage(mediaFiles[i]);
         }
     };
     var captureVideoSuccess = function(mediaFiles) {
@@ -35,6 +35,31 @@ app.controller('reportAccidentsController',function($scope,$rootScope){
     var captureError =function(error) {
         Materialize.toast('An error occurred during capture',3000);
     };
+
+    function uploadingImage(mediaFIle){
+
+        var filename = mediaFIle.name;
+        var file = mediaFIle.localURL;
+        baseUrl = $localStorage.url;
+        $http({
+            method  : 'POST',
+            url     : baseUrl + '/api/fileResources',
+            data    : {
+                filename : filename,
+                file : file
+            },
+            headers :{
+                'Content-Type' : 'multipart/form-data'
+            }
+        }).success(function(success){
+
+            alert('Success : ' + JSON.stringify(success));
+        }).error(function(error){
+
+            alert('Fail : ' + JSON.stringify(error))
+        });
+    }
+
     function uploadFile(mediaFile) {
         var ft = new FileTransfer(),
             path = mediaFile.localURL;
