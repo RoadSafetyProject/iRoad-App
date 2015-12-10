@@ -17,7 +17,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
             //$scope.media.image.data = mediaFiles[i].fullPath;
             $scope.media.image.data = mediaFiles[i];
             $scope.$apply();
-            uploadingImage(mediaFiles[i]);
+            uploadFile(mediaFiles[i]);
         }
     };
     var captureVideoSuccess = function(mediaFiles) {
@@ -36,40 +36,11 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         Materialize.toast('An error occurred during capture',3000);
     };
 
-    /*function uploadingImage(mediaFIle){
-        alert('uploading function');
-        var filename = mediaFIle.name;
-        var file = mediaFIle.localURL;
-        var baseUrl = $localStorage.url;
-        $http({
-            method  : 'POST',
-            url     : baseUrl + '/api/fileResources',
-            data    : {
-                filename : filename,
-                file : file
-            },
-            headers :{
-                'Content-Type' : 'multipart/form-data'
-            }
-        }).success(function(success){
-
-            alert('Success : ' + JSON.stringify(success));
-        }).error(function(error){
-
-            alert('Fail : ' + JSON.stringify(error))
-        });
-    }*/
 
     function uploadFile(mediaFile) {
-        alert('start');
+
         var ft = new FileTransfer(),path = mediaFile.localURL;
         var options = {};
-        /*var params = {};
-        params.name = "test";
-        params.external = false;
-
-        options.params = params;*/
-        alert('start 1');
         ft.upload(path, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
                 alert('results : ' + JSON.stringify(result));
                 Materialize.toast('Success upload media data',3000);
@@ -78,7 +49,6 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
                 alert('error : ' + JSON.stringify(error));
                 Materialize.toast('Fail to upload media data',3000);
             }, options);
-        alert('start 2');
     }
 
     $scope.media = {
