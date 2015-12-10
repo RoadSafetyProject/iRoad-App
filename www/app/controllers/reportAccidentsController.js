@@ -37,7 +37,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope){
     };
 
     function uploadingImage(mediaFIle){
-
+        alert('uploading function');
         var filename = mediaFIle.name;
         var file = mediaFIle.localURL;
         baseUrl = $localStorage.url;
