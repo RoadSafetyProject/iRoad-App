@@ -52,8 +52,11 @@ app.controller('driverVerificationController',function($scope,$rootScope){
 
         cordova.plugins.barcodeScanner.scan(
             function (result) {
-                Materialize.toast('Scan driver license completed');
-                $scope.data.driverLicenceNumber = result.text;
+                if(!result.cancelled){
+                    Materialize.toast('Scan driver license completed');
+                    $scope.data.driverLicenceNumber = result.text;
+                    $scope.$apply();
+                }
             },
             function () {
 
