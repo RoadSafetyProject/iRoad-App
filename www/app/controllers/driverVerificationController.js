@@ -56,6 +56,7 @@ app.controller('driverVerificationController',function($scope,$rootScope){
                     Materialize.toast('Scan driver license completed');
                     $scope.data.driverLicenceNumber = result.text;
                     $scope.$apply();
+                    $scope.verifyDriver();
                 }
             },
             function () {
