@@ -101,31 +101,42 @@
 </div>
 
 <!-- reporting progress reports -->
-<div ng-if = "pageChanger.reportOffense.saving == true" ng-controller="ReportOffenceController">
+<div ng-if = "pageChanger.reportOffense.saving == true" ng-controller="reportOffenceController">
 
     <div class="container">
         <div class="row">
-            <div class="col s12">
-                <h5 align="center">Reporting Offense Progress</h5>
+            <div class="card-panel">
+                <div class="row">
+                    <h5 align="center">Reported Offense Report</h5>
+                    <div class="col s12" ng-repeat=" reportedOffense in reportingForms.offence.reprtedOffenses.list">
+                        <span>{{ reportedOffense.Nature }}</span><br>
+                        <span class="blue-text text-darken-2">{{ reportedOffense.Amount | currency : 'Tsh ' : 2}}</span>
+                    </div>
+                    <div class="col s12">
+                        <span>Total Amount</span><br>
+                        <span class="blue-text text-darken-2">{{ reportingForms.offence.reprtedOffenses.amountTotal | currency : 'Tsh ' : 2}}</span>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="clo s12">
-
-                <div ng-if="!configuration.loadingData">
-                    <p ng-if="!savingErrorMessages"  class="flow-text">You have successful report Offense</p>
+            <div class="card-panel">
+                <h5>Offense Payment Agreement</h5>
+                <div class="row">
+                    <div class="col s12">
+                        <button ng-click="offensePaymentNow()" class="col s12 blue btn btn-large waves-light waves-effect">
+                            Pay Now
+                        </button>
+                    </div>
+                    <div class="col s12" style="margin-top: 2%;">
+                        <button ng-click="offensePaymentLater()" class="col s12 btn btn-large waves-effect waves-light blue">
+                            Pay later
+                        </button>
+                    </div>
                 </div>
-
             </div>
-
-            <div ng-controller="HomeController">
-                <div ng-if="!configuration.loadingData" >
-                    <button class="btn btn-large col s12 waves-effect waves-light blue" ng-click="home()" >
-                        Return Home
-                    </button>
-                </div>
-            </div>
-
         </div>
     </div>
+
 </div>

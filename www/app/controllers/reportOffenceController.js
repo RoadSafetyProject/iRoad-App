@@ -1,7 +1,7 @@
 /**
  * Created by joseph on 12/9/15.
  */
-app.controller('reportOffenceController',function($scope,$rootScope){
+app.controller('reportOffenceController',function($scope,$rootScope,$location){
 
     $scope.selected = null;
 
@@ -14,6 +14,17 @@ app.controller('reportOffenceController',function($scope,$rootScope){
             }
         });
         $scope.selected = selectedOffenses
+
+        var amountTotal = 0;
+        selectedOffenses.forEach(function(selectedOffense){
+
+            amountTotal += parseInt(selectedOffense.Amount);
+        });
+        $rootScope.reportingForms.offence.reprtedOffenses = {
+            list : selectedOffenses,
+            amountTotal : amountTotal,
+            offense : {}
+        };
 
     };
 
@@ -112,7 +123,7 @@ app.controller('reportOffenceController',function($scope,$rootScope){
                                 if($scope.isDate(key)){
                                     var d = new Date(savingData[key]);
 
-                                    console.log('Month ' + d.getMonth());
+                                    console.log('key : ' + key +'  Month ' + d.getMonth());
                                     var date = d.getFullYear() + '-';
                                     if(d.getMonth() > 9){
                                         date = date + d.getMonth() + '-';
@@ -176,6 +187,7 @@ app.controller('reportOffenceController',function($scope,$rootScope){
                                             var offenseId = offenseSavingResponse.importSummaries[0].reference;
 
                                             $scope.reporteOffense.id = offenseId;
+                                            $rootScope.reportingForms.offence.reprtedOffenses.offense = $scope.reporteOffense;
 
                                             //prepare selected offense for saving
                                             var saveDataArray = [];
@@ -210,12 +222,8 @@ app.controller('reportOffenceController',function($scope,$rootScope){
                                                     $scope.reporteOffense.Police = police[0];
                                                     offenceEventModal.save($scope.reporteOffense,otherData,
                                                         function(){
-
-                                                            Materialize.toast('Success Reporting offense',3000);
                                                         },
                                                         function(){
-
-                                                            Materialize.toast('Fail to update offense attendant',3000);
                                                         },
                                                         offenceEventModal.getModalName());
                                                 }
@@ -236,21 +244,17 @@ app.controller('reportOffenceController',function($scope,$rootScope){
                                     offenceEventModal.getModalName());
                                 $rootScope.loadingData = false;
                                 $rootScope.$apply();
-
                             }
                             else{
 
                                 $rootScope.loadingData = false;
                                 $rootScope.$apply();
                             }
-
-
                         }
                     });//end fo fetching vehicle information process
                 }
             });//end of fetching driver information process
         }
-
     }
 
     $scope.offenseList = false;
@@ -312,4 +316,20 @@ app.controller('reportOffenceController',function($scope,$rootScope){
         };
         return false;
     }
+
+    //function for payment during reporting offense
+    $scope.offensePaymentLater =function(){
+
+        Materialize.toast('Offense Reporting Success',2000);
+        $location.path('/home');
+    }
+
+    $scope.offensePaymentNow = function(){
+
+        Materialize.toast('Offense payment data ready',1000);
+        console.log('offenseData : ' + JSON.stringify($rootScope.reportingForms.offence.reprtedOffenses));
+        $location.path('/home');
+    }
+
+
 });
