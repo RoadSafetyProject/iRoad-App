@@ -24,12 +24,13 @@
             background-size: cover;*/
         }
     </style>
+    <link rel="stylesheet" href="font-awesome-4.5.0/css/font-awesome.min.css">
     <link text="text/css" rel="stylesheet" href="css/style.css">
 </head>
 <body ng-app = "roadsafetyMobileApp" ng-controller="mainController" class="deep-purple lighten-5">
 <div ng-show="userLogin">
-    <!--<div class="navbar-fixed" style="top:0;">-->
-    <div>
+    <div class="navbar-fixed" style="top:0;">
+    <!--<div>-->
 
         <nav class="blue darken-3 " ng-controller="navController" style="padding-bottom: 15px;padding-left: 10px;padding-top: 5px;">
             <a class="brand-logo center" style="font-size: 1.5em;">
@@ -93,8 +94,6 @@
 <script type="text/javascript" src="js/bower_components/angular/angular-aria.min.js"></script>
 <script type="text/javascript" src="js/bower_components/angular-material.min.js"></script>
 <script type="text/javascript" src="js/bower_components/localStorage/ngStorage.js"></script>
-<script type="text/javascript" src="js/bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script>
-<script type="text/javascript" src="js/bower_components/ng-file-upload/ng-file-upload.min.js"></script>
 <script type="text/javascript" src="js/bower_components/ui-date/date.js"></script>
 <script type="text/javascript" src="js/angular-materialize.js"></script>
 
@@ -124,7 +123,6 @@
 </script>
 
 <!--ngCordova and cordova pligin support-->
-<script type="text/javascript" src="js/bower_components/ngCordova/dist/ng-cordova.min.js"></script>
 <script type="text/javascript" src="cordova.js"></script>
 
 <script type="text/javascript">

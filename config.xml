@@ -46,9 +46,11 @@
     <gap:plugin name="org.apache.cordova.splashscreen" source = "pgb" />
     <gap:plugin name="org.apache.cordova.vibration" source = "pgb"/>
 
+    <!--third party plugin-->
+    <plugin name="com.phonegap.plugins.barcodescanner" spec="2.0.0" source="pgb" />
+
     <icon src="ic_launcher.png" />
 
-    <!--<gap:plugin name="com.indigoway.cordova.whitelist.whitelistplugin" />-->
     <gap:plugin name="cordova-plugin-whitelist" source="npm" version="~1" />
     <plugin name="cordova-plugin-whitelist" version="~1" />
     <plugin name="cordova-plugin-whitelist" spec="~1" />

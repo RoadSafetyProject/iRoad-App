@@ -1,8 +1,8 @@
 /**
  * Created by joseph on 10/21/15.
  */
-var app = angular.module('roadsafetyMobileApp', ['ui.date','ngRoute','ngFileUpload','ngMaterial','ngStorage'])
-    .config(function($routeProvider,$localStorageProvider){
+var app = angular.module('roadsafetyMobileApp', ['ui.date','ngRoute','ngMaterial','ngStorage'])
+    .config(function($routeProvider){
     $routeProvider
         .when('/reload', {
 

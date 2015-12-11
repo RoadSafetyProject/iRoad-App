@@ -28,7 +28,7 @@ app.controller('driverVerificationController',function($scope,$rootScope){
         $rootScope.verificationData.Vehicle.error = '';
         $rootScope.verificationData.Vehicle.accidentData = null;
         $rootScope.verificationData.Vehicle.offenceData = null;
-    }
+    };
     $scope.clearVehicleData();
 
     $scope.hideOrShowRapSheet = function(){
@@ -36,17 +36,31 @@ app.controller('driverVerificationController',function($scope,$rootScope){
         $scope.rapSheetStatus = !$scope.rapSheetStatus;
         $scope.accidentHistory = false;
         $scope.offenseHistory = false;
-    }
+    };
     $scope.hideOrShowAccidentHistory = function(){
 
         $scope.accidentHistory = !$scope.accidentHistory;
         $scope.offenseHistory = false;
-    }
+    };
     $scope.hideOrShowOffenseHistory = function(){
 
         $scope.offenseHistory = !$scope.offenseHistory;
         $scope.accidentHistory = false;
-    }
+    };
+
+    $scope.scanDriverLicence = function(){
+
+        cordova.plugins.barcodeScanner.scan(
+            function (result) {
+                Materialize.toast('Scan driver license completed');
+                $scope.data.driverLicenceNumber = result.text;
+            },
+            function () {
+
+                Materialize.toast('Fail to scan driver license');
+            }
+        );
+    };
 
     //function to verify driver based on given Licence number
     $scope.verifyDriver = function(){
@@ -85,7 +99,6 @@ app.controller('driverVerificationController',function($scope,$rootScope){
                     $rootScope.$apply();
 
                     //fetching accidents
-                    Materialize.toast('Loading Rap Sheet',1000);
                     var accidentModal = new  iroad2.data.Modal('Accident Vehicle',[]);
                     var accidents = [];
                     accidentModal.get(new iroad2.data.SearchCriteria('Licence Number',"=",licenceNumber),function(accidentResults){
@@ -97,7 +110,6 @@ app.controller('driverVerificationController',function($scope,$rootScope){
                             }
                         }
                         $rootScope.verificationData.Driver.accidentData = accidents;
-                        Materialize.toast('Accident Data loaded',1000);
                         $rootScope.$apply();
 
                         //fetching offenses  $rootScope.verificationData.Driver.offenceData
@@ -107,7 +119,6 @@ app.controller('driverVerificationController',function($scope,$rootScope){
 
                             console.log('offenses : ' + JSON.stringify(offensesResults));
                             $rootScope.verificationData.Driver.offenceData = offensesResults;
-                            Materialize.toast('offense Data loaded',1000);
                             /*for(var i = 0; i < accidentResults.length; i++){
                              var data = accidentResults[i];
                              if(!(JSON.stringify(data.Accident) === '{}' )){
