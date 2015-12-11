@@ -57,6 +57,7 @@
                                         <option style="padding: 5px;" value="false">No</option>
                                     </select>
                                     <select ng-model="newAccidentBasicInfo[key]" ng-if="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                                        <option value="">Choose option</option>
                                         <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                                     </select>
                                     <input ng-model="newAccidentBasicInfo[key]" ng-if="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
@@ -97,6 +98,7 @@
                                         <option style="padding: 5px;" value="false">No</option>
                                     </select>
                                     <select ng-model="newAccidentBasicInfo[key]" ng-if="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                                        <option value="">Choose option</option>
                                         <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                                     </select>
                                     <input ng-model="newAccidentBasicInfo[key]" ng-if="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
@@ -135,6 +137,7 @@
                                         <option style="padding: 5px;" value="false">No</option>
                                     </select>
                                     <select ng-model="newAccidentBasicInfo[key]" ng-if="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                                        <option value="">Choose option</option>
                                         <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                                     </select>
                                     <input ng-model="newAccidentBasicInfo[key]" ng-if="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
@@ -224,6 +227,7 @@
                                             <option style="padding: 5px;" value="false">No</option>
                                         </select>
                                         <select ng-model="newAccidentVehicle[vehicle].data[key]" ng-if="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                                            <option value="">Choose option</option>
                                             <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                                         </select>
                                         <input ng-model="newAccidentVehicle[vehicle].data[key]" ng-if="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
@@ -270,6 +274,7 @@
                                             <option style="padding: 5px;" value="false">No</option>
                                         </select>
                                         <select ng-model="newAccidentWitness[witness].data[key]" ng-if="hasDataSets(key)" class="browser-default" id = "{{key}}">
+                                            <option value="">Choose option</option>
                                             <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                                         </select>
                                         <input ng-model="newAccidentWitness[witness].data[key]" ng-if="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
