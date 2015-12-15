@@ -180,18 +180,31 @@
                         </div>
                         <!-- police signature -->
                         <div class="col s12" >
-                            <button ng-click="initSignature()">sign</button>
-                            <div>
-                                <canvas id='signatureCanvas' class="col s12" height='300' style='border: 1px solid black;'></canvas>
+                            <label class="col s12">Police Signature</label>
+                            <div class="col s12">
+                                <button class="btn white black-text waves-light waves-effect" ng-click="initSignature()">
+                                    <i class="fa fa-pencil-square-o" ></i>
+                                </button>
+                                <button class="btn white black-text waves-light waves-effect" ng-click="viewSignature(policeSignature)">
+                                    <i class="fa fa-eye" ></i>
+                                </button>
                             </div>
 
-                            <div>
-                                <button style = "padding: 3%;margin: 1%;" ng-click='clearCanvas()'>Clear Drawing</button>
-                                <button style = "padding: 3%;margin: 1%;" ng-click='savePoliceSignature()'>Drawing Save</button>
+                            <div class="col s12" ng-if="signaturePadView">
+                                <canvas id='signatureCanvas' class="col s12" height='200' style='border: 1px solid black;'></canvas>
+                                <div class="col s12">
+                                    <button class="btn white black-text waves-light waves-effect" ng-click='clearCanvas()'>
+                                        <i class="fa fa-undo" ></i>
+                                    </button>
+                                    <button class="btn white black-text waves-light waves-effect" ng-click='savePoliceSignature()'>
+                                        <i class="fa fa-floppy-o" ></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col s12" ng-if = "signatureView">
+                                <img ng-src='{{signature}}'/>
                             </div>
 
-                            <br>{{signature |json}}
-                            <img ng-src='{{signature}}'/>
                         </div>
                     </div>
                 </div>

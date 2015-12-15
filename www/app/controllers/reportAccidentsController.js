@@ -316,24 +316,29 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         }
 
     }
+    $scope.signatureView = false;
 
     $scope.initSignature = function(){
-
-        //signature drawing pad variables
         var canvas = document.getElementById('signatureCanvas');
         $scope.signaturePad = new SignaturePad(canvas);
+        $scope.signatureView = false;
     };
-
     //functions for handle driver signatures
     $scope.clearCanvas = function() {
         $scope.signaturePad.clear();
     };
 
+    //police signatures
     $scope.savePoliceSignature = function() {
-        var sigImg = $scope.signaturePad.toDataURL();
-        $scope.signature = sigImg;
+        $scope.policeSignature  = $scope.signaturePad.toDataURL();
         $scope.clearCanvas();
     };
+
+    //view signature
+    $scope.viewSignature = function(imageData){
+        $scope.signatureView = !$scope.signatureView;
+        $scope.signature = imageData;
+    }
 
 
     /*
