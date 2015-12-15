@@ -16,10 +16,11 @@
                             <label class="col s12 input-field" ng-show ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
                             <div class="col s12 input-field" >
                                 <input ng-model="reportingForms.offence.newOffenseData[key]" ng-if="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
-                                <input ng-model="reportingForms.offence.newOffenseData[key]" ng-if="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                                <input ng-model="reportingForms.offence.newOffenseData[key]" ng-if="isInteger(key)" id = "{{key}}" type="number" class="validate"   />
                                 <select ng-model="reportingForms.offence.newOffenseData[key]" ng-if="isBoolean(key)"  class="select"  id = "{{key}}" >
-                                    <option style="padding: 5px;" value="true">Yes</option>
-                                    <option style="padding: 5px;" value="false">No</option>
+                                    <option value="">Choose option</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
                                 </select>
                                 <select ng-model="reportingForms.offence.newOffenseData[key]" ng-if="hasDataSets(key)" class="select"  id = "{{key}}">
                                     <option value="">Choose option</option>
@@ -43,10 +44,11 @@
                             <label class="col s12 input-field" ng-show ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
                             <div class="col s12 input-field" >
                                 <input ng-model="reportingForms.offence.newOffenseData[key]" ng-if="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
-                                <input ng-model="reportingForms.offence.newOffenseData[key]" ng-if="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                                <input ng-model="reportingForms.offence.newOffenseData[key]" ng-if="isInteger(key)" id = "{{key}}" type="number" class="validate"   />
                                 <select ng-model="reportingForms.offence.newOffenseData[key]" ng-if="isBoolean(key)"  class="select"  id = "{{key}}" >
-                                    <option style="padding: 5px;" value="true">Yes</option>
-                                    <option style="padding: 5px;" value="false">No</option>
+                                    <option value="">Choose option</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
                                 </select>
                                 <select ng-model="reportingForms.offence.newOffenseData[key]" ng-if="hasDataSets(key)" class="select" id = "{{key}}">
                                     <option value="">Choose option</option>

@@ -273,7 +273,7 @@ app.controller('reportOffenceController',function($scope,$rootScope,$location){
     /*
      *functions for flexible forms
      */
-    $scope.isInteger = function(key){
+    /*$scope.isInteger = function(key){
         return $scope.is(key,"int");
     }
     $scope.isDate = function(key){
@@ -281,39 +281,49 @@ app.controller('reportOffenceController',function($scope,$rootScope,$location){
     }
     $scope.isString = function(key){
         return $scope.is(key,"string");
+    }*/
+
+    $scope.isInteger = function(key){
+        return $scope.is(key,"NUMBER");
     }
+    $scope.isDate = function(key){
+        return $scope.is(key,"DATE");
+    }
+    $scope.isString = function(key){
+        return $scope.is(key,"TEXT");
+    }
+    $scope.isBoolean = function(key){
+        return $scope.is(key,"BOOLEAN");
+    };
 
     $scope.is = function(key,dataType){
         for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
             if(iroad2.data.dataElements[j].name == key){
-                if(iroad2.data.dataElements[j].type == dataType){
+                if(iroad2.data.dataElements[j].valueType == dataType){
                     return true;
                 }
                 break;
             }
-        };
+        }
         return false;
-    }
-    $scope.isBoolean = function(key){
-        return $scope.is(key,"bool");
-    }
+    };
     $scope.hasDataSets = function(key){
         for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
             if(iroad2.data.dataElements[j].name == key){
                 return (iroad2.data.dataElements[j].optionSet != undefined);
 
             }
-        };
+        }
         return false;
-    }
+    };
     $scope.getOptionSets = function(key){
-        for(j = 0 ;j < iroad2.data.dataElements.length;j++){
+        for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
             if(iroad2.data.dataElements[j].name == key){
                 if(iroad2.data.dataElements[j].optionSet){
                     return iroad2.data.dataElements[j].optionSet.options;
                 }
             }
-        };
+        }
         return false;
     }
 

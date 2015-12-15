@@ -317,6 +317,24 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
     }
 
+    $scope.initSignature = function(){
+
+        //signature drawing pad variables
+        var canvas = document.getElementById('signatureCanvas');
+        $scope.signaturePad = new SignaturePad(canvas);
+    };
+
+    //functions for handle driver signatures
+    $scope.clearCanvas = function() {
+        $scope.signaturePad.clear();
+    };
+
+    $scope.savePoliceSignature = function() {
+        var sigImg = $scope.signaturePad.toDataURL();
+        $scope.signature = sigImg;
+        $scope.clearCanvas();
+    };
+
 
     /*
      functions to handle all actions for witness forms
@@ -537,7 +555,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     /*
      *functions for flexible forms
      */
-    $scope.isInteger = function(key){
+    /*$scope.isInteger = function(key){
         return $scope.is(key,"int");
     }
     $scope.isDate = function(key){
@@ -545,7 +563,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     }
     $scope.isString = function(key){
         return $scope.is(key,"string");
-    }/*
+    }*/
     $scope.isInteger = function(key){
         return $scope.is(key,"NUMBER");
     }
@@ -557,22 +575,18 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     }
     $scope.isBoolean = function(key){
         return $scope.is(key,"BOOLEAN");
-    };*/
+    };
 
-    console.log('iroad2.data.dataElements :' + JSON.stringify(iroad2.data.dataElements));
     $scope.is = function(key,dataType){
         for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
             if(iroad2.data.dataElements[j].name == key){
-                if(iroad2.data.dataElements[j].type == dataType){
+                if(iroad2.data.dataElements[j].valueType == dataType){
                     return true;
                 }
                 break;
             }
         }
         return false;
-    };
-    $scope.isBoolean = function(key){
-        return $scope.is(key,"bool");
     };
     $scope.hasDataSets = function(key){
         for(var j = 0 ;j < iroad2.data.dataElements.length;j++){
@@ -593,4 +607,18 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         }
         return false;
     }
-});
+})
+    .controller('SignatureCtrl', function($scope) {
+        var canvas = document.getElementById('signatureCanvas');
+        var signaturePad = new SignaturePad(canvas);
+
+        $scope.clearCanvas = function() {
+            signaturePad.clear();
+        }
+
+        $scope.saveCanvas = function() {
+            var sigImg = signaturePad.toDataURL();
+            console.log(JSON.stringify(sigImg));
+            $scope.signature = sigImg;
+        }
+    });

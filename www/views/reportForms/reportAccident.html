@@ -53,8 +53,9 @@
                                     <input ng-model="newAccidentBasicInfo[key]" ng-if="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
                                     <input ng-model="newAccidentBasicInfo[key]" ng-if="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
                                     <select ng-model="newAccidentBasicInfo[key]" ng-if="isBoolean(key)"  class="browser-default" id = "{{key}}" >
-                                        <option style="padding: 5px;" value="true">Yes</option>
-                                        <option style="padding: 5px;" value="false">No</option>
+                                        <option value="">Choose option</option>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
                                     </select>
                                     <select ng-model="newAccidentBasicInfo[key]" ng-if="hasDataSets(key)" class="browser-default" id = "{{key}}">
                                         <option value="">Choose option</option>
@@ -105,10 +106,11 @@
                                 <label class="col s12 input-field" ng-if ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
                                 <div class="col s12 input-field" >
                                     <input ng-model="newAccidentBasicInfo[key]" ng-if="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
-                                    <input ng-model="newAccidentBasicInfo[key]" ng-if="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                                    <input ng-model="newAccidentBasicInfo[key]" ng-if="isInteger(key)" id = "{{key}}" type="number" class="validate"   />
                                     <select ng-model="newAccidentBasicInfo[key]" ng-if="isBoolean(key)"  class="browser-default" id = "{{key}}" >
-                                        <option style="padding: 5px;" value="true">Yes</option>
-                                        <option style="padding: 5px;" value="false">No</option>
+                                        <option value="">Choose option</option>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
                                     </select>
                                     <select ng-model="newAccidentBasicInfo[key]" ng-if="hasDataSets(key)" class="browser-default" id = "{{key}}">
                                         <option value="">Choose option</option>
@@ -157,10 +159,11 @@
                                 </label>
                                 <div class="col s12 input-field" ng-if="key != 'Comment/Observations On accident'">
                                     <input ng-model="newAccidentBasicInfo[key]" ng-if="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
-                                    <input ng-model="newAccidentBasicInfo[key]" ng-if="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                                    <input ng-model="newAccidentBasicInfo[key]" ng-if="isInteger(key)" id = "{{key}}" type="number" class="validate"   />
                                     <select ng-model="newAccidentBasicInfo[key]" ng-if="isBoolean(key)"  class="browser-default" id = "{{key}}" >
-                                        <option style="padding: 5px;" value="true">Yes</option>
-                                        <option style="padding: 5px;" value="false">No</option>
+                                        <option value="">Choose option</option>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
                                     </select>
                                     <select ng-model="newAccidentBasicInfo[key]" ng-if="hasDataSets(key)" class="browser-default" id = "{{key}}">
                                         <option value="">Choose option</option>
@@ -174,6 +177,21 @@
                                     <label for="textarea">Comment/Observations On accident</label>
                                 </div>
                             </div>
+                        </div>
+                        <!-- police signature -->
+                        <div class="col s12" >
+                            <button ng-click="initSignature()">sign</button>
+                            <div>
+                                <canvas id='signatureCanvas' class="col s12" height='300' style='border: 1px solid black;'></canvas>
+                            </div>
+
+                            <div>
+                                <button style = "padding: 3%;margin: 1%;" ng-click='clearCanvas()'>Clear Drawing</button>
+                                <button style = "padding: 3%;margin: 1%;" ng-click='savePoliceSignature()'>Drawing Save</button>
+                            </div>
+
+                            <br>{{signature |json}}
+                            <img ng-src='{{signature}}'/>
                         </div>
                     </div>
                 </div>
@@ -209,11 +227,11 @@
                         <h5>Vehicle, Witness and Attendants</h5>
 
                         <div class="col s12 input-field">
-                            <input id="numberOfVehicle" ng-model = "newAccidentBasicInfoOtherData.numberOfVehicle" type="text" class="validate">
+                            <input id="numberOfVehicle" ng-model = "newAccidentBasicInfoOtherData.numberOfVehicle" type="number" class="validate">
                             <label for="numberOfVehicle">Number Of Vehicle</label>
                         </div>
                         <div class="col s12 input-field">
-                            <input id="numberOfWitness" ng-model = "newAccidentBasicInfoOtherData.numberOfWitness" type="text" class="validate">
+                            <input id="numberOfWitness" ng-model = "newAccidentBasicInfoOtherData.numberOfWitness" type="number" class="validate">
                             <label for="numberOfWitness">Number Of Witness</label>
                         </div>
                         <div class="col s12 input-field">
@@ -260,10 +278,11 @@
                                     <label class="col s12 input-field" ng-if ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
                                     <div class="col s12 input-field" >
                                         <input ng-model="newAccidentVehicle[vehicle].data[key]" ng-if="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
-                                        <input ng-model="newAccidentVehicle[vehicle].data[key]" ng-if="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                                        <input ng-model="newAccidentVehicle[vehicle].data[key]" ng-if="isInteger(key)" id = "{{key}}" type="number" class="validate"   />
                                         <select ng-model="newAccidentVehicle[vehicle].data[key]" ng-if="isBoolean(key)"  class="browser-default" id = "{{key}}" >
-                                            <option style="padding: 5px;" value="true">Yes</option>
-                                            <option style="padding: 5px;" value="false">No</option>
+                                            <option value="">Choose option</option>
+                                            <option value="true">Yes</option>
+                                            <option value="false">No</option>
                                         </select>
                                         <select ng-model="newAccidentVehicle[vehicle].data[key]" ng-if="hasDataSets(key)" class="browser-default" id = "{{key}}">
                                             <option value="">Choose option</option>
@@ -307,10 +326,11 @@
                                     <label class="col s12 input-field" ng-if ="hasDataSets(key) || isDate(key) || isBoolean(key)" >{{ key }}</label>
                                     <div class="col s12 input-field" >
                                         <input ng-model="newAccidentWitness[witness].data[key]" ng-if="isString(key) && !hasDataSets(key)" id = "{{key}}" type="text" class="validate" />
-                                        <input ng-model="newAccidentWitness[witness].data[key]" ng-if="isInteger(key)" id = "{{key}}" type="text" class="validate"   />
+                                        <input ng-model="newAccidentWitness[witness].data[key]" ng-if="isInteger(key)" id = "{{key}}" type="number" class="validate"   />
                                         <select ng-model="newAccidentWitness[witness].data[key]" ng-if="isBoolean(key)"  class="browser-default" id = "{{key}}" >
-                                            <option style="padding: 5px;" value="true">Yes</option>
-                                            <option style="padding: 5px;" value="false">No</option>
+                                            <option value="">Choose option</option>
+                                            <option value="true">Yes</option>
+                                            <option value="false">No</option>
                                         </select>
                                         <select ng-model="newAccidentWitness[witness].data[key]" ng-if="hasDataSets(key)" class="browser-default" id = "{{key}}">
                                             <option value="">Choose option</option>
