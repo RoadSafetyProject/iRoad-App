@@ -89,6 +89,7 @@ app.controller('mainController',function($scope,$localStorage,$rootScope,$locati
                                         var registries = new iroad2.data.Modal("Offence Registry",[]);
                                         registries.getAll(function(result){
                                             $rootScope.dataOffense.registries = result;
+                                            console.log('offesnse : ' + JSON.stringify(result));
                                             $rootScope.$apply();
                                         });
                                     }

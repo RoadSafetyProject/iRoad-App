@@ -149,6 +149,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
                             'vehicle': i,
                             'dataElements' : $rootScope.reportingForms.Accident.accidentVehicle,
                             'data' : {},
+                            'signature' : null,
                             'visibility' : true,
                             'error' : ''
                         }
@@ -160,6 +161,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
                             'vehicle': i,
                             'dataElements' : $rootScope.reportingForms.Accident.accidentVehicle,
                             'data' : {},
+                            'signature' : null,
                             'visibility' : false
                         }
                     );
@@ -244,6 +246,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
                                                     'witness' : i,
                                                     'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
                                                     'data' : {},
+                                                    'signature' : null,
                                                     'visibility' : true,
                                                     'numberOfWitnesses' : $scope.newAccidentBasicInfoOtherData.numberOfWitness
                                                 });
@@ -253,6 +256,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
                                                     'witness' : i,
                                                     'dataElements' : $rootScope.reportingForms.Accident.accidentWitnes,
                                                     'data' : {},
+                                                    'signature' : null,
                                                     'visibility' : false,
                                                     'numberOfWitnesses' : $scope.newAccidentBasicInfoOtherData.numberOfWitness
                                                 });
@@ -330,7 +334,20 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
     //police signatures
     $scope.savePoliceSignature = function() {
+
         $scope.policeSignature  = $scope.signaturePad.toDataURL();
+        $scope.clearCanvas();
+    };
+
+    $scope.saveWitnessSignature = function(witness){
+
+        $scope.newAccidentWitness[witness].signature  = $scope.signaturePad.toDataURL();
+        $scope.clearCanvas();
+    };
+
+    $scope.saveDriverSignature = function(vehicle){
+
+        $scope.newAccidentVehicle[vehicle].signature = $scope.signaturePad.toDataURL();
         $scope.clearCanvas();
     };
 

@@ -86,7 +86,6 @@ app.controller('navController',function($scope,$rootScope,$localStorage,$locatio
             });
             $scope.editInputModal.push(registry);
         });
-
     };
 
     //control driver verification view form
