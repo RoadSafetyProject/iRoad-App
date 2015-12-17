@@ -118,12 +118,11 @@ app.controller('reportOffenceController',function($scope,$rootScope,$location){
 
                             var savingData = $rootScope.reportingForms.offence.newOffenseData;
 
-                            var eventDate = null;
-                            for(var key in savingData){
+                            for(var key in $rootScope.reportingForms.offence.newOffenseData){
                                 if($scope.isDate(key)){
-                                    var d = new Date(savingData[key]);
+                                    savingData[key] = (new Date($rootScope.reportingForms.offence.newOffenseData[key])).toISOString();
 
-                                    console.log('key : ' + key +'  Month ' + d.getMonth());
+                                    /*console.log('key : ' + d);
                                     var date = d.getFullYear() + '-';
                                     if(d.getMonth() > 9){
                                         date = date + d.getMonth() + '-';
@@ -135,17 +134,17 @@ app.controller('reportOffenceController',function($scope,$rootScope,$location){
                                         date = date + d.getDate();
                                     }else{
                                         date = date + '0' +d.getDate();
-                                    }
+                                    }*/
 
-                                    savingData[key] = date;
-                                    eventDate = date;
+                                    //savingData[key] = (new Date(date)).toISOString();
+                                    console.log(' date date : ' +  savingData[key]);
                                 }
                             }
 
                             //checking if driver and vehicle found
                             if($scope.savingErrorMessages.length <= 0){
 
-                                $rootScope.pageChanger.reportOffense.saving = true;
+                                $rootScope.pageChanger.reportOffense.saveConfirmation = true;
                                 $rootScope.pageChanger.reportOffense.home = false;
 
                                 //add additional data to the offense reporting form
@@ -164,84 +163,10 @@ app.controller('reportOffenceController',function($scope,$rootScope,$location){
                                     savingData['Vehicle Ownership Category'] =savingData.Vehicle['Vehicle Ownership Category'];
                                 }
 
-                                //other data
-                                var otherData = {orgUnit:$rootScope.configuration.userData.organisationUnits[0].id,status: "COMPLETED",storedBy: "admin",eventDate:eventDate};
-                                if($scope.geoPosition){
-                                    otherData.coordinate = {
-                                        "latitude": $scope.geoPosition.coords.latitude,
-                                        "longitude": $scope.geoPosition.coords.longitude
-                                    };
-                                }else{
-                                    otherData.coordinate = {"latitude": "","longitude": ""};
-                                }
-
-
                                 //saving reported offense
                                 $scope.reporteOffense = savingData;
                                 $scope.attetants = $rootScope.reportingForms.offence.attendant;
-                                var offenceEventModal = new iroad2.data.Modal("Offence Event",[]);
-                                offenceEventModal.save(savingData,otherData,function(result){
 
-                                        if(result.httpStatus){
-                                            var offenseSavingResponse = result.response;
-                                            var offenseId = offenseSavingResponse.importSummaries[0].reference;
-
-                                            $scope.reporteOffense.id = offenseId;
-                                            $rootScope.reportingForms.offence.reprtedOffenses.offense = $scope.reporteOffense;
-
-                                            //prepare selected offense for saving
-                                            var saveDataArray = [];
-                                            angular.forEach($scope.selected,function(registry){
-                                                var off = {
-                                                    "Offence_Event":{"id": offenseId},
-                                                    "Offence_Registry":{"id":registry.id}
-                                                };
-                                                saveDataArray.push(off);
-                                            });
-                                            var offence = new iroad2.data.Modal("Offence",[]);
-                                            offence.save(saveDataArray,otherData,function(){
-                                                    $rootScope.loadingData = false;
-                                                    $rootScope.$apply();
-
-                                                },function(){
-                                                    //error
-                                                    Materialize.toast('Fail to save offense',3000);
-                                                    $scope.savingErrorMessages.push('Fail to save offense');
-                                                    $rootScope.loadingData = false;
-                                                    $rootScope.$apply();
-                                                    $scope.$apply();
-
-                                                },
-                                                offence.getModalName());
-
-                                            //fetching police officer and update
-                                            var policeModal = new iroad2.data.Modal('Police',[]);
-
-                                            policeModal.get(new iroad2.data.SearchCriteria('Rank Number',"=",$scope.attetants),function(police){
-                                                if(police.length > 0){
-                                                    $scope.reporteOffense.Police = police[0];
-                                                    offenceEventModal.save($scope.reporteOffense,otherData,
-                                                        function(){
-                                                        },
-                                                        function(){
-                                                        },
-                                                        offenceEventModal.getModalName());
-                                                }
-
-                                            });//end of fetching Police*//*
-                                            $rootScope.loadingData = false;
-                                            $rootScope.$apply();
-                                        }
-                                    }
-                                    ,function(){
-                                        //error
-                                        $scope.savingErrorMessages.push('Fail to save offense');
-                                        Materialize.toast('Fail to save offense',3000);
-                                        $rootScope.loadingData = false;
-                                        $rootScope.$apply();
-                                        $scope.$apply();
-                                    },
-                                    offenceEventModal.getModalName());
                                 $rootScope.loadingData = false;
                                 $rootScope.$apply();
                             }
@@ -325,6 +250,92 @@ app.controller('reportOffenceController',function($scope,$rootScope,$location){
             }
         }
         return false;
+    }
+
+    $scope.confirmReporting = function(){
+
+        $rootScope.loadingData = true;
+        //other data
+        var eventDate = (new Date()).toISOString();
+        var otherData = {orgUnit:$rootScope.configuration.userData.organisationUnits[0].id,status: "COMPLETED",storedBy: "admin",eventDate:eventDate};
+        if($scope.geoPosition){
+            otherData.coordinate = {
+                "latitude": $scope.geoPosition.coords.latitude,
+                "longitude": $scope.geoPosition.coords.longitude
+            };
+        }else{
+            otherData.coordinate = {"latitude": "","longitude": ""};
+        }
+
+        var offenceEventModal = new iroad2.data.Modal("Offence Event",[]);
+        offenceEventModal.save($scope.reporteOffense,otherData,function(result){
+
+                if(result.httpStatus){
+                    var offenseSavingResponse = result.response;
+                    var offenseId = offenseSavingResponse.importSummaries[0].reference;
+
+                    $scope.reporteOffense.id = offenseId;
+                    $rootScope.reportingForms.offence.reprtedOffenses.offense = $scope.reporteOffense;
+
+                    //prepare selected offense for saving
+                    var saveDataArray = [];
+                    angular.forEach($scope.selected,function(registry){
+                        var off = {
+                            "Offence_Event":{"id": offenseId},
+                            "Offence_Registry":{"id":registry.id}
+                        };
+                        saveDataArray.push(off);
+                    });
+                    var offence = new iroad2.data.Modal("Offence",[]);
+                    offence.save(saveDataArray,otherData,function(){
+                            $rootScope.loadingData = false;
+                            $rootScope.$apply();
+
+                        },function(){
+                            //error
+                            Materialize.toast('Fail to save offense',3000);
+                            $scope.savingErrorMessages.push('Fail to save offense');
+                            $rootScope.loadingData = false;
+                            $rootScope.$apply();
+                            $scope.$apply();
+
+                        },
+                        offence.getModalName());
+
+                    //fetching police officer and update
+                    var policeModal = new iroad2.data.Modal('Police',[]);
+
+                    policeModal.get(new iroad2.data.SearchCriteria('Rank Number',"=",$scope.attetants),function(police){
+
+                        if(police.length > 0){
+                            $scope.reporteOffense.Police = police[0];
+                            offenceEventModal.save($scope.reporteOffense,otherData,
+                                function(){
+                                },
+                                function(){
+                                },
+                                offenceEventModal.getModalName());
+                        }
+
+                    });//end of fetching Police
+
+                    $rootScope.pageChanger.reportOffense.saveConfirmation = true;
+                    $rootScope.pageChanger.reportOffense.home = false;
+                    $rootScope.pageChanger.reportOffense.paymentConfirmation = true;
+
+                    $rootScope.loadingData = false;
+                    $rootScope.$apply();
+                }
+            }
+            ,function(){
+                //error
+                $scope.savingErrorMessages.push('Fail to save offense');
+                Materialize.toast('Fail to save offense',3000);
+                $rootScope.loadingData = false;
+                $rootScope.$apply();
+                $scope.$apply();
+            },
+            offenceEventModal.getModalName());
     }
 
     //function for payment during reporting offense
