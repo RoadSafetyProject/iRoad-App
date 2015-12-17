@@ -103,16 +103,17 @@
 </div>
 
 <div ng-if = "pageChanger.reportOffense.saveConfirmation == true" ng-controller="reportOffenceController">
+
     <div class = "container">
         <div class="row">
             <div class="card-panel">
-                <h4 align="center">Reported Offense Confirmation</h4>
-                <div class="col s12">
+                <h5 align="center">Reported Offense Confirmation</h5>
+                <div class="">
 
                 </div>
-                <div class="col s12">
-                    <button type="button" class="col s6 btn btn-large blue waves-effect waves-light">Back</button>
-                    <button ng-click="confirmReporting()" type="button" class="col s6 btn btn-large blue waves-effect waves-light">Proceed</button>
+                <div class="">
+                    <button ng-click="backToReportOffenseForm()" type="button" class=" btn btn-large blue waves-effect waves-light">Back</button>
+                    <button ng-click="confirmReporting()" type="button" class=" btn btn-large blue waves-effect waves-light">Proceed</button>
                 </div>
             </div>
         </div>
