@@ -24,24 +24,16 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     //
     var captureImageSuccess = function(mediaFiles) {
         for (var i = 0; i < mediaFiles.length; i ++) {
-            path = mediaFiles[i].fullPath;
-            //$scope.media.image.data = mediaFiles[i].fullPath;
             $scope.media.image.data = mediaFiles[i];
             $scope.$apply();
-            var mediaFile = mediaFiles[i];
-            alert('id : ' + $scope.uploadFileToServer(mediaFile.localURL));
-            //uploadFile(mediaFiles[i]);
+            uploadFile(mediaFiles[i]);
         }
     };
     var captureVideoSuccess = function(mediaFiles) {
         for (var i = 0; i < mediaFiles.length; i ++) {
-
-            path = mediaFiles[i].fullPath;
             $scope.media.video.data = mediaFiles[i];
             $scope.$apply();
-            var mediaFile = mediaFiles[i];
-            alert('id : ' + $scope.uploadFileToServer(mediaFile.localURL));
-            //uploadFile(mediaFiles[i]);
+            uploadFile(mediaFiles[i]);
         }
     };
 
@@ -57,16 +49,11 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         var ft = new FileTransfer(),path = mediaFile.localURL;
         var options = {};
         ft.upload(path, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
-
-                alert('result.response : ' + result.response);
                 var data = JSON.parse(result.response);
-                alert('result.response[] : ' + data.response);
                 alert('result.response.fileResource.id : ' + data.response.fileResource.id);
-                Materialize.toast('Success upload media data',3000);
             },
-            function(error) {
-                alert('error : ' + JSON.stringify(error));
-                Materialize.toast('Fail to upload media data',3000);
+            function() {
+                Materialize.toast('Fail to upload file',2000);
             }, options);
     }
 
@@ -342,7 +329,6 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
     }
     $scope.signatureView = false;
-    $scope.signature = null;
 
     $scope.initSignature = function(){
         var canvas = document.getElementById('signatureCanvas');
@@ -359,8 +345,8 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
         $scope.policeSignature  = $scope.signaturePad.toDataURL();
         $scope.clearCanvas();
-
-        alert('id : ' + $scope.uploadFileToServer($scope.policeSignature));
+        var id = $scope.uploadFileToServer($scope.policeSignature);
+        alert('id : ' + id);
         /*var ft = new FileTransfer();
         var options = {};
         ft.upload($scope.policeSignature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
