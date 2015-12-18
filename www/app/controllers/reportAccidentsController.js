@@ -344,12 +344,11 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     $scope.savePoliceSignature = function() {
 
         $scope.policeSignature  = $scope.signaturePad.toDataURL();
-        $scope.clearCanvas();
         var ft = new FileTransfer();
         var options = {};
         ft.upload($scope.policeSignature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
                 var data = JSON.parse(result.response);
-                alert('result.response.fileResource.id : ' + data.response.fileResource.id);
+                $scope.newAccidentBasicInfo.signature = data.response.fileResource.id;
             },
             function() {
                 Materialize.toast('Fail to upload signature',3000);
@@ -359,12 +358,11 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     $scope.saveWitnessSignature = function(witness){
 
         $scope.newAccidentWitness[witness].signature  = $scope.signaturePad.toDataURL();
-        $scope.clearCanvas();
         var ft = new FileTransfer();
         var options = {};
         ft.upload($scope.newAccidentWitness[witness].signature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
                 var data = JSON.parse(result.response);
-                alert('result.response.fileResource.id : ' + data.response.fileResource.id);
+                $scope.newAccidentWitness[witness].signature = data.response.fileResource.id;
             },
             function() {
                 Materialize.toast('Fail to upload signature',3000);
@@ -374,12 +372,11 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     $scope.saveDriverSignature = function(vehicle){
 
         $scope.newAccidentVehicle[vehicle].signature = $scope.signaturePad.toDataURL();
-        $scope.clearCanvas();
         var ft = new FileTransfer();
         var options = {};
         ft.upload($scope.newAccidentVehicle[vehicle].signature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
                 var data = JSON.parse(result.response);
-                alert('result.response.fileResource.id : ' + data.response.fileResource.id);
+                $scope.newAccidentVehicle[vehicle].signature = data.response.fileResource.id;
             },
             function() {
                 Materialize.toast('Fail to upload signature',3000);

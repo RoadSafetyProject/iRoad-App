@@ -185,25 +185,31 @@
                                 <button class="btn white black-text waves-light waves-effect" ng-click="initSignature()">
                                     <i class="fa fa-pencil-square-o" ></i>
                                 </button>
-                                <button class="btn white black-text waves-light waves-effect" ng-click="viewSignature(policeSignature)">
-                                    <i class="fa fa-eye" ></i>
+                                <button class="btn white black-text waves-light waves-effect" ng-click='savePoliceSignature()'>
+                                    <i class="fa fa-floppy-o" ></i>
                                 </button>
+                                <button class="btn white black-text waves-light waves-effect" ng-click='clearCanvas()'>
+                                    <i class="fa fa-undo" ></i>
+                                </button>
+                                <!--<button class="btn white black-text waves-light waves-effect" ng-click="viewSignature(policeSignature)">
+                                    <i class="fa fa-eye" ></i>
+                                </button>-->
                             </div>
-
-                            <div class="col s12">
+                            {{ newAccidentBasicInfo.signature }}
+                            <div class="col s12" style="margin-top: 1%;">
                                 <canvas id='signatureCanvas' class="col s12" height='200' style='border: 1px solid black;'></canvas>
-                                <div class="col s12">
+                                <!--<div class="col s12">
                                     <button class="btn white black-text waves-light waves-effect" ng-click='clearCanvas()'>
                                         <i class="fa fa-undo" ></i>
                                     </button>
                                     <button class="btn white black-text waves-light waves-effect" ng-click='savePoliceSignature()'>
                                         <i class="fa fa-floppy-o" ></i>
                                     </button>
-                                </div>
+                                </div>-->
                             </div>
-                            <div class="col s12" ng-if = "signatureView">
+                            <!--<div class="col s12" ng-if = "signatureView">
                                 <img  ng-src='{{signature}}'/>
-                            </div>
+                            </div>-->
 
                         </div>
                     </div>
@@ -314,25 +320,31 @@
                                 <button class="btn white black-text waves-light waves-effect" ng-click="initSignature()">
                                     <i class="fa fa-pencil-square-o" ></i>
                                 </button>
-                                <button class="btn white black-text waves-light waves-effect" ng-click="viewSignature(newAccidentVehicle[vehicle].signature)">
-                                    <i class="fa fa-eye" ></i>
+                                <button class="btn white black-text waves-light waves-effect" ng-click='saveDriverSignature(vehicle)'>
+                                    <i class="fa fa-floppy-o" ></i>
                                 </button>
+                                <button class="btn white black-text waves-light waves-effect" ng-click='clearCanvas()'>
+                                    <i class="fa fa-undo" ></i>
+                                </button>
+                               <!-- <button class="btn white black-text waves-light waves-effect" ng-click="viewSignature(newAccidentVehicle[vehicle].signature)">
+                                    <i class="fa fa-eye" ></i>
+                                </button>-->
                             </div>
 
                             <div class="col s12">
                                 <canvas id='signatureCanvas' class="col s12" height='200' style='border: 1px solid black;'></canvas>
-                                <div class="col s12">
+                                <!--<div class="col s12">
                                     <button class="btn white black-text waves-light waves-effect" ng-click='clearCanvas()'>
                                         <i class="fa fa-undo" ></i>
                                     </button>
                                     <button class="btn white black-text waves-light waves-effect" ng-click='saveDriverSignature(vehicle)'>
                                         <i class="fa fa-floppy-o" ></i>
                                     </button>
-                                </div>
+                                </div>-->
                             </div>
-                            <div class="col s12" ng-if = "signatureView">
+                            <!--<div class="col s12" ng-if = "signatureView">
                                 <img ng-src='{{signature}}'/>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
 
@@ -389,25 +401,31 @@
                                 <button class="btn white black-text waves-light waves-effect" ng-click="initSignature()">
                                     <i class="fa fa-pencil-square-o" ></i>
                                 </button>
-                                <button class="btn white black-text waves-light waves-effect" ng-click="viewSignature(newAccidentWitness[witness].signature)">
-                                    <i class="fa fa-eye" ></i>
+                                <button class="btn white black-text waves-light waves-effect" ng-click='saveWitnessSignature(witness)'>
+                                    <i class="fa fa-floppy-o" ></i>
                                 </button>
+                                <button class="btn white black-text waves-light waves-effect" ng-click='clearCanvas()'>
+                                    <i class="fa fa-undo" ></i>
+                                </button>
+                                <!--<button class="btn white black-text waves-light waves-effect" ng-click="viewSignature(newAccidentWitness[witness].signature)">
+                                    <i class="fa fa-eye" ></i>
+                                </button>-->
                             </div>
 
                             <div class="col s12">
                                 <canvas id='signatureCanvas' class="col s12" height='200' style='border: 1px solid black;'></canvas>
-                                <div class="col s12">
+                                <!--<div class="col s12">
                                     <button class="btn white black-text waves-light waves-effect" ng-click='clearCanvas()'>
                                         <i class="fa fa-undo" ></i>
                                     </button>
                                     <button class="btn white black-text waves-light waves-effect" ng-click='saveWitnessSignature(witness)'>
                                         <i class="fa fa-floppy-o" ></i>
                                     </button>
-                                </div>
+                                </div>-->
                             </div>
-                            <div class="col s12" ng-if = "signatureView">
+                            <!--<div class="col s12" ng-if = "signatureView">
                                 <img ng-src='{{signature}}'/>
-                            </div>
+                            </div>-->
                         </div>
 
                         <div class="col s12">
