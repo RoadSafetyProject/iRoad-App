@@ -70,14 +70,14 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     $scope.takePhoto = function (){
 
         navigator.device.capture.captureImage(captureImageSuccess, captureError, {limit: 1});
-    }
+    };
 
 
     //function to show basic information
     $scope.accidentBaiscInfo = function(){
         $scope.pageChanger.reportAccidents.captureMedia = false;
         $rootScope.pageChanger.reportAccidents.basicInfo = true;
-    }
+    };
 
 
     //function to set visibility for area of accident sub-form and time
@@ -86,7 +86,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         $rootScope.pageChanger.reportAccidents.areaLocation = true;
         $rootScope.pageChanger.reportAccidents.otherBasicInfo = false;
         $rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = false;
-    }
+    };
 
     //function to set visibility of other parts for basic info for an accident
     $scope.otherBasicInfo = function(){
@@ -95,7 +95,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         $rootScope.pageChanger.reportAccidents.areaLocation = false;
         $rootScope.pageChanger.reportAccidents.otherBasicInfo = true;
         $rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = false;
-    }
+    };
 
     //function to set number of vehicles and witness as well attendant
     $scope.setNumberOfVehicleWitness = function(){
@@ -104,7 +104,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         $rootScope.pageChanger.reportAccidents.areaLocation = false;
         $rootScope.pageChanger.reportAccidents.otherBasicInfo = false;
         $rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = true;
-    }
+    };
 
     //function to show form for verification of basic information during accident registration
     $scope.verifyBasicInfo = function(){
@@ -114,7 +114,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         $rootScope.pageChanger.reportAccidents.setNumberOfVehicleWitness = true;
         $rootScope.pageChanger.reportAccidents.button = true;
         $scope.setNumberOfVehicleWitnessMessage = '';
-    }
+    };
 
 
     /*
@@ -183,7 +183,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
             $scope.verifyBasicInfo();
             Materialize.toast('Please Enter Number Of Vehicle(s)',3000);
         }
-    }
+    };
 
     /*
      *function to change to next vehicle
@@ -327,7 +327,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
         }
 
-    }
+    };
     $scope.signatureView = false;
 
     $scope.initSignature = function(){
@@ -345,35 +345,45 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
         $scope.policeSignature  = $scope.signaturePad.toDataURL();
         $scope.clearCanvas();
-        var id = $scope.uploadFileToServer($scope.policeSignature);
-        alert('id : ' + id);
-        /*var ft = new FileTransfer();
+        var ft = new FileTransfer();
         var options = {};
         ft.upload($scope.policeSignature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
-
-                Materialize.toast('Success upload police data',3000);
-                alert('fileResource : ' + result);
-                alert('fileResource : ' + result.response);
-                alert('fileResource : ' + result.response.response);
-                alert('fileResource : ' + result.response.response.fileResource);
-                alert('fileResource : ' + result.response.response.fileResource.id);
+                var data = JSON.parse(result.response);
+                alert('result.response.fileResource.id : ' + data.response.fileResource.id);
             },
-            function(error) {
-                alert('error : ' + JSON.stringify(error));
-                Materialize.toast('Fail to upload media data',3000);
-            }, options);*/
+            function() {
+                Materialize.toast('Fail to upload signature',3000);
+            }, options);
     };
 
     $scope.saveWitnessSignature = function(witness){
 
         $scope.newAccidentWitness[witness].signature  = $scope.signaturePad.toDataURL();
         $scope.clearCanvas();
+        var ft = new FileTransfer();
+        var options = {};
+        ft.upload($scope.newAccidentWitness[witness].signature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
+                var data = JSON.parse(result.response);
+                alert('result.response.fileResource.id : ' + data.response.fileResource.id);
+            },
+            function() {
+                Materialize.toast('Fail to upload signature',3000);
+            }, options);
     };
 
     $scope.saveDriverSignature = function(vehicle){
 
         $scope.newAccidentVehicle[vehicle].signature = $scope.signaturePad.toDataURL();
         $scope.clearCanvas();
+        var ft = new FileTransfer();
+        var options = {};
+        ft.upload($scope.newAccidentVehicle[vehicle].signature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
+                var data = JSON.parse(result.response);
+                alert('result.response.fileResource.id : ' + data.response.fileResource.id);
+            },
+            function() {
+                Materialize.toast('Fail to upload signature',3000);
+            }, options);
     };
 
     //view signature
@@ -587,13 +597,13 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
     $scope.isInteger = function(key){
         return $scope.is(key,"NUMBER");
-    }
+    };
     $scope.isDate = function(key){
         return $scope.is(key,"DATE");
-    }
+    };
     $scope.isString = function(key){
         return $scope.is(key,"TEXT");
-    }
+    };
     $scope.isBoolean = function(key){
         return $scope.is(key,"BOOLEAN");
     };
@@ -627,20 +637,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
             }
         }
         return false;
-    }
+    };
 
-    //function to upload file media
-    $scope.uploadFileToServer = function(filePath){
-        alert('here');
-        var ft = new FileTransfer(),output = '';
-        var options = {};
-        ft.upload(filePath, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
-                var data = JSON.parse(result.response);
-                output = data.response.fileResource.id;
-                return output;
-            },
-            function() {
-                Materialize.toast('Fail to upload file',2000);
-            }, options);
-    }
+
 });
