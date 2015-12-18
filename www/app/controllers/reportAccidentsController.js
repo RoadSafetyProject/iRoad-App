@@ -29,7 +29,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
             $scope.media.image.data = mediaFiles[i];
             $scope.$apply();
             var mediaFile = mediaFiles[i];
-            alert('id : ' + uploadFileToServer(mediaFile.localURL));
+            alert('id : ' + $scope.uploadFileToServer(mediaFile.localURL));
             //uploadFile(mediaFiles[i]);
         }
     };
@@ -40,7 +40,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
             $scope.media.video.data = mediaFiles[i];
             $scope.$apply();
             var mediaFile = mediaFiles[i];
-            alert('id : ' + uploadFileToServer(mediaFile.localURL));
+            alert('id : ' + $scope.uploadFileToServer(mediaFile.localURL));
             //uploadFile(mediaFiles[i]);
         }
     };
@@ -640,7 +640,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     }
 
     //function to upload file media
-    function uploadFileToServer(filePath){
+    $scope.uploadFileToServer = function(filePath){
 
         var ft = new FileTransfer(),output = '';
         var options = {};
