@@ -337,6 +337,19 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
         $scope.policeSignature  = $scope.signaturePad.toDataURL();
         $scope.clearCanvas();
+
+
+        var ft = new FileTransfer();
+        var options = {};
+        ft.upload($scope.policeSignature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
+                alert('results : ' + JSON.stringify(result));
+                Materialize.toast('Success upload police data',3000);
+                alert(result.id);
+            },
+            function(error) {
+                alert('error : ' + JSON.stringify(error));
+                Materialize.toast('Fail to upload media data',3000);
+            }, options);
     };
 
     $scope.saveWitnessSignature = function(witness){
