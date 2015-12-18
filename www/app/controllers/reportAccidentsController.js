@@ -203,6 +203,8 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
      */
     $scope.nextVehicle = function(vehicle){
 
+        $scope.signatureView = false;
+        $scope.signature = null;
 
         //set visibility for next vehicle
         if($scope.newAccidentVehicle[vehicle].data['Vehicle Plate Number/Registration Number'] && $scope.newAccidentVehicle[vehicle].data['Licence Number']){
@@ -340,6 +342,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
     }
     $scope.signatureView = false;
+    $scope.signature = null;
 
     $scope.initSignature = function(){
         var canvas = document.getElementById('signatureCanvas');
@@ -357,7 +360,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         $scope.policeSignature  = $scope.signaturePad.toDataURL();
         $scope.clearCanvas();
 
-        alert('id : ' + uploadFileToServer($scope.policeSignature));
+        alert('id : ' + $scope.uploadFileToServer($scope.policeSignature));
         /*var ft = new FileTransfer();
         var options = {};
         ft.upload($scope.policeSignature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
@@ -399,7 +402,8 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
      */
     $scope.nextWitness = function(witness){
-
+        $scope.signatureView = false;
+        $scope.signature = null;
         $scope.newAccidentWitnessMessage = '';
 
         //checking for first name, last name and phone number
@@ -641,7 +645,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
     //function to upload file media
     $scope.uploadFileToServer = function(filePath){
-
+        alert('here');
         var ft = new FileTransfer(),output = '';
         var options = {};
         ft.upload(filePath, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
