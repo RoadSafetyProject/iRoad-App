@@ -9,6 +9,17 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     $scope.newAccidentVehicle = [];
     $scope.newAccidentWitness = [];
 
+    //get current location
+    var onSuccess = function(position) {
+        $rootScope.$apply(function() {
+            $scope.geoPosition = position;
+        });
+    };
+    var onError = function(error) {
+        Materialize.toast('Fail to capture location',3000);
+    };
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
+
     // Called when capture operation is finished
     //
     var captureImageSuccess = function(mediaFiles) {
@@ -344,8 +355,8 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         ft.upload($scope.policeSignature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
 
                 Materialize.toast('Success upload police data',3000);
-                alert('fileResource : ' + result.response.response.fileResource);
-                alert(' id : ' + result.response.response.fileResource.id);
+                alert('fileResource : ' + result.response.response);
+                //alert(' id : ' + result.response.response.fileResource.id);
             },
             function(error) {
                 alert('error : ' + JSON.stringify(error));
@@ -573,33 +584,6 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
     };
 
-    //get current location
-    var onSuccess = function(position) {
-        $rootScope.$apply(function() {
-            $scope.geoPosition = position;
-        });
-    };
-    var onError = function(error) {
-        Materialize.toast('Fail to capture location',3000);
-    };
-    navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
-
-
-
-
-
-    /*
-     *functions for flexible forms
-     */
-    /*$scope.isInteger = function(key){
-        return $scope.is(key,"int");
-    }
-    $scope.isDate = function(key){
-        return $scope.is(key,"date");
-    }
-    $scope.isString = function(key){
-        return $scope.is(key,"string");
-    }*/
     $scope.isInteger = function(key){
         return $scope.is(key,"NUMBER");
     }
@@ -643,18 +627,18 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         }
         return false;
     }
-})
-    .controller('SignatureCtrl', function($scope) {
-        var canvas = document.getElementById('signatureCanvas');
-        var signaturePad = new SignaturePad(canvas);
 
-        $scope.clearCanvas = function() {
-            signaturePad.clear();
-        }
+    //function to upload file media
+    function uploadFileToServer(filePath){
 
-        $scope.saveCanvas = function() {
-            var sigImg = signaturePad.toDataURL();
-            console.log(JSON.stringify(sigImg));
-            $scope.signature = sigImg;
-        }
-    });
+        var ft = new FileTransfer(),output = '';;
+        var options = {};
+        ft.upload(filePath, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
+                Materialize.toast('Success upload ',3000);
+                //output = ;
+            },
+            function(error) {
+                Materialize.toast('Fail to upload media data',3000);
+            }, options);
+    }
+});
