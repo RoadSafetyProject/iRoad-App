@@ -342,9 +342,9 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         var ft = new FileTransfer();
         var options = {};
         ft.upload($scope.policeSignature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
-                alert('results : ' + JSON.stringify(result));
+
                 Materialize.toast('Success upload police data',3000);
-                alert(result.response.id);
+                alert(result);
             },
             function(error) {
                 alert('error : ' + JSON.stringify(error));
