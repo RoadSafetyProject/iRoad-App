@@ -26,31 +26,32 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         for (var i = 0; i < mediaFiles.length; i ++) {
             $scope.media.image.data = mediaFiles[i];
             $scope.$apply();
-            uploadFile(mediaFiles[i]);
+            uploadFile(mediaFiles[i],'Accident Image');
         }
     };
     var captureVideoSuccess = function(mediaFiles) {
         for (var i = 0; i < mediaFiles.length; i ++) {
             $scope.media.video.data = mediaFiles[i];
             $scope.$apply();
-            uploadFile(mediaFiles[i]);
+            uploadFile(mediaFiles[i],'Accident Video');
         }
     };
 
     // Called if something bad happens.
-    //
+    //Accident Video  Accident Image
     var captureError =function(error) {
         Materialize.toast('An error occurred during capture',3000);
     };
 
 
-    function uploadFile(mediaFile) {
+    function uploadFile(mediaFile,dataElement) {
 
         var ft = new FileTransfer(),path = mediaFile.localURL;
         var options = {};
         ft.upload(path, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
                 var data = JSON.parse(result.response);
-                alert('result.response.fileResource.id : ' + data.response.fileResource.id);
+                Materialize.toast(dataElement);
+                $scope.newAccidentBasicInfo[dataElement] = data.response.fileResource.id;
             },
             function() {
                 Materialize.toast('Fail to upload file',2000);
