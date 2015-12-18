@@ -352,6 +352,8 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         ft.upload($scope.policeSignature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
                 var data = JSON.parse(result.response);
                 $scope.newAccidentBasicInfo.signature = data.response.fileResource.id;
+                $scope.$apply();
+                alert(JSON.stringify($scope.newAccidentBasicInfo));
             },
             function() {
                 Materialize.toast('Fail to upload signature',3000);
