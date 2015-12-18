@@ -54,7 +54,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         var options = {};
         ft.upload(path, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
 
-                alert('fileResource : ' + result.response);
+                alert('result.response : ' + result.response);
                 alert('result.response[] : ' + result.response['response']);
                 alert('result.response.fileResource.id : ' + result.response.fileResource.id);
                 Materialize.toast('Success upload media data',3000);
