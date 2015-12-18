@@ -52,6 +52,8 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
                 var data = JSON.parse(result.response);
                 Materialize.toast(dataElement);
                 $scope.newAccidentBasicInfo[dataElement] = data.response.fileResource.id;
+                $scope.$apply();
+                alert(JSON.stringify($scope.newAccidentBasicInfo))
             },
             function() {
                 Materialize.toast('Fail to upload file',2000);
