@@ -28,7 +28,9 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
             //$scope.media.image.data = mediaFiles[i].fullPath;
             $scope.media.image.data = mediaFiles[i];
             $scope.$apply();
-            uploadFile(mediaFiles[i]);
+            var mediaFile = mediaFiles[i];
+            alert('id : ' + uploadFileToServer(mediaFile.localURL));
+            //uploadFile(mediaFiles[i]);
         }
     };
     var captureVideoSuccess = function(mediaFiles) {
@@ -37,7 +39,9 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
             path = mediaFiles[i].fullPath;
             $scope.media.video.data = mediaFiles[i];
             $scope.$apply();
-            uploadFile(mediaFiles[i]);
+            var mediaFile = mediaFiles[i];
+            alert('id : ' + uploadFileToServer(mediaFile.localURL));
+            //uploadFile(mediaFiles[i]);
         }
     };
 
@@ -353,8 +357,8 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
         $scope.policeSignature  = $scope.signaturePad.toDataURL();
         $scope.clearCanvas();
 
-
-        var ft = new FileTransfer();
+        alert('id : ' + uploadFileToServer($scope.policeSignature));
+        /*var ft = new FileTransfer();
         var options = {};
         ft.upload($scope.policeSignature, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
 
@@ -368,7 +372,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
             function(error) {
                 alert('error : ' + JSON.stringify(error));
                 Materialize.toast('Fail to upload media data',3000);
-            }, options);
+            }, options);*/
     };
 
     $scope.saveWitnessSignature = function(witness){
@@ -638,14 +642,15 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     //function to upload file media
     function uploadFileToServer(filePath){
 
-        var ft = new FileTransfer(),output = '';;
+        var ft = new FileTransfer(),output = '';
         var options = {};
         ft.upload(filePath, encodeURI($localStorage.url + "/api/fileResources"), function(result) {
-                Materialize.toast('Success upload ',3000);
-                //output = ;
+                var data = JSON.parse(result.response);
+                output = data.response.fileResource.id;
+                return output;
             },
-            function(error) {
-                Materialize.toast('Fail to upload media data',3000);
+            function() {
+                Materialize.toast('Fail to upload file',2000);
             }, options);
     }
 });
