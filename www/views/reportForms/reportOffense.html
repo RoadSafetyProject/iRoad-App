@@ -26,7 +26,7 @@
                                     <option value="">Choose option</option>
                                     <option ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                                 </select>
-                                <input ng-model="reportingForms.offence.newOffenseData[key]" ng-if="isDate(key)"  id = "{{key}}" type="date" class="datepicker"  />
+                                <input ng-model="reportingForms.offence.newOffenseData[key]" ng-if="isDate(key)" ui-date id = "{{key}}"  type="text" class="validate" />
                                 <label ng-if ="!(hasDataSets(key) || isDate(key) || isBoolean(key))" for = "{{ key }}">{{ key }}</label>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                     <option value="">Choose option</option>
                                     <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                                 </select>
-                                <input ng-model="reportingForms.offence.newOffenseData[key]" ng-if="isDate(key)"  id = "{{key}}" type="date" class="datepicker"  />
+                                <input ng-model="reportingForms.offence.newOffenseData[key]" ng-if="isDate(key)"  ui-date id = "{{key}}"  type="text" class="validate" />
                                 <label ng-if ="!(hasDataSets(key) || isDate(key) || isBoolean(key))" for = "{{ key }}">{{ key }}</label>
                             </div>
                         </div>

@@ -33,7 +33,7 @@
         </div>
         <div class="row">
             <div class="col s12">
-                <button class="btn right btn-large blue waves-light waves-effect col s12" ng-click="accidentBaiscInfo()">Report</button>
+                <button class="btn right btn-large blue waves-light waves-effect col s12" ng-click="accidentBaiscInfo()">Report Accident</button>
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
                                         <option value="">Choose option</option>
                                         <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                                     </select>
-                                    <input ng-model="newAccidentBasicInfo[key]" ng-if="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
+                                    <input ng-model="newAccidentBasicInfo[key]" ng-if="isDate(key)" ui-date id = "{{key}}"  type="text" class="validate" />
                                     <label ng-if ="!(hasDataSets(key) || isDate(key) || isBoolean(key))" for = "{{ key }}">{{ key }}</label>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@
                                         <option value="">Choose option</option>
                                         <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                                     </select>
-                                    <input ng-model="newAccidentBasicInfo[key]" ng-if="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
+                                    <input ng-model="newAccidentBasicInfo[key]" ng-if="isDate(key)"  ui-date id = "{{key}}"  type="text" class="validate" />
                                     <label ng-if ="!(hasDataSets(key) || isDate(key) || isBoolean(key))" for = "{{ key }}">{{ key }}</label>
                                 </div>
                             </div>
@@ -169,7 +169,7 @@
                                         <option value="">Choose option</option>
                                         <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                                     </select>
-                                    <input ng-model="newAccidentBasicInfo[key]" ng-if="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
+                                    <input ng-model="newAccidentBasicInfo[key]" ng-if="isDate(key)"  ui-date id = "{{key}}"  type="text" class="validate" />
                                     <label ng-if ="!(hasDataSets(key) || isDate(key) || isBoolean(key))" for = "{{ key }}">{{ key }}</label>
                                 </div>
                                 <div class="col s12 input-field" ng-if="key == 'Comment/Observations On accident'">
@@ -306,7 +306,7 @@
                                             <option value="">Choose option</option>
                                             <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                                         </select>
-                                        <input ng-model="newAccidentVehicle[vehicle].data[key]" ng-if="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
+                                        <input ng-model="newAccidentVehicle[vehicle].data[key]" ng-if="isDate(key)"  ui-date id = "{{key}}"  type="text" class="validate"/>
                                         <label ng-if ="!(hasDataSets(key) || isDate(key) || isBoolean(key))" for = "{{ key }}">{{ key }}</label>
                                     </div>
                                 </div>
@@ -330,7 +330,7 @@
                                 </button>-->
                             </div>
 
-                            <div class="col s12">
+                            <div class="col s12" style="margin-top: 1%;">
                                 <canvas id='signatureCanvas' class="col s12" height='200' style='border: 1px solid black;'></canvas>
                                 <!--<div class="col s12">
                                     <button class="btn white black-text waves-light waves-effect" ng-click='clearCanvas()'>
@@ -387,7 +387,7 @@
                                             <option value="">Choose option</option>
                                             <option style="padding: 5px;" ng-repeat="item in getOptionSets(key)" > {{ item.name }}</option>
                                         </select>
-                                        <input ng-model="newAccidentWitness[witness].data[key]" ng-if="isDate(key)"  type="date" id = "{{key}}"  class="validate" />
+                                        <input ng-model="newAccidentWitness[witness].data[key]" ng-if="isDate(key)"  ui-date id = "{{key}}"  type="text" class="validate" />
                                         <label ng-if ="!(hasDataSets(key) || isDate(key) || isBoolean(key))" for = "{{ key }}">{{ key }}</label>
                                     </div>
                                 </div>
@@ -411,7 +411,7 @@
                                 </button>-->
                             </div>
 
-                            <div class="col s12">
+                            <div class="col s12" style="margin-top: 1%;">
                                 <canvas id='signatureCanvas' class="col s12" height='200' style='border: 1px solid black;'></canvas>
                                 <!--<div class="col s12">
                                     <button class="btn white black-text waves-light waves-effect" ng-click='clearCanvas()'>
