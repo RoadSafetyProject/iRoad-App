@@ -18,13 +18,13 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     var onError = function(error) {
         Materialize.toast('Fail to capture location',3000);
     };
-    navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
 
     // Called when capture operation is finished
     //
     var captureImageSuccess = function(mediaFiles) {
         for (var i = 0; i < mediaFiles.length; i ++) {
             $scope.media.image.data = mediaFiles[i];
+            Materialize.toast('Photo Taken Successfully',3000);
             $scope.$apply();
             uploadFile(mediaFiles[i],'Accident Image');
         }
@@ -32,6 +32,7 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
     var captureVideoSuccess = function(mediaFiles) {
         for (var i = 0; i < mediaFiles.length; i ++) {
             $scope.media.video.data = mediaFiles[i];
+            Materialize.toast('Video Taken Successfully',3000);
             $scope.$apply();
             uploadFile(mediaFiles[i],'Accident Video');
         }
@@ -78,6 +79,8 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
 
     //function to show basic information
     $scope.accidentBaiscInfo = function(){
+
+        navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout: 10000, enableHighAccuracy: true});
         $scope.pageChanger.reportAccidents.captureMedia = false;
         $rootScope.pageChanger.reportAccidents.basicInfo = true;
     };
@@ -353,7 +356,6 @@ app.controller('reportAccidentsController',function($scope,$rootScope,$localStor
                 var data = JSON.parse(result.response);
                 $scope.newAccidentBasicInfo.signature = data.response.fileResource.id;
                 $scope.$apply();
-                alert(JSON.stringify($scope.newAccidentBasicInfo));
             },
             function() {
                 Materialize.toast('Fail to upload signature',3000);
