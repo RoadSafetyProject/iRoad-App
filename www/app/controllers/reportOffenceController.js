@@ -355,8 +355,6 @@ app.controller('reportOffenceController',function($scope,$rootScope,$location){
         $rootScope.pageChanger.reportOffense.saveConfirmation = false;
         $rootScope.pageChanger.reportOffense.home = false;
         $rootScope.pageChanger.reportOffense.paymentConfirmation = false;
-
-        console.log('Data : ' + JSON.stringify($rootScope.reportingForms.offence.data));
     };
 
     $scope.savePayment = function(){
@@ -385,7 +383,7 @@ app.controller('reportOffenceController',function($scope,$rootScope,$location){
             //update table for offense
             var paymentEventModal = new iroad2.data.Modal("Payment Reciept",[]);
 
-            var paymentData ={};
+            $scope.paymentData ={};
             var m,d = (new Date(eventDate));
             m = d.getMonth() + 1;
             var date = d.getFullYear() + '-';
@@ -399,13 +397,14 @@ app.controller('reportOffenceController',function($scope,$rootScope,$location){
             }else{
                 date = date + '0' +d.getDate();
             }
-            paymentData['Payment Date'] = date;
-            paymentData['Payment Mode'] = $scope.paymentFormData.paymentMode;
-            paymentData['Reciept Number'] = $scope.paymentFormData.receiptNumber;
-            paymentData['Amount'] = $rootScope.reportingForms.offence.reprtedOffenses.amountTotal;
-            paymentEventModal.save(paymentData,otherData,function(results){
-                console.log(JSON.stringify(results))
+            $scope.paymentData['Payment Date'] = date;
+            $scope.paymentData['Payment Mode'] = $scope.paymentFormData.paymentMode;
+            $scope.paymentData['Reciept Number'] = $scope.paymentFormData.receiptNumber;
+            $scope.paymentData['Amount'] = $rootScope.reportingForms.offence.reprtedOffenses.amountTotal;
+            var savingPaymentData = $scope.paymentData;
+            paymentEventModal.save(savingPaymentData,otherData,function(){
                 Materialize.toast('Success Make payment',2000);
+                $location.path('/home');
             },function(){
 
             },paymentEventModal.getModalName());
