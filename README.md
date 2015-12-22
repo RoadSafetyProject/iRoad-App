@@ -9,8 +9,9 @@ A revamped version of iROAD 2 app, developed using web technologies and PhoneGap
 <li>Driver Verification</li>
 </ol>
 <h5>Other Usefully Features</h5>
-1.Embedded Barcode reader for Driver license
-2.Auto Geo-location detection
-3.Video recording and Image Capture
-
+<ol>
+<li>Embedded Barcode reader for Driver license</li>
+<li>Auto Geo-location detection</li>
+<li>Video recording and Image Capture</li>
+</ol>
 <a href = "https://build.phonegap.com/apps/1732409/share">Download now</a>
