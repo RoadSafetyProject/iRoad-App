@@ -109,7 +109,7 @@
             <div class="card-panel">
                 <h5 align="center">Reported Offense Confirmation</h5>
                 <div class="">
-
+                    <p class="flow-text">All data are ready for submission, click Proceed to report</p>
                 </div>
                 <div class="">
                     <button ng-click="backToReportOffenseForm()" type="button" class=" btn btn-large blue waves-effect waves-light">Back</button>
@@ -121,42 +121,72 @@
 </div>
 
 <!-- reporting progress reports -->
-<div ng-if = "pageChanger.reportOffense.paymentConfirmation == true" ng-controller="reportOffenceController">
+<div  ng-controller="reportOffenceController">
 
-    <div class="container">
-        <div class="row">
-            <div class="card-panel">
-                <div class="row">
-                    <h5 align="center">Reported Offense Report</h5>
-                    <div class="col s12" ng-repeat=" reportedOffense in reportingForms.offence.reprtedOffenses.list">
-                        <span>{{ reportedOffense.Nature }}</span><br>
-                        <span class="blue-text text-darken-2">{{ reportedOffense.Amount | currency : 'Tsh ' : 2}}</span>
+    <div ng-if = "pageChanger.reportOffense.paymentConfirmation == true">
+
+        <div class="container">
+            <div class="row">
+                <div class="card-panel">
+                    <div class="row">
+                        <h5 align="center">Reported Offense Report</h5>
+                        <div class="col s12" ng-repeat=" reportedOffense in reportingForms.offence.reprtedOffenses.list">
+                            <span>{{ reportedOffense.Nature }}</span><br>
+                            <span class="blue-text text-darken-2">{{ reportedOffense.Amount | currency : 'Tsh ' : 2}}</span>
+                        </div>
+                        <div class="col s12">
+                            <span>Total Amount</span><br>
+                            <span class="blue-text text-darken-2">{{ reportingForms.offence.reprtedOffenses.amountTotal | currency : 'Tsh ' : 2}}</span>
+                        </div>
                     </div>
-                    <div class="col s12">
-                        <span>Total Amount</span><br>
-                        <span class="blue-text text-darken-2">{{ reportingForms.offence.reprtedOffenses.amountTotal | currency : 'Tsh ' : 2}}</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="card-panel">
+                    <h5>Offense Payment Agreement</h5>
+                    <div class="row">
+                        <div class="col s12">
+                            <button ng-click="offensePaymentNow()" class="col s12 blue btn btn-large waves-light waves-effect">
+                                Pay Now
+                            </button>
+                        </div>
+                        <div class="col s12" style="margin-top: 2%;">
+                            <button ng-click="offensePaymentLater()" class="col s12 btn btn-large waves-effect waves-light blue">
+                                Pay later
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row">
+    </div>
+
+    <div ng-if = "pageChanger.reportOffense.paymentForm == true">
+
+        <div class="container">
             <div class="card-panel">
-                <h5>Offense Payment Agreement</h5>
                 <div class="row">
-                    <div class="col s12">
-                        <button ng-click="offensePaymentNow()" class="col s12 blue btn btn-large waves-light waves-effect">
-                            Pay Now
-                        </button>
-                    </div>
-                    <div class="col s12" style="margin-top: 2%;">
-                        <button ng-click="offensePaymentLater()" class="col s12 btn btn-large waves-effect waves-light blue">
-                            Pay later
-                        </button>
-                    </div>
+                    <h5>Payment Form</h5>
+                    <span class="input-field col s12">
+                        <input id="receiptNumber" type="text" class="validate" ng-model="paymentFormData.receiptNumber">
+                        <label for="receiptNumber">Receipt Number</label>
+                    </span>
+                    <label class="col s12 input-field" for="paymentMode" >Payment Mode</label>
+                    <span class="input-field col s12">
+                        <select ng-model="paymentFormData.paymentMode"  class="browser-default" id = "paymentMode" >
+                            <option value="">Choose payment mode</option>
+                            <option value="CASH">Cash</option>
+                            <option value="MOBILE">Mobile</option>
+                            <option value="BANK">Bank</option>
+                        </select>
+                    </span>
+                    <button class="btn btn-large waves-effect waves-light blue col s12" ng-click="savePayment()">Make Payment</button>
                 </div>
             </div>
         </div>
     </div>
+
 
 </div>
