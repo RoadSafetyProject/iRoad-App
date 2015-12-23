@@ -47,7 +47,7 @@
     <!--third party plugin-->
     <plugin name="com.phonegap.plugins.barcodescanner" spec="2.0.0" source="pgb" />
 
-    <icon src="ic_launcher.png" />
+    <icon src="ic_launcher.png" width="100" height="100" />
 
     <gap:plugin name="cordova-plugin-whitelist" source="npm" version="~1" />
     <plugin name="cordova-plugin-whitelist" version="~1" />
